@@ -1,0 +1,62 @@
+@charset "UTF-8";
+@import "compass";
+
+@import "font-awesome/font-awesome";
+
+body {
+	background: #fbfbfb;
+	color: #222222;
+}
+
+a {
+	color: inherit;
+}
+
+%textlink {
+	@include transition(opacity .1s linear);
+	
+	opacity: 1;
+	
+	&:hover, &:active, &:focus {
+		opacity: .75;
+	}
+}
+
+aside {
+	float: left;
+	width: 180px;
+	
+	nav {
+		ul, li {
+			list-style: none;
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		ul ul {
+			padding-left: 20px;
+		}
+		
+		li {
+			padding-left: 20px;
+			
+			&.sub {
+				
+			}
+		}
+		
+		a {
+			@extend %textlink;
+			
+			text-decoration: none;
+		}
+	}
+}
+
+#content {
+	margin-left: 200px;
+}
+
+aside, #content {
+	overflow: auto;
+}
