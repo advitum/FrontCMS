@@ -7,6 +7,7 @@
 		public static $user = null;
 		public static $page = null;
 		private static $url = null;
+		private static $elements = array();
 		
 		public static function init() {
 			if(isset($_SERVER["REDIRECT_URL"])) {
@@ -186,6 +187,42 @@
 				case 'navigation':
 					$html .= self::navigation($attributes);
 					break;
+				case 'edit':
+					if(self::$page === null) {
+						break;
+					}
+					
+					if(isset($attributes['type'])) {
+						$type = $attributes['type'];
+					} else {
+						$type = 'rich';
+					}
+					
+					if(isset($attributes['name'])) {
+						$name = str_replace('_', '-', $attributes['name']);
+					} else {
+						$name = 'element';
+					}
+					
+					if(!isset(self::$elements[$name])) {
+						self::$elements[$name] = 1;
+					} else {
+						$name .= '_' . self::$elements[$name]++;
+					}
+					
+					$element = DB::selectSingle(sprintf("SELECT * FROM `elements` WHERE `page_id` = %d AND `name` = '%s' LIMIT 1", self::$page->id, DB::escape($name)));
+					if($element) {
+						switch($type) {
+							case 'rich':
+								$html .= $element->content;
+								break;
+							case 'plain':
+								$html .= htmlspecialchars($element->content);
+								break;
+						}
+					}
+					
+					break;
 			}
 			
 			return $html;
@@ -210,7 +247,7 @@
 			$layout = '';
 			if(self::$page === null) {
 				header("Status: 404 Not Found");
-				$layout = file_get_contents(LAYOUTS_PATH . 'default.tpl');
+				$layout = file_get_contents(LAYOUTS_PATH . '404.tpl');
 			} elseif(!is_file(LAYOUTS_PATH . self::$page->layout . '.tpl')) {
 				$layout = file_get_contents(LAYOUTS_PATH . 'default.tpl');
 			} else {

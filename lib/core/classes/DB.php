@@ -5,6 +5,42 @@
 	class DB
 	{
 		public static $db = false;
+		private static $tables = array(
+			'elements' => "CREATE TABLE `%s` (
+					`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+					`page_id` int(11) unsigned NOT NULL,
+					`name` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+					`content` longtext COLLATE utf8_unicode_ci NOT NULL,
+					PRIMARY KEY (`id`)
+				)",
+			'nonces' => "CREATE TABLE `%s` (
+					`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+					`action` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+					`nonce` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+					`created` datetime DEFAULT NULL,
+					`used` bit(1) DEFAULT b'0',
+					PRIMARY KEY (`id`)
+				)",
+			'pages' => "CREATE TABLE `%s` (
+					`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+					`parent_id` int(11) unsigned NOT NULL,
+					`navpos` int(11) unsigned DEFAULT '0',
+					`hidden` tinyint(1) DEFAULT '1',
+					`title` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+					`slug` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+					`navtitle` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+					`layout` varchar(100) COLLATE utf8_unicode_ci DEFAULT 'default',
+					PRIMARY KEY (`id`)
+				)",
+			'users' => "CREATE TABLE `%s` (
+					`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+					`username` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+					`password` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+					`lastseen` datetime DEFAULT NULL,
+					`created` datetime DEFAULT NULL,
+					PRIMARY KEY (`id`)
+				)"
+		);
 		
 		public static function connect($host, $user, $password, $database, $verbose = true) {
 			self::$db = @new \mysqli($host, $user, $password, $database);
@@ -12,7 +48,7 @@
 			if($database == '' || self::$db->connect_error) {
 				if($verbose) {
 					?><?php if(self::$db->connect_error) { ?><p><?php echo self::$db->connect_error; ?></p><?php } ?>
-<p>Please check your database setup.</p>
+<p>Bitte prüfen Sie Ihre Datenbank-Verbindung.</p>
 <?php
 					exit();
 				} else {
@@ -22,27 +58,11 @@
 			
 			self::$db->set_charset('utf8');
 			
-			/*if(self::selectSingle("SHOW TABLES LIKE 'nonces'") === false) {
-				self::query("CREATE TABLE `nonces` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `action` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `nonce` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `used` bit(1) DEFAULT b'0',
-  PRIMARY KEY (`id`)
-)");
+			foreach(self::$tables as $table => $sql) {
+				if(self::selectSingle(sprintf("SHOW TABLES LIKE '%s'", DB::escape($table))) === false) {
+					self::query(sprintf($sql, DB::escape($table)));
+				}
 			}
-			
-			if(self::selectSingle("SHOW TABLES LIKE 'users'") === false) {
-				self::query("CREATE TABLE `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `lastseen` datetime DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)");
-			}*/
 			
 			return true;
 		}

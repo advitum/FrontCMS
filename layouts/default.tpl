@@ -1,11 +1,7 @@
 <fcms:partial partial="header" />
-
-This could be the content.
-
-<fcms:outer>
-	<fcms:inner>
-		Something
-	</fcms:inner>
-</fcms:outer>
-
+	
+	<h1><fcms:edit type="plain" name="heading" /></h1>
+	
+	<fcms:edit type="rich" name="content" />
+	
 <fcms:partial partial="footer" />
