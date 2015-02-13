@@ -2941,13 +2941,17 @@ aside nav li {
 aside nav a {
   text-decoration: none;
 }
+/* line 55, ../scss/main.scss */
+aside nav a.active {
+  font-weight: bold;
+}
 
-/* line 58, ../scss/main.scss */
+/* line 62, ../scss/main.scss */
 #content {
   margin-left: 200px;
 }
 
-/* line 62, ../scss/main.scss */
+/* line 66, ../scss/main.scss */
 aside, #content {
   overflow: auto;
 }

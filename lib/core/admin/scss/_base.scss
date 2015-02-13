@@ -1,5 +1,11 @@
 body.fcmsHasAdminBar {
+	@include transition(margin-right $durationPageTreeOpen linear);
+	
 	margin-top: $adminBarHeight;
+}
+
+body:not(.fcmsPageTreeClosed) {
+	margin-right: $pageTreeWidth;
 }
 
 #fcmsAdminBar {
@@ -12,8 +18,11 @@ body.fcmsHasAdminBar {
 	right: 0px;
 	height: $adminBarHeight;
 	background: #eeeeee;
+	color: #333333;
 	border-bottom: 1px solid #cccccc;
 	padding: 10px;
+	z-index: 50;
+	font-family: Helvetica, Arial, sans-serif;
 	
 	#message {
 		float: left;
@@ -50,6 +59,76 @@ body.fcmsHasAdminBar {
 	
 	.fcmsButtons {
 		float: right;
+	}
+	
+	#fcmsPageTree {
+		@include box-sizing(border-box);
+		@include transition(right $durationPageTreeOpen linear);
+		@include box-shadow(0px 0px 5px rgba(0, 0, 0, .1));
+		
+		position: fixed;
+		top: $adminBarHeight;
+		right: -1 * $pageTreeWidth - 20px;
+		bottom: 0px;
+		width: $pageTreeWidth;
+		z-index: 40;
+		background: #fbfbfb;
+		padding: 20px;
+		
+		body:not(.fcmsPageTreeClosed) & {
+			right: 0px;
+		}
+		
+		ul {
+			list-style: none;
+			
+			&, li {
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			ul {
+				padding-left: 20px;
+			}
+		}
+		
+		a {
+			@include border-radius(3px);
+			
+			color: inherit;
+			text-decoration: none;
+			font-size: 14px;
+			line-height: 18px;
+			display: block;
+			margin: 0px -10px;
+			padding: 2px 10px;
+			
+			&:hover, &:active, &:focus {
+				background: rgba(0, 0, 0, .1);
+			}
+			
+			&:before {
+				@include fa-icon;
+				
+				content: $fa-var-file-text;
+				display: inline-block;
+				width: 17px;
+				font-size: .9em;
+				line-height: inherit;
+			}
+			
+			&.active {
+				font-weight: bold;
+			}
+			
+			&.notInMenu:before {
+				content: $fa-var-file;
+			}
+			
+			&.hidden:before {
+				content: $fa-var-file-o;
+			}
+		}
 	}
 }
 

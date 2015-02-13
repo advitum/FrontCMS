@@ -53,7 +53,7 @@
 				$parent = $home->id;
 			}
 			
-			$pages = Pages::getChildren($parent);
+			$pages = Pages::getChildren($parent, $params['hidden'], $params['all']);
 			
 			if($list) {
 				$html .= '<ul>' . "\n";
@@ -88,6 +88,12 @@
 					$children = Pages::getChildren($page->id);
 					if(count($children)) {
 						$classes[] = 'sub';
+					}
+					if($page->hidden) {
+						$classes[] = 'hidden';
+					}
+					if($page->navpos == 0) {
+						$classes[] = 'notInMenu';
 					}
 					
 					$html .= '<a href="' . $newPath . '"' . (count($classes) ? ' class="' . implode(' ', $classes) . '"' : '') . '>' . htmlspecialchars($page->navtitle_or_title) . '</a>';
@@ -192,7 +198,7 @@
 					break;
 				case 'head':
 					if(self::$user !== null) {
-						$html = '<link rel="stylesheet" type="text/css" href="' . ADMIN_URL  . 'css/main.css" />';
+						$html = '<link rel="stylesheet" type="text/css" href="' . ADMIN_URL  . 'css/admin.css" />';
 					}
 					break;
 				case 'foot':
@@ -337,12 +343,23 @@
 			$html .= Session::getMessage();
 			
 			$html .= '<div class="fcmsButtons">';
-			$html .= '<button id="fcmsPageTree" class="fcmsButton"><i class="fa fa-sitemap"></i></button>';
+			$html .= '<button id="fcmsOpenPageTree" class="fcmsButton"><i class="fa fa-sitemap"></i></button>';
 			$html .= '<button id="fcmsSave" class="fcmsButton"><i class="fa fa-floppy-o"></i></button>';
 			$html .= '<a class="fcmsButton" href="' . ROOT_URL . 'logout"><i class="fa fa-sign-out"></i></a>';
 			$html .= '</div>';
 			
+			$html .= '<div id="fcmsPageTree">';
+			$html .= self::navigation(array(
+				'active' => false,
+				'home' => true,
+				'hidden' => true,
+				'all' => true
+			));
 			$html .= '</div>';
+			
+			$html .= '</div>';
+			$html .= '<script type="text/javascript">window.jQuery || document.write(\'<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery-1.11.2.min.js"><\/script>\')</script>';
+			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/admin.js"></script>';
 			
 			return $html;
 		}

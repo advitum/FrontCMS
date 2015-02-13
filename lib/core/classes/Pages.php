@@ -31,10 +31,10 @@
 		
 		public static function getChildren($id, $hidden = false, $all = false) {
 			return DB::selectArray(sprintf(
-				"SELECT `pages`.*, IF(`pages`.`navtitle` IS NULL, `pages`.`title`, `pages`.`navtitle`) AS `navtitle_or_title` FROM `pages` WHERE `pages`.`parent_id` = %d%s%s ORDER BY `pages`.`navpos` ASC, `navtitle_or_title` ASC",
+				"SELECT `pages`.*, IF(`pages`.`navtitle` IS NULL, `pages`.`title`, `pages`.`navtitle`) AS `navtitle_or_title`, IF(`pages`.`navpos` > 0, 1, 0) AS `in_navigation` FROM `pages` WHERE `pages`.`parent_id` = %d%s%s ORDER BY `in_navigation` DESC, `pages`.`navpos` ASC, `navtitle_or_title` ASC",
 				$id,
-				($hidden ? '' : ' AND `hidden` = 0'),
-				($all ? '' : ' AND `navpos` > 0')
+				($hidden ? '' : ' AND `pages`.`hidden` = 0'),
+				($all ? '' : ' AND `pages`.`navpos` > 0')
 			));
 		}
 	}
