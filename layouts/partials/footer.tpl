@@ -1,3 +1,4 @@
 	</div>
-</body>
+	<fcms:foot />
+</fcms:body>
 </html>

@@ -48,7 +48,7 @@
 			self::logout();
 			$user = DB::selectSingle("SELECT * FROM users WHERE username = '" . DB::escape($username) . "' LIMIT 1");
 			
-			if($user !== false && self::checkHash($password, $user->password)) {
+			if($user !== null && self::checkHash($password, $user->password)) {
 				$_SESSION['user_id'] = $user->id;
 				DB::update('users', array('`lastseen` = NOW()'), "WHERE id = " . $user->id);
 				return true;

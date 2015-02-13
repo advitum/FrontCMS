@@ -2892,62 +2892,259 @@
   content: "";
 }
 
-/* line 6, ../scss/main.scss */
-body {
-  background: #fbfbfb;
-  color: #222222;
-  margin: 0px;
+/* line 1, ../scss/_base.scss */
+body.fcmsHasAdminBar {
+  margin-top: 50px;
+}
+
+/* line 5, ../scss/_base.scss */
+#fcmsAdminBar {
+  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 50px;
+  background: #eeeeee;
+  border-bottom: 1px solid #cccccc;
   padding: 10px;
 }
-
-/* line 13, ../scss/main.scss */
-a {
-  color: inherit;
-}
-
-/* line 17, ../scss/main.scss */
-aside nav a {
-  -moz-transition: opacity 0.1s linear;
-  -o-transition: opacity 0.1s linear;
-  -webkit-transition: opacity 0.1s linear;
-  transition: opacity 0.1s linear;
-  opacity: 1;
-}
-/* line 22, ../scss/main.scss */
-aside nav a:hover, aside nav a:active, aside nav a:focus {
-  opacity: .75;
-}
-
-/* line 27, ../scss/main.scss */
-aside {
+/* line 18, ../scss/_base.scss */
+#fcmsAdminBar #message {
   float: left;
-  width: 180px;
+  line-height: 30px;
 }
-/* line 32, ../scss/main.scss */
-aside nav ul, aside nav li {
-  list-style: none;
+/* line 23, ../scss/_base.scss */
+#fcmsAdminBar #message.error:before, #fcmsAdminBar #message.success:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+}
+/* line 32, ../scss/_base.scss */
+#fcmsAdminBar #message.error {
+  color: #6c0607;
+}
+/* line 35, ../scss/_base.scss */
+#fcmsAdminBar #message.error:before {
+  content: "";
+  color: #9c090b;
+}
+/* line 41, ../scss/_base.scss */
+#fcmsAdminBar #message.success {
+  color: #036910;
+}
+/* line 44, ../scss/_base.scss */
+#fcmsAdminBar #message.success:before {
+  content: "";
+  color: #059a17;
+}
+/* line 51, ../scss/_base.scss */
+#fcmsAdminBar .fcmsButtons {
+  float: right;
+}
+
+/* line 56, ../scss/_base.scss */
+.fcmsButton {
+  -moz-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  -webkit-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  display: inline-block;
+  background: #eeeeee;
+  border: 1px solid #bbbbbb;
+  font-size: 14px;
+  line-height: 20px;
+  color: inherit;
+  margin: 0px 5px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+/* line 70, ../scss/_base.scss */
+.fcmsButton:hover, .fcmsButton:active, .fcmsButton:focus {
+  background: #dddddd;
+  border-color: #999999;
+}
+
+/* line 1, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: #f0f0f0;
+}
+/* line 9, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .vCenter {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+/* line 14, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .vCenter > * {
+  display: table-cell;
+  vertical-align: middle;
+}
+/* line 20, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin form, body.fcmsAdminLogin #message {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: hidden;
+  *zoom: 1;
+  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  max-width: 400px;
+  margin: 0px auto;
+  padding: 20px 10px;
+  background: #ffffff;
+}
+/* line 32, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .input, body.fcmsAdminLogin .back, body.fcmsAdminLogin .submit {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0px 10px;
+}
+/* line 38, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+/* line 43, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .back, body.fcmsAdminLogin .submit {
+  width: 50%;
+  float: left;
+}
+/* line 48, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin input, body.fcmsAdminLogin .button, body.fcmsAdminLogin button {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -moz-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  -webkit-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+  width: 100%;
+  display: block;
+  padding: 7px 10px;
   margin: 0px;
-  padding: 0px;
-}
-/* line 38, ../scss/main.scss */
-aside nav ul ul {
-  padding-left: 20px;
-}
-/* line 42, ../scss/main.scss */
-aside nav li {
-  padding-left: 20px;
-}
-/* line 50, ../scss/main.scss */
-aside nav a {
+  border: 1px solid #cccccc;
+  background: transparent;
+  color: inherit;
+  font-size: 1em;
+  font-family: Helvetica, Arial, sans-serif;
   text-decoration: none;
+  line-height: 20px;
+  font-size: 14px;
+  outline: none;
 }
-
-/* line 58, ../scss/main.scss */
-#content {
-  margin-left: 200px;
+/* line 67, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin input:hover, body.fcmsAdminLogin .button:hover, body.fcmsAdminLogin button:hover {
+  border-color: #999999;
 }
-
-/* line 62, ../scss/main.scss */
-aside, #content {
-  overflow: auto;
+/* line 71, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin input:active, body.fcmsAdminLogin input:focus, body.fcmsAdminLogin .button:active, body.fcmsAdminLogin .button:focus, body.fcmsAdminLogin button:active, body.fcmsAdminLogin button:focus {
+  border-color: #666666;
+}
+/* line 80, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .button, body.fcmsAdminLogin button {
+  text-align: center;
+  cursor: pointer;
+  background: #fbfbfb;
+}
+/* line 85, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .button:hover, body.fcmsAdminLogin button:hover {
+  background: #eeeeee;
+}
+/* line 89, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .button:active, body.fcmsAdminLogin .button:focus, body.fcmsAdminLogin button:active, body.fcmsAdminLogin button:focus {
+  background: #d5d5d5;
+}
+/* line 94, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .submit button {
+  background: #06CC1F;
+  border-color: #999999;
+}
+/* line 98, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .submit button:hover {
+  background: #07e523;
+  border-color: #666666;
+}
+/* line 103, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin .submit button:active, body.fcmsAdminLogin .submit button:focus {
+  background: #0df82b;
+  border-color: #333333;
+}
+/* line 109, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin #message {
+  border: 1px solid #bbbbbb;
+  background: #d0d0d0;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #444444;
+  line-height: 18px;
+}
+/* line 118, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin #message.success {
+  background: rgba(6, 204, 31, 0.2);
+  color: #036910;
+}
+/* line 122, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin #message.success:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+  color: #059a17;
+  content: "";
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+}
+/* line 133, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin #message.error {
+  background: rgba(204, 12, 14, 0.2);
+  color: #6c0607;
+}
+/* line 137, ../scss/pages/_admin-login.scss */
+body.fcmsAdminLogin #message.error:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+  color: #9c090b;
+  content: "";
+  display: inline-block;
+  width: 20px;
+  text-align: center;
 }

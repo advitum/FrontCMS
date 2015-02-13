@@ -1,0 +1,148 @@
+body.fcmsAdminLogin {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background: #f0f0f0;
+	
+	.vCenter {
+		display: table;
+		height: 100%;
+		width: 100%;
+		
+		& > * {
+			display: table-cell;
+			vertical-align: middle;
+		}
+	}
+	
+	form, #message {
+		@include box-sizing(border-box);
+		@include clearfix;
+		@include box-shadow(0px 0px 5px rgba(0, 0, 0, .3));
+		@include border-radius(5px);
+		
+		max-width: 400px;
+		margin: 0px auto;
+		padding: 20px 10px;
+		background: #ffffff;
+	}
+	
+	.input, .back, .submit {
+		@include box-sizing(border-box);
+		
+		padding: 0px 10px;
+	}
+	
+	.input {
+		width: 100%;
+		margin-bottom: 10px;
+	}
+	
+	.back, .submit {
+		width: 50%;
+		float: left;
+	}
+	
+	input, .button, button {
+		@include box-sizing(border-box);
+		@include border-radius(3px);
+		@include transition(all $durationDefaultHover linear);
+		
+		width: 100%;
+		display: block;
+		padding: 7px 10px;
+		margin: 0px;
+		border: 1px solid #cccccc;
+		background: transparent;
+		color: inherit;
+		font-size: 1em;
+		font-family: Helvetica, Arial, sans-serif;
+		text-decoration: none;
+		line-height: 20px;
+		font-size: 14px;
+		outline: none;
+		
+		&:hover {
+			border-color: #999999;
+		}
+		
+		&:active, &:focus {
+			border-color: #666666;
+		}
+	}
+	
+	input {
+		
+	}
+	
+	.button, button {
+		text-align: center;
+		cursor: pointer;
+		background: #fbfbfb;
+		
+		&:hover {
+			background: #eeeeee;
+		}
+		
+		&:active, &:focus {
+			background: #d5d5d5;
+		}
+	}
+	
+	.submit button {
+		background: $colorGreen;
+		border-color: #999999;
+		
+		&:hover {
+			background: lighten($colorGreen, 5%);
+			border-color: #666666;
+		}
+		
+		&:active, &:focus {
+			background: lighten($colorGreen, 10%);
+			border-color: #333333;
+		}
+	}
+	
+	#message {
+		border: 1px solid #bbbbbb;
+		background: #d0d0d0;
+		padding: 10px 20px;
+		margin-bottom: 20px;
+		font-size: 14px;
+		color: #444444;
+		line-height: 18px;
+		
+		&.success {
+			background: rgba($colorGreen, .2);
+			color: darken($colorGreen, 20%);
+			
+			&:before {
+				@include fa-icon;
+				
+				color: darken($colorGreen, 10%);
+				content: $fa-var-check-circle;
+				display: inline-block;
+				width: 20px;
+				text-align: center;
+			}
+		}
+		
+		&.error {
+			background: rgba($colorRed, .2);
+			color: darken($colorRed, 20%);
+			
+			&:before {
+				@include fa-icon;
+				
+				color: darken($colorRed, 10%);
+				content: $fa-var-exclamation-triangle;
+				display: inline-block;
+				width: 20px;
+				text-align: center;
+			}
+		}
+	}
+}

@@ -187,6 +187,19 @@
 				case 'navigation':
 					$html .= self::navigation($attributes);
 					break;
+				case 'body':
+					$html .= "<body" . (self::$user !== false ? ' class="fcmsHasAdminBar"' : '') . ">\n" . $content . "\n</body>";
+					break;
+				case 'head':
+					if(self::$user !== null) {
+						$html = '<link rel="stylesheet" type="text/css" href="' . ADMIN_URL  . 'css/main.css" />';
+					}
+					break;
+				case 'foot':
+					if(self::$user !== null) {
+						$html .= self::adminBar();
+					}
+					break;
 				case 'edit':
 					if(self::$page === null) {
 						break;
@@ -242,19 +255,69 @@
 		
 		private static function render() {
 			self::$user = User::get();
-			self::$page = Pages::getByUrl(self::$url);
 			
-			$layout = '';
-			if(self::$page === null) {
-				header("Status: 404 Not Found");
-				$layout = file_get_contents(LAYOUTS_PATH . '404.tpl');
-			} elseif(!is_file(LAYOUTS_PATH . self::$page->layout . '.tpl')) {
-				$layout = file_get_contents(LAYOUTS_PATH . 'default.tpl');
+			if(self::$url === ROOT_URL . 'login') {
+				if(self::$user !== null) {
+					Session::setMessage('Sie sind bereits angemeldet!', 'success');
+					self::redirect(ROOT_URL);
+				}
+				
+				if(Form::sent('login')) {
+					User::create('admin', 'admin');
+					if(User::login(Form::value('login', 'username'), Form::value('login', 'password'))) {
+						Session::setMessage('Willkommen zurück!', 'success');
+						self::redirect(ROOT_URL);
+					} else {
+						Session::setMessage('Ihre Zugangsdaten konnten nicht verifiziert werden!', 'error');
+					}
+				}
+				
+				?><!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Anmelden</title>
+	
+	<link rel="stylesheet" type="text/css" href="<?php echo ADMIN_URL; ?>css/main.css" />
+</head>
+<body class="fcmsAdminLogin">
+	<div class="vCenter"><div>
+		<?php echo Session::getMessage(); ?>
+		<?php echo Form::create(ROOT_URL . 'login', 'login'); ?>
+			<?php echo Form::input('username', array(
+				'label' => false,
+				'placeholder' => 'Nutzername'
+			)); ?>
+			<?php echo Form::input('password', array(
+				'label' => false,
+				'placeholder' => 'Passwort'
+			)); ?>
+			<div class="back">
+				<a class="button" href="<?php echo ROOT_URL; ?>">Zurück</a>
+			</div>
+		<?php echo Form::end('Anmelden'); ?>
+	</div></div>
+</body>
+</html><?php
+			} elseif(self::$url === ROOT_URL . 'logout') {
+				User::logout();
+				Session::setMessage('Sie wurden abgemeldet!', 'success');
+				self::redirect(ROOT_URL . 'login');
 			} else {
-				$layout = file_get_contents(LAYOUTS_PATH . self::$page->layout . '.tpl');
+				self::$page = Pages::getByUrl(self::$url);
+				
+				$layout = '';
+				if(self::$page === null) {
+					header("Status: 404 Not Found");
+					$layout = file_get_contents(LAYOUTS_PATH . '404.tpl');
+				} elseif(!is_file(LAYOUTS_PATH . self::$page->layout . '.tpl')) {
+					$layout = file_get_contents(LAYOUTS_PATH . 'default.tpl');
+				} else {
+					$layout = file_get_contents(LAYOUTS_PATH . self::$page->layout . '.tpl');
+				}
+				
+				echo self::parseTags($layout);
 			}
-			
-			echo self::parseTags($layout);
 		}
 		
 		private static function parseTags($content) {
@@ -266,6 +329,22 @@
 			} while($oldContent !== $content);
 			
 			return $content;
+		}
+		
+		private static function adminBar() {
+			$html = '<div id="fcmsAdminBar">';
+			
+			$html .= Session::getMessage();
+			
+			$html .= '<div class="fcmsButtons">';
+			$html .= '<button id="fcmsPageTree" class="fcmsButton"><i class="fa fa-sitemap"></i></button>';
+			$html .= '<button id="fcmsSave" class="fcmsButton"><i class="fa fa-floppy-o"></i></button>';
+			$html .= '<a class="fcmsButton" href="' . ROOT_URL . 'logout"><i class="fa fa-sign-out"></i></a>';
+			$html .= '</div>';
+			
+			$html .= '</div>';
+			
+			return $html;
 		}
 	}
 	

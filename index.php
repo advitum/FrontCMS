@@ -18,6 +18,7 @@
 		define('TMP_PATH', ROOT_PATH . 'tmp' . DS);
 	
 	define('ROOT_URL', '/');
+	define('ADMIN_URL', ROOT_URL . 'lib/core/admin/');
 	
 	spl_autoload_register(function($class) {
 		if(substr($class, 0, strlen(__NAMESPACE__)) === __NAMESPACE__) {
