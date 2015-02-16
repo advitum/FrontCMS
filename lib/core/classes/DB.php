@@ -26,10 +26,13 @@
 					`parent_id` int(11) unsigned NOT NULL,
 					`navpos` int(11) unsigned DEFAULT '0',
 					`hidden` tinyint(1) DEFAULT '1',
+					`deleted` tinyint(1) DEFAULT '0',
 					`title` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
 					`slug` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
 					`navtitle` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
 					`layout` varchar(100) COLLATE utf8_unicode_ci DEFAULT 'default',
+					`created` datetime DEFAULT NULL,
+					`modified` datetime DEFAULT NULL,
 					PRIMARY KEY (`id`)
 				)",
 			'users' => "CREATE TABLE `%s` (

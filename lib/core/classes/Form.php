@@ -48,6 +48,7 @@
 				'id' => self::$form . '_' . $name,
 				'default' => '',
 				'class' => '',
+				'options' => array(),
 				'div' => true
 			);
 			
@@ -67,6 +68,7 @@
 			}
 			
 			$attributes = $options;
+			unset($attributes['options']);
 			unset($attributes['type']);
 			unset($attributes['label']);
 			unset($attributes['default']);
@@ -74,6 +76,25 @@
 			$attributes['name'] = self::$form . '[' . $name . ']';
 			
 			switch($options['type']) {
+				case 'select':
+					if($options['label'] !== false) { 
+						$html .= '<label for="' . htmlspecialchars($options['id']) . '">' . htmlspecialchars($options['label']) . '</label>';
+					}
+					
+					$html .= '<select ' . self::attrs($attributes) . '>';
+					
+					foreach($options['options'] as $key => $option) {
+						if(is_array($option)) {
+							$key = $option[0];
+							$option = $option[1];
+						}
+						
+						$html .= '<option value="' . htmlspecialchars($key) . '"' . (htmlspecialchars($key) == $value ? ' selected="selected"' : '') . '>' . htmlspecialchars($option) . '</option>';
+					}
+					
+					$html .= '</select>';
+					
+					break;
 				case 'textarea':
 					if($options['label'] !== false) { 
 						$html .= '<label for="' . htmlspecialchars($options['id']) . '">' . htmlspecialchars($options['label']) . '</label>';

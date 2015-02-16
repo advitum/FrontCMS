@@ -1,0 +1,9 @@
+@mixin buttonActive() {
+	background: #bbbbbb;
+	border-color: #999999;
+	
+	&:hover, &:active, &:focus {
+		background: #aaaaaa;
+		border-color: #777777;
+	}
+}

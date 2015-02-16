@@ -25,15 +25,7 @@
 				$options = array_merge($defaultOptions, $options);
 				$error = false;
 				
-				$value = false;
-				
-				if(isset($_POST[$form][$field])) {
-					$value = $_POST[$form][$field];
-				} elseif(isset($_GET[$form][$field])) {
-					$value = $_GET[$form][$field];
-				} elseif(isset($_FILES[$field])) {
-					$value = $_FILES[$field];
-				}
+				$value = Form::value($form, $field);
 				
 				if(!is_array($options['rules'])) {
 					$options['rules'] = array($options['rules']);
@@ -41,7 +33,7 @@
 				
 				foreach($options['rules'] as $rule) {
 					if(is_string($rule)) {
-						$rule = '\Advitum\Cmd\ValidationRules::' . $rule;
+						$rule = '\Advitum\Frontcms\ValidationRules::' . $rule;
 					}
 					if(is_callable($rule)) {
 						$error = !call_user_func($rule, $value);

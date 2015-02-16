@@ -38,7 +38,8 @@
 				'active' => true,
 				'home' => true,
 				'hidden' => false,
-				'all' => false
+				'all' => false,
+				'deleted' => false
 			);
 			
 			$params = array_merge($defaults, $params);
@@ -53,7 +54,7 @@
 				$parent = $home->id;
 			}
 			
-			$pages = Pages::getChildren($parent, $params['hidden'], $params['all']);
+			$pages = Pages::getChildren($parent, $params['hidden'], $params['all'], $params['deleted']);
 			
 			if($list) {
 				$html .= '<ul>' . "\n";
@@ -91,6 +92,9 @@
 					}
 					if($page->hidden) {
 						$classes[] = 'hidden';
+					}
+					if($page->deleted) {
+						$classes[] = 'deleted';
 					}
 					if($page->navpos == 0) {
 						$classes[] = 'notInMenu';
@@ -262,30 +266,363 @@
 		private static function render() {
 			self::$user = User::get();
 			
-			if(self::$url === ROOT_URL . 'login') {
-				if(self::$user !== null) {
-					Session::setMessage('Sie sind bereits angemeldet!', 'success');
-					self::redirect(ROOT_URL);
-				}
-				
-				if(Form::sent('login')) {
-					User::create('admin', 'admin');
-					if(User::login(Form::value('login', 'username'), Form::value('login', 'password'))) {
-						Session::setMessage('Willkommen zurück!', 'success');
-						self::redirect(ROOT_URL);
+			switch(self::$url) {
+				case ROOT_URL . 'ajax':
+					if(self::$user !== null) {
+						switch(@$_GET['action']) {
+							case 'properties':
+								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
+								
+								if($page === null) {
+									$result = array(
+										'success' => false,
+										'error' => 'page'
+									);
+									break;
+								}
+								
+								if($page->parent_id != 0) {
+									$possibleParents = Pages::possibleParents($page->id);
+								}
+								
+								$layoutFiles = scandir(LAYOUTS_PATH);
+								$layouts = array();
+								foreach($layoutFiles as $file) {
+									if(is_file(LAYOUTS_PATH . $file) && substr($file, -4) === '.tpl') {
+										$layout = substr($file, 0, -4);
+										$layouts[] = array($layout, $layout);
+									}
+								}
+								sort($layouts);
+								
+								if(Form::sent('properties')) {
+									$fields = array(
+										'title' => array(
+											'message' => 'Bitte geben Sie einen Seitentitel ein.'
+										),
+										'layout' => array(
+											'rule' => function($value) use($layouts) {
+												foreach($layouts as $layout) {
+													if($layout[0] === $value) {
+														return true;
+													}
+												}
+												return false;
+											},
+											'message' => 'Bitte wählen Sie ein Layout aus.'
+										)
+									);
+									
+									if($page->parent_id != 0) {
+										$fields['slug'] = array(
+											'message' => 'Bitte geben Sie ein URL-Segment ein.'
+										);
+										$field['parent_id'] = array(
+											'rule' => function($value) use($possibleParents) {
+												if($value == 0) {
+													return true;
+												}
+												foreach($possibleParents as $parent) {
+													if($parent[0] == $value) {
+														return true;
+													}
+												}
+												return false;
+											},
+											'message' => 'Bitte wählen Sie eine übergeordnete Seite aus.'
+										);
+									}
+									
+									if(Validator::validate('properties', $fields)) {
+										$values = array(
+											'title' => Form::value('properties', 'title'),
+											'layout' => Form::value('properties', 'layout')
+										);
+										if(Form::value('properties', 'navtitle') != '') {
+											$values['navtitle'] = Form::value('properties', 'navtitle');
+										} else {
+											$values[] = 'navtitle = NULL';
+										}
+										if($page->parent_id != 0) {
+											$values['slug'] = Form::value('properties', 'slug');
+											$values['parent_id'] = Form::value('properties', 'parent_id');
+										}
+										DB::update('pages', $values, sprintf("WHERE `id` = %s", $page->id));
+										
+										Session::setMessage('Die Eigenschaften wurden gespeichert.', 'success');
+										$result = array(
+											'success' => true
+										);
+										break;
+									}
+								}
+								
+								$html = '';
+								
+								$html .= Form::create('#', 'properties');
+								
+								$html .= Form::input('title', array(
+									'label' => 'Seitentitel',
+									'placeholder' => 'Seitentitel',
+									'default' => $page->title
+								));
+								$html .= Form::input('navtitle', array(
+									'label' => 'Navigationstitel',
+									'placeholder' => 'Navigationstitel',
+									'default' => $page->navtitle
+								));
+								if($page->parent_id != 0) {
+									$html .= Form::input('slug', array(
+										'label' => 'URL Segment',
+										'placeholder' => 'URL Segment',
+										'default' => $page->slug
+									));
+									
+									$html .= Form::input('parent_id', array(
+										'label' => 'Unterseite von',
+										'type' => 'select',
+										'default' => $page->parent_id,
+										'options' => $possibleParents
+									));
+								}
+								
+								$html .= Form::input('layout', array(
+									'label' => 'Layout',
+									'type' => 'select',
+									'default' => $page->layout,
+									'options' => $layouts
+								));
+								
+								$html .= Form::end();
+								
+								if(Form::sent('properties')) {
+									$result = array(
+										'success' => false,
+										'error' => 'validation',
+										'response' => $html
+									);
+								} else {
+									$result = array(
+										'success' => true,
+										'response' => $html
+									);
+								}
+								
+								break;
+							case 'restore':
+								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
+								
+								if($page === null || $page->parent_id == 0) {
+									$result = array(
+										'success' => false,
+										'error' => 'page'
+									);
+									break;
+								}
+								
+								DB::update('pages', array(
+									'deleted' => 0
+								), sprintf("WHERE `id` = %d", $page->id));
+								$result = array(
+									'success' => true
+								);
+								
+								break;
+							case 'delete':
+								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
+								
+								if($page === null || $page->parent_id == 0) {
+									$result = array(
+										'success' => false,
+										'error' => 'page'
+									);
+									break;
+								}
+								
+								DB::update('pages', array(
+									'deleted' => 1
+								), sprintf("WHERE `id` = %d", $page->id));
+								$result = array(
+									'success' => true
+								);
+								
+								break;
+							case 'deletefinal':
+								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
+								
+								if($page === null || $page->parent_id == 0) {
+									$result = array(
+										'success' => false,
+										'error' => 'page'
+									);
+									break;
+								}
+								
+								DB::delete('pages', sprintf("WHERE `id` = %d", $page->id));
+								$result = array(
+									'success' => true
+								);
+								
+								break;
+							case 'show':
+								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
+								
+								if($page === null || $page->parent_id == 0) {
+									$result = array(
+										'success' => false,
+										'error' => 'page'
+									);
+									break;
+								}
+								
+								DB::update('pages', array(
+									'hidden' => 0
+								), sprintf("WHERE `id` = %d", $page->id));
+								$result = array(
+									'success' => true
+								);
+								
+								break;
+							case 'hide':
+								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
+								
+								if($page === null || $page->parent_id == 0) {
+									$result = array(
+										'success' => false,
+										'error' => 'page'
+									);
+									break;
+								}
+								
+								DB::update('pages', array(
+									'hidden' => 1
+								), sprintf("WHERE `id` = %d", $page->id));
+								$result = array(
+									'success' => true
+								);
+								
+								break;
+							case 'showInMenu':
+								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
+								
+								if($page === null || $page->parent_id == 0) {
+									$result = array(
+										'success' => false,
+										'error' => 'page'
+									);
+									break;
+								}
+								
+								DB::update('pages', array(
+									'navpos' => 1
+								), sprintf("WHERE `id` = %d", $page->id));
+								$result = array(
+									'success' => true
+								);
+								
+								break;
+							case 'hideInMenu':
+								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
+								
+								if($page === null || $page->parent_id == 0) {
+									$result = array(
+										'success' => false,
+										'error' => 'page'
+									);
+									break;
+								}
+								
+								DB::update('pages', array(
+									'navpos' => 0
+								), sprintf("WHERE `id` = %d", $page->id));
+								$result = array(
+									'success' => true
+								);
+								
+								break;
+							case 'add':
+								$parent = Pages::getRoot();
+								DB::insert('pages', array(
+									'parent_id' => $parent->id,
+									'navpos' => 0,
+									'hidden' => 1,
+									'deleted' => 0,
+									'title' => 'Neue Seite',
+									'slug' => 'neue-seite',
+									'layout' => 'default',
+									'created = NOW()',
+									'modified = NOW()'
+								));
+								$result = array(
+									'success' => true
+								);
+								
+								break;
+							case 'sorting':
+								$sorting = json_decode(@$_GET['sorting']);
+								if(is_array($sorting)) {
+									foreach($sorting as $element) {
+										$page = Pages::getByUrl(self::sanitize($element->url));
+										if($page !== null) {
+											DB::update('pages', array(
+												'navpos' => $element->position
+											), sprintf("WHERE `id` = %d", $page->id));
+										}
+									}
+								}
+								
+								$result = array(
+									'success' => true
+								);
+								
+								break;
+							default:
+								$result = array(
+									'success' => false,
+									'error' => 'action'
+								);
+								break;
+						}
 					} else {
-						Session::setMessage('Ihre Zugangsdaten konnten nicht verifiziert werden!', 'error');
+						$result = array(
+							'success' => false,
+							'error' => 'authorisation'
+						);
 					}
-				}
-				
-				?><!DOCTYPE html>
+					
+					echo json_encode($result);
+					exit();
+				case ROOT_URL . 'login':
+					if(self::$user !== null) {
+						Session::setMessage('Sie sind bereits angemeldet!', 'success');
+						self::redirect(ROOT_URL);
+					}
+					
+					if(isset($_GET['auto'])) {
+						Session::setMessage('Bitte melden Sie sich erneut an.', 'error');
+						self::redirect(ROOT_URL . 'login');
+					}
+					
+					if(Form::sent('login')) {
+						User::create('admin', 'admin');
+						if(User::login(Form::value('login', 'username'), Form::value('login', 'password'))) {
+							Session::setMessage('Willkommen zurück!', 'success');
+							self::redirect(ROOT_URL);
+						} else {
+							Session::setMessage('Ihre Zugangsdaten konnten nicht verifiziert werden!', 'error');
+						}
+					}
+					
+					?><!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>Anmelden</title>
 	
-	<link rel="stylesheet" type="text/css" href="<?php echo ADMIN_URL; ?>css/main.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo ADMIN_URL; ?>css/admin.css" />
 </head>
+
 <body class="fcmsAdminLogin">
 	<div class="vCenter"><div>
 		<?php echo Session::getMessage(); ?>
@@ -304,25 +641,29 @@
 		<?php echo Form::end('Anmelden'); ?>
 	</div></div>
 </body>
+
 </html><?php
-			} elseif(self::$url === ROOT_URL . 'logout') {
-				User::logout();
-				Session::setMessage('Sie wurden abgemeldet!', 'success');
-				self::redirect(ROOT_URL . 'login');
-			} else {
-				self::$page = Pages::getByUrl(self::$url);
-				
-				$layout = '';
-				if(self::$page === null) {
-					header("Status: 404 Not Found");
-					$layout = file_get_contents(LAYOUTS_PATH . '404.tpl');
-				} elseif(!is_file(LAYOUTS_PATH . self::$page->layout . '.tpl')) {
-					$layout = file_get_contents(LAYOUTS_PATH . 'default.tpl');
-				} else {
-					$layout = file_get_contents(LAYOUTS_PATH . self::$page->layout . '.tpl');
-				}
-				
-				echo self::parseTags($layout);
+					break;
+				case ROOT_URL . 'logout':
+					User::logout();
+					Session::setMessage('Sie wurden abgemeldet!', 'success');
+					self::redirect(ROOT_URL . 'login');
+					break;
+				default:
+					self::$page = Pages::getByUrl(self::$url);
+					
+					$layout = '';
+					if(self::$page === null) {
+						header("Status: 404 Not Found");
+						$layout = file_get_contents(LAYOUTS_PATH . '404.tpl');
+					} elseif(!is_file(LAYOUTS_PATH . self::$page->layout . '.tpl')) {
+						$layout = file_get_contents(LAYOUTS_PATH . 'default.tpl');
+					} else {
+						$layout = file_get_contents(LAYOUTS_PATH . self::$page->layout . '.tpl');
+					}
+					
+					echo self::parseTags($layout);
+					break;
 			}
 		}
 		
@@ -340,27 +681,44 @@
 		private static function adminBar() {
 			$html = '<div id="fcmsAdminBar">';
 			
+			$html .= '<div class="fcmsButtons left">';
+			$html .= '<button id="fcmsEdit" class="fcmsButton" title="Bearbeiten"><i class="fa fa-pencil"></i></button>';
+			$html .= '<button id="fcmsSave" class="fcmsButton" title="Speichern"><i class="fa fa-floppy-o"></i></button>';
+			$html .= '<button id="fcmsAbort" class="fcmsButton" title="Abbrechen"><i class="fa fa-times"></i></button>';
+			$html .= '</div>';
+			
 			$html .= Session::getMessage();
 			
-			$html .= '<div class="fcmsButtons">';
-			$html .= '<button id="fcmsOpenPageTree" class="fcmsButton"><i class="fa fa-sitemap"></i></button>';
-			$html .= '<button id="fcmsSave" class="fcmsButton"><i class="fa fa-floppy-o"></i></button>';
-			$html .= '<a class="fcmsButton" href="' . ROOT_URL . 'logout"><i class="fa fa-sign-out"></i></a>';
+			$html .= '<div class="fcmsButtons right">';
+			$html .= '<button id="fcmsOpenPageTree" class="fcmsButton" title="Seitenbaum einblenden"><i class="fa fa-sitemap"></i></button>';
+			$html .= '<a class="fcmsButton" href="' . ROOT_URL . 'logout" title="Abmelden"><i class="fa fa-sign-out"></i></a>';
 			$html .= '</div>';
 			
 			$html .= '<div id="fcmsPageTree">';
+			$html .= '<div class="fcmsButtons">';
+			$html .= '<button id="fcmsAdd" class="fcmsButton" title="Seite hinzufügen"><i class="fa fa-plus"></i></button>';
+			$html .= '<button id="fcmsShowDeleted" class="fcmsButton" title="Gelöschte Seiten einblenden"><i class="fa fa-trash-o"></i></button>';
+			$html .= '</div>';
+			
 			$html .= self::navigation(array(
 				'active' => false,
 				'home' => true,
 				'hidden' => true,
-				'all' => true
+				'all' => true,
+				'deleted' => true
 			));
 			$html .= '</div>';
 			
 			$html .= '</div>';
 			$html .= '<script type="text/javascript">window.jQuery || document.write(\'<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery-1.11.2.min.js"><\/script>\')</script>';
+			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/localstorage.js"></script>';
+			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery.lightbox.js"></script>';
+			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/box.js"></script>';
+			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/contextmenu.js"></script>';
 			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/admin.js"></script>';
-			
+			$html .= '<script type="text/javascript">
+				var root = "' . ROOT_URL . '";
+			</script>';
 			return $html;
 		}
 	}

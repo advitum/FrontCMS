@@ -4,14 +4,43 @@ body.fcmsHasAdminBar {
 	margin-top: $adminBarHeight;
 }
 
-body:not(.fcmsPageTreeClosed) {
+body:not(.fcmsPageTreeClosed):not(.fcmsAdminLogin) {
 	margin-right: $pageTreeWidth;
+	
+	#fcmsOpenPageTree {
+		@include buttonActive();
+	}
+}
+
+body.fcmsShowDeleted {
+	#fcmsShowDeleted {
+		@include buttonActive();
+	}
+	
+	#fcmsAdminBar #fcmsPageTree a.deleted {
+		display: block;
+	}
+}
+
+body.fcmsEdit {
+	#fcmsEdit {
+		@include buttonActive();
+	}
+	
+	#fcmsSave, #fcmsAbort {
+		display: inline-block;
+	}
+}
+
+#fcmsSave, #fcmsAbort {
+	display: none;
 }
 
 #fcmsAdminBar {
 	@include box-shadow(0px 0px 5px rgba(0, 0, 0, .1));
 	@include box-sizing(border-box);
 	
+	font-size: 16px;
 	position: fixed;
 	top: 0px;
 	left: 0px;
@@ -27,6 +56,7 @@ body:not(.fcmsPageTreeClosed) {
 	#message {
 		float: left;
 		line-height: 30px;
+		margin: 0px 20px;
 		
 		&.error, &.success {
 			&:before {
@@ -57,11 +87,18 @@ body:not(.fcmsPageTreeClosed) {
 		}
 	}
 	
-	.fcmsButtons {
-		float: right;
+	& > .fcmsButtons {
+		&.left {
+			float: left;
+		}
+		
+		&.right {
+			float: right;
+		}
 	}
 	
 	#fcmsPageTree {
+		@include user-select(none);
 		@include box-sizing(border-box);
 		@include transition(right $durationPageTreeOpen linear);
 		@include box-shadow(0px 0px 5px rgba(0, 0, 0, .1));
@@ -128,6 +165,15 @@ body:not(.fcmsPageTreeClosed) {
 			&.hidden:before {
 				content: $fa-var-file-o;
 			}
+			
+			&.deleted {
+				display: none;
+				opacity: .5;
+			}
+		}
+		
+		& > .fcmsButtons {
+			margin-bottom: 10px;
 		}
 	}
 }
@@ -142,12 +188,46 @@ body:not(.fcmsPageTreeClosed) {
 	font-size: 14px;
 	line-height: 20px;
 	color: inherit;
-	margin: 0px 5px;
 	padding: 3px 8px;
 	cursor: pointer;
 	
 	&:hover, &:active, &:focus {
 		background: #dddddd;
 		border-color: #999999;
+	}
+}
+
+.fcmsButtons {
+	margin-right: -10px;
+	
+	.fcmsButton {
+		margin: 0px 10px 0px 0px;
+	}
+}
+
+.box form {
+	label {
+		font-size: .9em;
+	}
+	
+	.input {
+		margin-bottom: 20px;
+		
+		&:not(.checkbox):not(.radio) label {
+			display: block;
+		}
+		
+		input, textarea, select {
+			@include box-sizing(border-box);
+			
+			font-family: inherit;
+			font-size: 1em;
+			line-height: inherit;
+			padding: 5px 10px;
+		}
+	}
+	
+	.message.error {
+		color: darken($colorRed, 20%);
 	}
 }
