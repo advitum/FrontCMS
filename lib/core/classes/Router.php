@@ -65,7 +65,7 @@
 					$html .= '<li>';
 				}
 				
-				$html .= '<a href="' . htmlspecialchars($path)  . '" class="' . (self::$url == substr($path, 0, -1) ? 'active' : '') . '">' . htmlspecialchars($home->navtitle_or_title) . '</a>';
+				$html .= '<a href="' . htmlspecialchars($path)  . '" class="notInMenu' . (self::$url == substr($path, 0, -1) ? ' active' : '') . '">' . htmlspecialchars($home->navtitle_or_title) . '</a>';
 				
 				if($list) {
 					$html .= '</li>';
