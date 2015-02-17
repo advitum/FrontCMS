@@ -3231,17 +3231,25 @@ body.fcmsEdit .fcmsEditable:hover, body.fcmsEdit .fcmsEditable:focus {
 body.fcmsEdit .fcmsEditable:focus {
   background: transparent;
 }
-/* line 54, ../scss/_base.scss */
+/* line 55, ../scss/_base.scss */
 body.fcmsEdit .fcmsEditableImage.placeholder {
   display: inline-block;
 }
-
 /* line 59, ../scss/_base.scss */
+body.fcmsEdit .fcmsEditableImage:hover {
+  outline: 1px solid black;
+}
+/* line 62, ../scss/_base.scss */
+body.fcmsEdit .fcmsEditableImage:hover .fcmsButton {
+  display: inline-block;
+}
+
+/* line 69, ../scss/_base.scss */
 #fcmsSave, #fcmsAbort {
   display: none;
 }
 
-/* line 63, ../scss/_base.scss */
+/* line 73, ../scss/_base.scss */
 #fcmsAdminBar {
   -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
@@ -3262,13 +3270,13 @@ body.fcmsEdit .fcmsEditableImage.placeholder {
   z-index: 50;
   font-family: Helvetica, Arial, sans-serif;
 }
-/* line 80, ../scss/_base.scss */
+/* line 90, ../scss/_base.scss */
 #fcmsAdminBar #message {
   float: left;
   line-height: 30px;
   margin: 0px 20px;
 }
-/* line 86, ../scss/_base.scss */
+/* line 96, ../scss/_base.scss */
 #fcmsAdminBar #message.error:before, #fcmsAdminBar #message.success:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3281,33 +3289,33 @@ body.fcmsEdit .fcmsEditableImage.placeholder {
   width: 20px;
   text-align: center;
 }
-/* line 95, ../scss/_base.scss */
+/* line 105, ../scss/_base.scss */
 #fcmsAdminBar #message.error {
   color: #6c0607;
 }
-/* line 98, ../scss/_base.scss */
+/* line 108, ../scss/_base.scss */
 #fcmsAdminBar #message.error:before {
   content: "";
   color: #9c090b;
 }
-/* line 104, ../scss/_base.scss */
+/* line 114, ../scss/_base.scss */
 #fcmsAdminBar #message.success {
   color: #036910;
 }
-/* line 107, ../scss/_base.scss */
+/* line 117, ../scss/_base.scss */
 #fcmsAdminBar #message.success:before {
   content: "";
   color: #059a17;
 }
-/* line 115, ../scss/_base.scss */
+/* line 125, ../scss/_base.scss */
 #fcmsAdminBar > .fcmsButtons.left {
   float: left;
 }
-/* line 119, ../scss/_base.scss */
+/* line 129, ../scss/_base.scss */
 #fcmsAdminBar > .fcmsButtons.right {
   float: right;
 }
-/* line 124, ../scss/_base.scss */
+/* line 134, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree {
   -moz-user-select: -moz-none;
   -ms-user-select: none;
@@ -3332,24 +3340,24 @@ body.fcmsEdit .fcmsEditableImage.placeholder {
   background: #fbfbfb;
   padding: 20px;
 }
-/* line 139, ../scss/_base.scss */
+/* line 149, ../scss/_base.scss */
 body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   right: 0px;
 }
-/* line 143, ../scss/_base.scss */
+/* line 153, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul {
   list-style: none;
 }
-/* line 146, ../scss/_base.scss */
+/* line 156, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul, #fcmsAdminBar #fcmsPageTree ul li {
   margin: 0px;
   padding: 0px;
 }
-/* line 151, ../scss/_base.scss */
+/* line 161, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul ul {
   padding-left: 20px;
 }
-/* line 156, ../scss/_base.scss */
+/* line 166, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -3362,11 +3370,11 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   margin: 0px -10px;
   padding: 2px 10px;
 }
-/* line 167, ../scss/_base.scss */
+/* line 177, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a:hover, #fcmsAdminBar #fcmsPageTree a:active, #fcmsAdminBar #fcmsPageTree a:focus {
   background: rgba(0, 0, 0, 0.1);
 }
-/* line 171, ../scss/_base.scss */
+/* line 181, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3381,29 +3389,29 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   font-size: .9em;
   line-height: inherit;
 }
-/* line 181, ../scss/_base.scss */
+/* line 191, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.active {
   font-weight: bold;
 }
-/* line 185, ../scss/_base.scss */
+/* line 195, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.notInMenu:before {
   content: "";
 }
-/* line 189, ../scss/_base.scss */
+/* line 199, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.hidden:before {
   content: "";
 }
-/* line 193, ../scss/_base.scss */
+/* line 203, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.deleted {
   display: none;
   opacity: .5;
 }
-/* line 199, ../scss/_base.scss */
+/* line 209, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree > .fcmsButtons {
   margin-bottom: 10px;
 }
 
-/* line 205, ../scss/_base.scss */
+/* line 215, ../scss/_base.scss */
 .fcmsButton {
   -moz-transition: all 0.1s linear;
   -o-transition: all 0.1s linear;
@@ -3421,34 +3429,34 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   padding: 3px 8px;
   cursor: pointer;
 }
-/* line 218, ../scss/_base.scss */
+/* line 228, ../scss/_base.scss */
 .fcmsButton:hover, .fcmsButton:active, .fcmsButton:focus {
   background: #dddddd;
   border-color: #999999;
 }
 
-/* line 224, ../scss/_base.scss */
+/* line 234, ../scss/_base.scss */
 .fcmsButtons {
   margin-right: -10px;
 }
-/* line 227, ../scss/_base.scss */
+/* line 237, ../scss/_base.scss */
 .fcmsButtons .fcmsButton {
   margin: 0px 10px 0px 0px;
 }
 
-/* line 233, ../scss/_base.scss */
+/* line 243, ../scss/_base.scss */
 .box form label {
   font-size: .9em;
 }
-/* line 237, ../scss/_base.scss */
+/* line 247, ../scss/_base.scss */
 .box form .input {
   margin-bottom: 20px;
 }
-/* line 240, ../scss/_base.scss */
+/* line 250, ../scss/_base.scss */
 .box form .input:not(.checkbox):not(.radio) label {
   display: block;
 }
-/* line 244, ../scss/_base.scss */
+/* line 254, ../scss/_base.scss */
 .box form .input input, .box form .input textarea, .box form .input select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -3458,38 +3466,35 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   line-height: inherit;
   padding: 5px 10px;
 }
-/* line 254, ../scss/_base.scss */
+/* line 264, ../scss/_base.scss */
 .box form .message.error {
   color: #6c0607;
 }
 
-/* line 259, ../scss/_base.scss */
+/* line 269, ../scss/_base.scss */
 .fcmsEditable, .fcmsEditableImage {
   display: inline-block;
 }
 
-/* line 263, ../scss/_base.scss */
+/* line 273, ../scss/_base.scss */
+.fcmsEditable[data-type="rich"] {
+  display: block;
+}
+
+/* line 277, ../scss/_base.scss */
 .fcmsEditableImage {
   position: relative;
 }
-/* line 266, ../scss/_base.scss */
+/* line 280, ../scss/_base.scss */
 .fcmsEditableImage.placeholder {
   display: none;
 }
-/* line 270, ../scss/_base.scss */
+/* line 284, ../scss/_base.scss */
 .fcmsEditableImage .fcmsButton {
   position: absolute;
   top: 10px;
   right: 10px;
   display: none;
-}
-/* line 277, ../scss/_base.scss */
-.fcmsEditableImage:hover {
-  outline: 1px solid black;
-}
-/* line 280, ../scss/_base.scss */
-.fcmsEditableImage:hover .fcmsButton {
-  display: inline-block;
 }
 
 /* line 1, ../scss/pages/_admin-login.scss */

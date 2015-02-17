@@ -51,8 +51,18 @@ body.fcmsEdit {
 		}
 	}
 	
-	.fcmsEditableImage.placeholder {
-		display: inline-block;
+	.fcmsEditableImage {
+		&.placeholder {
+			display: inline-block;
+		}
+		
+		&:hover {
+			outline: 1px solid black;
+			
+			.fcmsButton {
+				display: inline-block;
+			}
+		}
 	}
 }
 
@@ -260,6 +270,10 @@ body.fcmsEdit {
 	display: inline-block;
 }
 
+.fcmsEditable[data-type="rich"] {
+	display: block;
+}
+
 .fcmsEditableImage {
 	position: relative;
 	
@@ -272,13 +286,5 @@ body.fcmsEdit {
 		top: 10px;
 		right: 10px;
 		display: none;
-	}
-	
-	&:hover {
-		outline: 1px solid black;
-		
-		.fcmsButton {
-			display: inline-block;
-		}
 	}
 }

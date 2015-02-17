@@ -62,9 +62,22 @@
 			self::$db->set_charset('utf8');
 			
 			foreach(self::$tables as $table => $sql) {
-				if(self::selectSingle(sprintf("SHOW TABLES LIKE '%s'", DB::escape($table))) === false) {
-					self::query(sprintf($sql, DB::escape($table)));
+				if(self::selectSingle(sprintf("SHOW TABLES LIKE '%s'", self::escape($table))) === false) {
+					self::query(sprintf($sql, self::escape($table)));
 				}
+			}
+			if(self::selectValue("SELECT COUNT(*) FROM `pages` WHERE `parent_id` = 0") == 0) {
+				self::insert('pages', array(
+					'parent_id' => 0,
+					'navpos' => 0,
+					'hidden' => 0,
+					'deleted' => 0,
+					'title' => 'Startseite',
+					'slug' => '',
+					'layout' => 'default',
+					'`created` = NOW()',
+					'`modified` = NOW()'
+				));
 			}
 			
 			return true;
