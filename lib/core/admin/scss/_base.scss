@@ -34,6 +34,13 @@ body.fcmsEdit {
 	.fcmsEditable {
 		background: rgba(255, 255, 0, .1);
 		outline: none;
+		margin: -10px;
+		padding: 10px;
+		
+		&:empty:before {
+			content: "Jemand mußte Josef K. verleumdet haben...";
+			opacity: .3;
+		}
 		
 		&:hover, &:focus {
 			outline: 1px solid #000000;
@@ -42,6 +49,10 @@ body.fcmsEdit {
 		&:focus {
 			background: transparent;
 		}
+	}
+	
+	.fcmsEditableImage.placeholder {
+		display: inline-block;
 	}
 }
 
@@ -245,13 +256,29 @@ body.fcmsEdit {
 	}
 }
 
-.fcmsEditable {
+.fcmsEditable, .fcmsEditableImage {
 	display: inline-block;
-	margin: -10px;
-	padding: 10px;
+}
+
+.fcmsEditableImage {
+	position: relative;
 	
-	&:empty:before {
-		content: "Jemand mußte Josef K. verleumdet haben...";
-		opacity: .3;
+	&.placeholder {
+		display: none;
+	}
+	
+	.fcmsButton {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		display: none;
+	}
+	
+	&:hover {
+		outline: 1px solid black;
+		
+		.fcmsButton {
+			display: inline-block;
+		}
 	}
 }

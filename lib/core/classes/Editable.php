@@ -71,6 +71,33 @@
 			
 			return $html;
 		}
+		
+		private static function type_image($element, $name, $attributes) {
+			$html = '';
+			
+			$image = null;
+			if($element !== null) {
+				$image = json_decode($element->content);
+			}
+			
+			if(Router::$user !== null) {
+				$classes = array('fcmsEditableImage');
+					
+				if($element !== null) {
+					$imageAttributes['src'] = $image->src;
+					$imageAttributes['alt'] = $image->alt;
+				} else {
+					$imageAttributes['src'] = 'http://placehold.it/500x300';
+					$classes[] = 'placeholder';
+				}
+				
+				$html .= '<div class="' . implode(' ', $classes) . '" data-id="' . htmlspecialchars($name) . '"><img ' . Html::attributes($imageAttributes) . ' /><button class="fcmsButton"><i class="fa fa-pencil"></i></button></div>';
+			} elseif($element !== null) {
+				$html .= '<img src="' . htmlspecialchars($image->src) . '" alt="' . htmlspecialchars($image->alt) . '" />';
+			}
+			
+			return $html;
+		}
 	}
 	
 ?>
