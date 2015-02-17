@@ -33,6 +33,15 @@ body.fcmsEdit {
 	
 	.fcmsEditable {
 		background: rgba(255, 255, 0, .1);
+		outline: none;
+		
+		&:hover, &:focus {
+			outline: 1px solid #000000;
+		}
+		
+		&:focus {
+			background: transparent;
+		}
 	}
 }
 
@@ -243,5 +252,6 @@ body.fcmsEdit {
 	
 	&:empty:before {
 		content: "Jemand mußte Josef K. verleumdet haben...";
+		opacity: .3;
 	}
 }

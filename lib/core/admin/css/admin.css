@@ -3214,14 +3214,23 @@ body.fcmsEdit #fcmsSave, body.fcmsEdit #fcmsAbort {
 /* line 34, ../scss/_base.scss */
 body.fcmsEdit .fcmsEditable {
   background: rgba(255, 255, 0, 0.1);
+  outline: none;
+}
+/* line 38, ../scss/_base.scss */
+body.fcmsEdit .fcmsEditable:hover, body.fcmsEdit .fcmsEditable:focus {
+  outline: 1px solid #000000;
+}
+/* line 42, ../scss/_base.scss */
+body.fcmsEdit .fcmsEditable:focus {
+  background: transparent;
 }
 
-/* line 39, ../scss/_base.scss */
+/* line 48, ../scss/_base.scss */
 #fcmsSave, #fcmsAbort {
   display: none;
 }
 
-/* line 43, ../scss/_base.scss */
+/* line 52, ../scss/_base.scss */
 #fcmsAdminBar {
   -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
@@ -3242,13 +3251,13 @@ body.fcmsEdit .fcmsEditable {
   z-index: 50;
   font-family: Helvetica, Arial, sans-serif;
 }
-/* line 60, ../scss/_base.scss */
+/* line 69, ../scss/_base.scss */
 #fcmsAdminBar #message {
   float: left;
   line-height: 30px;
   margin: 0px 20px;
 }
-/* line 66, ../scss/_base.scss */
+/* line 75, ../scss/_base.scss */
 #fcmsAdminBar #message.error:before, #fcmsAdminBar #message.success:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3261,33 +3270,33 @@ body.fcmsEdit .fcmsEditable {
   width: 20px;
   text-align: center;
 }
-/* line 75, ../scss/_base.scss */
+/* line 84, ../scss/_base.scss */
 #fcmsAdminBar #message.error {
   color: #6c0607;
 }
-/* line 78, ../scss/_base.scss */
+/* line 87, ../scss/_base.scss */
 #fcmsAdminBar #message.error:before {
   content: "";
   color: #9c090b;
 }
-/* line 84, ../scss/_base.scss */
+/* line 93, ../scss/_base.scss */
 #fcmsAdminBar #message.success {
   color: #036910;
 }
-/* line 87, ../scss/_base.scss */
+/* line 96, ../scss/_base.scss */
 #fcmsAdminBar #message.success:before {
   content: "";
   color: #059a17;
 }
-/* line 95, ../scss/_base.scss */
+/* line 104, ../scss/_base.scss */
 #fcmsAdminBar > .fcmsButtons.left {
   float: left;
 }
-/* line 99, ../scss/_base.scss */
+/* line 108, ../scss/_base.scss */
 #fcmsAdminBar > .fcmsButtons.right {
   float: right;
 }
-/* line 104, ../scss/_base.scss */
+/* line 113, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree {
   -moz-user-select: -moz-none;
   -ms-user-select: none;
@@ -3312,24 +3321,24 @@ body.fcmsEdit .fcmsEditable {
   background: #fbfbfb;
   padding: 20px;
 }
-/* line 119, ../scss/_base.scss */
+/* line 128, ../scss/_base.scss */
 body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   right: 0px;
 }
-/* line 123, ../scss/_base.scss */
+/* line 132, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul {
   list-style: none;
 }
-/* line 126, ../scss/_base.scss */
+/* line 135, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul, #fcmsAdminBar #fcmsPageTree ul li {
   margin: 0px;
   padding: 0px;
 }
-/* line 131, ../scss/_base.scss */
+/* line 140, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul ul {
   padding-left: 20px;
 }
-/* line 136, ../scss/_base.scss */
+/* line 145, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -3342,11 +3351,11 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   margin: 0px -10px;
   padding: 2px 10px;
 }
-/* line 147, ../scss/_base.scss */
+/* line 156, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a:hover, #fcmsAdminBar #fcmsPageTree a:active, #fcmsAdminBar #fcmsPageTree a:focus {
   background: rgba(0, 0, 0, 0.1);
 }
-/* line 151, ../scss/_base.scss */
+/* line 160, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3361,29 +3370,29 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   font-size: .9em;
   line-height: inherit;
 }
-/* line 161, ../scss/_base.scss */
+/* line 170, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.active {
   font-weight: bold;
 }
-/* line 165, ../scss/_base.scss */
+/* line 174, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.notInMenu:before {
   content: "";
 }
-/* line 169, ../scss/_base.scss */
+/* line 178, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.hidden:before {
   content: "";
 }
-/* line 173, ../scss/_base.scss */
+/* line 182, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.deleted {
   display: none;
   opacity: .5;
 }
-/* line 179, ../scss/_base.scss */
+/* line 188, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree > .fcmsButtons {
   margin-bottom: 10px;
 }
 
-/* line 185, ../scss/_base.scss */
+/* line 194, ../scss/_base.scss */
 .fcmsButton {
   -moz-transition: all 0.1s linear;
   -o-transition: all 0.1s linear;
@@ -3401,34 +3410,34 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   padding: 3px 8px;
   cursor: pointer;
 }
-/* line 198, ../scss/_base.scss */
+/* line 207, ../scss/_base.scss */
 .fcmsButton:hover, .fcmsButton:active, .fcmsButton:focus {
   background: #dddddd;
   border-color: #999999;
 }
 
-/* line 204, ../scss/_base.scss */
+/* line 213, ../scss/_base.scss */
 .fcmsButtons {
   margin-right: -10px;
 }
-/* line 207, ../scss/_base.scss */
+/* line 216, ../scss/_base.scss */
 .fcmsButtons .fcmsButton {
   margin: 0px 10px 0px 0px;
 }
 
-/* line 213, ../scss/_base.scss */
+/* line 222, ../scss/_base.scss */
 .box form label {
   font-size: .9em;
 }
-/* line 217, ../scss/_base.scss */
+/* line 226, ../scss/_base.scss */
 .box form .input {
   margin-bottom: 20px;
 }
-/* line 220, ../scss/_base.scss */
+/* line 229, ../scss/_base.scss */
 .box form .input:not(.checkbox):not(.radio) label {
   display: block;
 }
-/* line 224, ../scss/_base.scss */
+/* line 233, ../scss/_base.scss */
 .box form .input input, .box form .input textarea, .box form .input select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -3438,20 +3447,21 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   line-height: inherit;
   padding: 5px 10px;
 }
-/* line 234, ../scss/_base.scss */
+/* line 243, ../scss/_base.scss */
 .box form .message.error {
   color: #6c0607;
 }
 
-/* line 239, ../scss/_base.scss */
+/* line 248, ../scss/_base.scss */
 .fcmsEditable {
   display: inline-block;
   margin: -10px;
   padding: 10px;
 }
-/* line 244, ../scss/_base.scss */
+/* line 253, ../scss/_base.scss */
 .fcmsEditable:empty:before {
   content: "Jemand mußte Josef K. verleumdet haben...";
+  opacity: .3;
 }
 
 /* line 1, ../scss/pages/_admin-login.scss */
