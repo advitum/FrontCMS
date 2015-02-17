@@ -30,6 +30,10 @@ body.fcmsEdit {
 	#fcmsSave, #fcmsAbort {
 		display: inline-block;
 	}
+	
+	.fcmsEditable {
+		background: rgba(255, 255, 0, .1);
+	}
 }
 
 #fcmsSave, #fcmsAbort {
@@ -229,5 +233,15 @@ body.fcmsEdit {
 	
 	.message.error {
 		color: darken($colorRed, 20%);
+	}
+}
+
+.fcmsEditable {
+	display: inline-block;
+	margin: -10px;
+	padding: 10px;
+	
+	&:empty:before {
+		content: "Jemand mußte Josef K. verleumdet haben...";
 	}
 }

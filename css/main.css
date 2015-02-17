@@ -2950,8 +2950,3 @@ aside nav a.active {
 #content {
   margin-left: 200px;
 }
-
-/* line 66, ../scss/main.scss */
-aside, #content {
-  overflow: auto;
-}

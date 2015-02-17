@@ -7,7 +7,6 @@
 		public static $user = null;
 		public static $page = null;
 		private static $url = null;
-		private static $elements = array();
 		
 		public static function init() {
 			if(isset($_SERVER["REDIRECT_URL"])) {
@@ -123,25 +122,13 @@
 			return $html;
 		}
 		
-		public static function content() {
-			$content = '';
-			
-			if(self::$page === null) {
-				
-			} else {
-				
-			}
-			
-			return $content;
-		}
-		
 		public static function redirect($url) {
 			header('Location: ' . $url);
 			exit();
 		}
 		
 		public static function here() {
-			return self::$url;
+			return self::$url === '' ? ROOT_URL : self::$url;
 		}
 		
 		public static function urlPath($url) {
@@ -215,35 +202,7 @@
 						break;
 					}
 					
-					if(isset($attributes['type'])) {
-						$type = $attributes['type'];
-					} else {
-						$type = 'rich';
-					}
-					
-					if(isset($attributes['name'])) {
-						$name = str_replace('_', '-', $attributes['name']);
-					} else {
-						$name = 'element';
-					}
-					
-					if(!isset(self::$elements[$name])) {
-						self::$elements[$name] = 1;
-					} else {
-						$name .= '_' . self::$elements[$name]++;
-					}
-					
-					$element = DB::selectSingle(sprintf("SELECT * FROM `elements` WHERE `page_id` = %d AND `name` = '%s' LIMIT 1", self::$page->id, DB::escape($name)));
-					if($element) {
-						switch($type) {
-							case 'rich':
-								$html .= $element->content;
-								break;
-							case 'plain':
-								$html .= htmlspecialchars($element->content);
-								break;
-						}
-					}
+					$html .= Editable::render($attributes);
 					
 					break;
 			}
@@ -651,6 +610,22 @@
 					break;
 				default:
 					self::$page = Pages::getByUrl(self::$url);
+					
+					if(self::$page !== null && self::$user !== null && isset($_POST['element']) && is_array($_POST['element'])) {
+						DB::delete('elements', sprintf("WHERE `page_id` = %d", self::$page->id));
+						foreach($_POST['element'] as $key => $value) {
+							DB::insert('elements', array(
+								'page_id' => self::$page->id,
+								'name' => $key,
+								'content' => $value
+							));
+						}
+						DB::update('pages', array(
+							'modified = NOW()'
+						), sprintf("WHERE `id` = %d", self::$page->id));
+						Session::setMessage('Ihre Änderungen wurden gespeichert.', 'success');
+						self::redirect(self::here());
+					}
 					
 					$layout = '';
 					if(self::$page === null) {
