@@ -1,0 +1,49 @@
+#fcmsMedia {
+	@include clearfix;
+	
+	aside {
+		@include box-sizing(border-box);
+		
+		padding: 10px;
+		width: 280px;
+		float: right;
+	}
+	
+	#fcmsMediaList {
+		margin: 0px 300px 0px 0px;
+		list-style: none;
+		padding: 0px;
+		
+		li {
+			@include user-select(none);
+			
+			list-style: none;
+			margin: 3px;
+			padding: 0px;
+			cursor: pointer;
+			float: left;
+			position: relative;
+			
+			&.active:before {
+				@include box-shadow(inset 0px 0px 3px rgba(0, 0, 0, .2));
+				
+				content: "";
+				border: 5px solid darken($colorGreen, 10%);
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				right: 0px;
+				bottom: 0px;
+			}
+			
+			img {
+				display: block;
+				line-height: 0px;
+			}
+		}
+	}
+	
+	#fcmsErrorList {
+		color: darken($colorRed, 10%);
+	}
+}

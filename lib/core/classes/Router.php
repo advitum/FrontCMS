@@ -535,6 +535,50 @@
 								);
 								
 								break;
+							case 'media':
+								$html = '';
+								
+								$html .= '<div id="fcmsMedia">';
+								$html .= '<aside>';
+								$html .= 'Neue Bilder hochladen: <input type="file" id="fcmsMediaUpload" />';
+								$html .= '<ul id="fcmsErrorList"></ul>';
+								$html .= '</aside>';
+								$html .= '<ul id="fcmsMediaList">';
+								
+								$images = array();
+								$files = scandir(MEDIA_PATH);
+								foreach($files as $image) {
+									if(is_file(MEDIA_PATH . $image) && preg_match('/\.(gif|jpe?g|png)$/i', $image)) {
+										$images[] = array(
+											$image, filectime(MEDIA_PATH . $image)
+										);
+									}
+								}
+								usort($images, function($a, $b) {
+									return $a[1] > $b[1] ? -1 : 1;
+								});
+								foreach($images as $image) {
+									$html .= '<li data-file="' . $image[0] . '"><img src="' . ROOT_URL . 'autoimg/w100-h100-c' . ROOT_URL . 'upload/media/' . $image[0] . '" alt="" /></li>';
+								}
+								
+								$html .= '</ul>';
+								$html .= '</div>';
+								
+								$result = array(
+									'success' => true,
+									'response' => $html
+								);
+								
+								break;
+							case 'media-upload':
+								$uploadHandler = new UploadHandler(array(
+									'upload_dir' => MEDIA_PATH,
+									'upload_url' => ROOT_URL . 'upload/media/',
+									'image_versions' => array()
+								));
+								exit();
+								
+								break;
 							default:
 								$result = array(
 									'success' => false,
@@ -588,7 +632,8 @@
 		<?php echo Form::create(ROOT_URL . 'login', 'login'); ?>
 			<?php echo Form::input('username', array(
 				'label' => false,
-				'placeholder' => 'Nutzername'
+				'placeholder' => 'Nutzername',
+				'autofocus' => 'autofocus'
 			)); ?>
 			<?php echo Form::input('password', array(
 				'label' => false,
@@ -694,6 +739,9 @@
 			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery.lightbox.js"></script>';
 			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/box.js"></script>';
 			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/contextmenu.js"></script>';
+			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery.ui.widget.js"></script>';
+			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery.iframe-transport.js"></script>';
+			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery.fileupload.js"></script>';
 			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/admin.js"></script>';
 			$html .= '<script type="text/javascript">
 				var root = "' . ROOT_URL . '";

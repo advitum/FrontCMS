@@ -80,20 +80,76 @@
 				$image = json_decode($element->content);
 			}
 			
+			$autoimg = array();
+			if(isset($attributes['width'])) {
+				$autoimg[] = 'w' . $attributes['width'];
+			}
+			if(isset($attributes['height'])) {
+				$autoimg[] = 'h' . $attributes['height'];
+			}
+			if(isset($attributes['crop'])) {
+				$autoimg[] = 'c';
+			}
+			
 			if(Router::$user !== null) {
 				$classes = array('fcmsEditableImage');
-					
+				
+				$placeholderUrl = 'http://placehold.it/';
+				if(isset($attributes['width'])) {
+					$placeholderUrl .= $attributes['width'];
+				} else {
+					$placeholderUrl .= 200;
+				}
+				$placeholderUrl .= 'x';
+				if(isset($attributes['height'])) {
+					$placeholderUrl .= $attributes['height'];
+				} else {
+					$placeholderUrl .= 200;
+				}
+				$placeholderUrl .= '&text=';
+				if(!isset($attributes['width']) && !isset($attributes['height'])) {
+					$placeholderUrl .= 'Beliebige+Größe';
+				} elseif(!isset($attributes['width'])) {
+					$placeholderUrl .= $attributes['height'] . ' Höhe';
+				} elseif(!isset($attributes['height'])) {
+					$placeholderUrl .= $attributes['width'] . ' Breite';
+				} else {
+					$placeholderUrl .= $attributes['width'] . 'x' . $attributes['height'];
+				}
+				
+				$divAttributes = array(
+					'data-id' => $name,
+					'data-placeholder-url' => $placeholderUrl
+				);
+				
+				if(count($autoimg)) {
+					$divAttributes['data-autoimg-params'] = implode('-', $autoimg);
+				}
+				
 				if($element !== null) {
-					$imageAttributes['src'] = $image->src;
+					if(count($autoimg)) {
+						$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . $image->src;
+						$imageAttributes['data-src'] = $image->src;
+					} else {
+						$imageAttributes['src'] = $image->src;
+					}
+					
 					$imageAttributes['alt'] = $image->alt;
 				} else {
-					$imageAttributes['src'] = 'http://placehold.it/500x300';
+					$imageAttributes['src'] = $placeholderUrl;
 					$classes[] = 'placeholder';
 				}
 				
-				$html .= '<div class="' . implode(' ', $classes) . '" data-id="' . htmlspecialchars($name) . '"><img ' . Html::attributes($imageAttributes) . ' /><button class="fcmsButton"><i class="fa fa-pencil"></i></button></div>';
+				$divAttributes['class'] = implode(' ', $classes);
+				
+				$html .= '<div ' . Html::attributes($divAttributes) . '><img ' . Html::attributes($imageAttributes) . ' /><button class="fcmsButton"><i class="fa fa-pencil"></i></button></div>';
 			} elseif($element !== null) {
-				$html .= '<img src="' . htmlspecialchars($image->src) . '" alt="' . htmlspecialchars($image->alt) . '" />';
+				if(count($autoimg)) {
+					$src = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . $image->src;
+				} else {
+					$src = $image->src;
+				}
+				$html .= '<img src="' . htmlspecialchars($src) . '" alt="' . htmlspecialchars($image->alt) . '" />';
 			}
 			
 			return $html;

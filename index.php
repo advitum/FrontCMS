@@ -16,6 +16,8 @@
 				define('CLASSES_PATH', CORE_PATH . 'classes' . DS);
 			define('VENDOR_PATH', LIB_PATH . 'vendor' . DS);
 		define('TMP_PATH', ROOT_PATH . 'tmp' . DS);
+		define('UPLOAD_PATH', ROOT_PATH . 'upload' . DS);
+			define('MEDIA_PATH', UPLOAD_PATH . 'media' . DS);
 	
 	define('ROOT_URL', '/');
 	define('ADMIN_URL', ROOT_URL . 'lib/core/admin/');
