@@ -62,7 +62,7 @@
 			self::$db->set_charset('utf8');
 			
 			foreach(self::$tables as $table => $sql) {
-				if(self::selectSingle(sprintf("SHOW TABLES LIKE '%s'", self::escape($table))) === false) {
+				if(self::selectSingle(sprintf("SHOW TABLES LIKE '%s'", self::escape($table))) === null) {
 					self::query(sprintf($sql, self::escape($table)));
 				}
 			}

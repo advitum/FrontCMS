@@ -92,7 +92,7 @@
 			}
 			
 			if(Router::$user !== null) {
-				$classes = array('fcmsEditableImage');
+				$classes = array('fcmsEditableImage', 'img');
 				
 				$placeholderUrl = 'http://placehold.it/';
 				if(isset($attributes['width'])) {
@@ -127,6 +127,13 @@
 				}
 				
 				if($element !== null) {
+					if(isset($attributes['id'])) {
+						$imageAttributes['id'] = $attributes['id'];
+					}
+					if(isset($attributes['class'])) {
+						$imageAttributes['class'] = $attributes['class'];
+					}
+					
 					if(count($autoimg)) {
 						$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . $image->src;
 						$imageAttributes['data-src'] = $image->src;
@@ -144,12 +151,24 @@
 				
 				$html .= '<div ' . Html::attributes($divAttributes) . '><img ' . Html::attributes($imageAttributes) . ' /><button class="fcmsButton"><i class="fa fa-pencil"></i></button></div>';
 			} elseif($element !== null) {
+				$imageAttributes = array(
+					'alt' => $image->alt
+				);
+				
 				if(count($autoimg)) {
-					$src = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . $image->src;
+					$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . $image->src;
 				} else {
-					$src = $image->src;
+					$imageAttributes['src'] = $image->src;
 				}
-				$html .= '<img src="' . htmlspecialchars($src) . '" alt="' . htmlspecialchars($image->alt) . '" />';
+				
+				if(isset($attributes['id'])) {
+					$imageAttributes['id'] = $attributes['id'];
+				}
+				if(isset($attributes['class'])) {
+					$imageAttributes['class'] = $attributes['class'];
+				}
+				
+				$html .= '<div class="img"><img ' . Html::attributes($imageAttributes) . ' /></div>';
 			}
 			
 			return $html;

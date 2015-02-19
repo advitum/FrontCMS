@@ -3469,7 +3469,7 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
 
 /* line 267, ../scss/_base.scss */
 .fcmsEditable, .fcmsEditableImage {
-  display: inline-block;
+  display: block;
 }
 
 /* line 271, ../scss/_base.scss */

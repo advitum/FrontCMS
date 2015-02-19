@@ -6,6 +6,7 @@
 	{
 		public static $user = null;
 		public static $page = null;
+		public static $layout = null;
 		private static $url = null;
 		
 		public static function init() {
@@ -185,7 +186,15 @@
 					$html .= self::navigation($attributes);
 					break;
 				case 'body':
-					$html .= "<body" . (self::$user !== false ? ' class="fcmsHasAdminBar"' : '') . ">\n" . $content . "\n</body>";
+					$classes = array(
+						self::$layout
+					);
+					
+					if(self::$user !== false) {
+						$classes[] = 'fcmsHasAdminBar';
+					}
+					
+					$html .= "<body" . (count($classes) ? ' class="' . implode(' ', $classes) . '"' : '') . ">\n" . $content . "\n</body>";
 					break;
 				case 'head':
 					if(self::$user !== null) {
@@ -674,17 +683,16 @@
 						self::redirect(self::here());
 					}
 					
-					$layout = '';
 					if(self::$page === null) {
 						header("Status: 404 Not Found");
-						$layout = file_get_contents(LAYOUTS_PATH . '404.tpl');
+						self::$layout = '404';
 					} elseif(!is_file(LAYOUTS_PATH . self::$page->layout . '.tpl')) {
-						$layout = file_get_contents(LAYOUTS_PATH . 'default.tpl');
+						self::$layout = 'default';
 					} else {
-						$layout = file_get_contents(LAYOUTS_PATH . self::$page->layout . '.tpl');
+						self::$layout = self::$page->layout;
 					}
 					
-					echo self::parseTags($layout);
+					echo self::parseTags(file_get_contents(LAYOUTS_PATH . self::$layout . '.tpl'));
 					break;
 			}
 		}
