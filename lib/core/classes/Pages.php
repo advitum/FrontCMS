@@ -11,7 +11,7 @@
 		public static function getByUrl($url) {
 			$page = null;
 			
-			$path = Router::urlPath($url);
+			$path = Router::urlPath(substr($url, strlen(ROOT_URL)));
 			
 			$page = self::getRoot();
 			if(count($path)) {

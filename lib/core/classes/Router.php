@@ -10,8 +10,8 @@
 		private static $url = null;
 		
 		public static function init() {
-			if(isset($_SERVER["REDIRECT_URL"])) {
-				$url = $_SERVER["REDIRECT_URL"];
+			if(isset($_GET["url"])) {
+				$url = ROOT_URL . $_GET["url"];
 			} else {
 				$url = '';
 			}
@@ -20,7 +20,7 @@
 			$url = self::sanitize($dirty);
 			
 			if($url !== $dirty) {
-				Router::redirect($url);
+				self::redirect($url);
 			}
 			
 			DB::connect(DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME);

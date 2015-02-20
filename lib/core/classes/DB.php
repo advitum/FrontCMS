@@ -46,7 +46,15 @@
 		);
 		
 		public static function connect($host, $user, $password, $database, $verbose = true) {
-			self::$db = @new \mysqli($host, $user, $password, $database);
+			$port = null;
+			$socket = null;
+			
+			if(($pos = mb_strpos($host, ':')) !== false) {
+				$socket = mb_substr($host, $pos + 1);
+				$host = mb_substr($host, 0, $pos);
+			}
+			
+			self::$db = @new \mysqli($host, $user, $password, $database, $port, $socket);
 			
 			if($database == '' || self::$db->connect_error) {
 				if($verbose) {
