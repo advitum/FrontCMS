@@ -25,6 +25,7 @@
 					`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 					`parent_id` int(11) unsigned NOT NULL,
 					`navpos` int(11) unsigned DEFAULT '0',
+					`slave` tinyint(1) DEFAULT '0',
 					`hidden` tinyint(1) DEFAULT '1',
 					`deleted` tinyint(1) DEFAULT '0',
 					`title` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',

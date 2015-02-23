@@ -59,7 +59,7 @@
 			$html = '';
 			
 			if($options['div']) {
-				$html .= '<div class="input' . ($error !== false ? ' error' : '') . '">';
+				$html .= '<div class="input ' . htmlspecialchars($options['type']) . ($error !== false ? ' error' : '') . '">';
 			}
 			
 			if($error !== false) {
@@ -101,6 +101,20 @@
 					}
 					
 					$html .= '<textarea ' . self::attrs($attributes) . '>' . htmlspecialchars($value) . '</textarea>';
+					
+					break;
+				case 'checkbox':
+				case 'radio':
+					$attributes['type'] = $options['type'];
+					$attributes['value'] = '1';
+					if($value) {
+						$attributes['checked'] = 'checked';
+					}
+					$html .= '<input ' . self::attrs($attributes) . ' />';
+					
+					if($options['label'] !== false) { 
+						$html .= '<label for="' . htmlspecialchars($options['id']) . '">' . htmlspecialchars($options['label']) . '</label>';
+					}
 					
 					break;
 				default:

@@ -10,8 +10,8 @@
 		private static $url = null;
 		
 		public static function init() {
-			if(isset($_GET["url"])) {
-				$url = ROOT_URL . $_GET["url"];
+			if(isset($_GET["fcmsquery"])) {
+				$url = ROOT_URL . $_GET["fcmsquery"];
 			} else {
 				$url = '';
 			}
@@ -86,7 +86,7 @@
 					if($active) {
 						$classes[] = 'active';
 					}
-					$children = Pages::getChildren($page->id);
+					$children = Pages::getChildren($page->id, $params['hidden'], $params['all'], $params['deleted']);
 					if(count($children)) {
 						$classes[] = 'sub';
 					}
@@ -314,6 +314,7 @@
 										if($page->parent_id != 0) {
 											$values['slug'] = Form::value('properties', 'slug');
 											$values['parent_id'] = Form::value('properties', 'parent_id');
+											$values['slave'] = Form::value('properties', 'slave');
 										}
 										DB::update('pages', $values, sprintf("WHERE `id` = %s", $page->id));
 										
@@ -351,6 +352,12 @@
 										'type' => 'select',
 										'default' => $page->parent_id,
 										'options' => $possibleParents
+									));
+									
+									$html .= Form::input('slave', array(
+										'label' => 'Weiterleitung auf Kinder',
+										'type' => 'checkbox',
+										'default' => $page->slave
 									));
 								}
 								
@@ -686,6 +693,14 @@
 					if(self::$page === null) {
 						header("Status: 404 Not Found");
 						self::$layout = '404';
+					} elseif(self::$page->parent_id != 0 && self::$page->slave) {
+						$children = Pages::getChildren(self::$page->id, self::$user !== null, true, false);
+						if(count($children)) {
+							self::redirect(self::here() . '/' . $children[0]->slug);
+						} else {
+							header("Status: 404 Not Found");
+							self::$layout = '404';
+						}
 					} elseif(!is_file(LAYOUTS_PATH . self::$page->layout . '.tpl')) {
 						self::$layout = 'default';
 					} else {
