@@ -4,7 +4,7 @@
 	<meta charset="UTF-8" />
 	<title><fcms:title />FrontCMS</title>
 	
-	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="{ROOT_URL}css/main.css">
 	
 	<fcms:head />
 </head>

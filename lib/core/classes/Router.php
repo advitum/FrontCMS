@@ -731,6 +731,8 @@
 		}
 		
 		private static function parseTags($content) {
+			$content = str_replace('{ROOT_URL}', ROOT_URL, $content);
+			
 			$content = preg_replace_callback('/<fcms:(?<tag>[a-z-]+)((?:\s+[a-z-]+(?:=(?:"[^"]*"|\'[^\']*\'))?)*)\s+\/>/Usi', get_class() . '::replaceTag', $content);
 			
 			do {
