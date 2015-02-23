@@ -595,6 +595,24 @@
 								exit();
 								
 								break;
+							case 'pagebrowser':
+								$html = '';
+								
+								$html .= '<div id="fcmsPageBrowser">';
+								$html .= self::navigation(array(
+									'active' => false,
+									'home' => true,
+									'hidden' => true,
+									'all' => true
+								));
+								$html .= '</div>';
+								
+								$result = array(
+									'success' => true,
+									'response' => $html
+								);
+								
+								break;
 							default:
 								$result = array(
 									'success' => false,
@@ -758,6 +776,7 @@
 			$html .= '<script type="text/javascript">window.jQuery || document.write(\'<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery-1.11.2.min.js"><\/script>\')</script>';
 			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/tinymce/tinymce.min.js"></script>';
 			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/tinymce/jquery.tinymce.min.js"></script>';
+			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/tinymce.fcmslink.js"></script>';
 			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/localstorage.js"></script>';
 			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery.lightbox.js"></script>';
 			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/box.js"></script>';
