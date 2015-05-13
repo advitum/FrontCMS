@@ -21,6 +21,13 @@
 					`used` bit(1) DEFAULT b'0',
 					PRIMARY KEY (`id`)
 				)",
+			'page_options' => "CREATE TABLE `%s` (
+					`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+					`page_id` int(11) unsigned NOT NULL,
+					`key` varchar(50) NOT NULL DEFAULT '',
+					`value` text,
+					PRIMARY KEY (`id`)
+				)",
 			'pages' => "CREATE TABLE `%s` (
 					`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 					`parent_id` int(11) unsigned NOT NULL,

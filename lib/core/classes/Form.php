@@ -6,14 +6,14 @@
 	{
 		private static $form = null;
 		
-		public static function create($action, $form) {
+		public static function create($action, $form, $options = array()) {
 			self::$form = $form;
 			
-			$html = '<form ' . self::attrs(array(
+			$html = '<form ' . self::attrs(array_merge($options, array(
 				'action' => $action,
 				'method' => 'POST',
 				'id' => self::$form
-			)) . '>';
+			))) . '>';
 			$html .= self::hidden('_form', self::$form);
 			
 			return $html;
@@ -45,11 +45,12 @@
 			$defaultOptions = array(
 				'type' => ($name == 'password' ? 'password' : 'text'),
 				'label' => ucfirst($name),
-				'id' => self::$form . '_' . $name,
+				'id' => self::$form . '_' . str_replace('.', '_', $name),
 				'default' => '',
 				'class' => '',
 				'options' => array(),
-				'div' => true
+				'div' => true,
+				'error' => true
 			);
 			
 			$options = array_merge($defaultOptions, $options);
@@ -62,7 +63,7 @@
 				$html .= '<div class="input ' . htmlspecialchars($options['type']) . ($error !== false ? ' error' : '') . '">';
 			}
 			
-			if($error !== false) {
+			if($options['error'] && $error !== false) {
 				$html .= '<div class="message error">' . htmlspecialchars($error) . '</div>';
 				$options['class'] .= ' error';
 			}
@@ -73,7 +74,7 @@
 			unset($attributes['label']);
 			unset($attributes['default']);
 			unset($attributes['div']);
-			$attributes['name'] = self::$form . '[' . $name . ']';
+			$attributes['name'] = self::$form . '[' . str_replace('.', '][', $name) . ']';
 			
 			switch($options['type']) {
 				case 'select':
@@ -106,8 +107,13 @@
 				case 'checkbox':
 				case 'radio':
 					$attributes['type'] = $options['type'];
-					$attributes['value'] = '1';
-					if($value) {
+					if(isset($options['value'])) {
+						$attributes['value'] = $options['value'];
+					} else {
+						$attributes['value'] = '1';
+					}
+					
+					if($value == $attributes['value']) {
 						$attributes['checked'] = 'checked';
 					}
 					$html .= '<input ' . self::attrs($attributes) . ' />';

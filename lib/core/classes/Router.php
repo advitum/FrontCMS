@@ -7,7 +7,10 @@
 		public static $user = null;
 		public static $page = null;
 		public static $layout = null;
+		
 		private static $url = null;
+		private static $enqueuedScripts = array();
+		private static $enqueuedStyles = array();
 		
 		public static function init() {
 			if(isset($_GET["fcmsquery"])) {
@@ -190,18 +193,24 @@
 						self::$layout
 					);
 					
-					if(self::$user !== false) {
+					if(self::$user !== null) {
 						$classes[] = 'fcmsHasAdminBar';
 					}
 					
 					$html .= "<body" . (count($classes) ? ' class="' . implode(' ', $classes) . '"' : '') . ">\n" . $content . "\n</body>";
 					break;
 				case 'head':
+					foreach(self::$enqueuedStyles as $style) {
+						$html = '<link rel="stylesheet" type="text/css" href="' . $style . '" />';
+					}
 					if(self::$user !== null) {
 						$html = '<link rel="stylesheet" type="text/css" href="' . ADMIN_URL  . 'css/admin.css" />';
 					}
 					break;
 				case 'foot':
+					foreach(self::$enqueuedScripts as $script) {
+						$html = '<script type="text/javascript" src="' . $script . '"></script>';
+					}
 					if(self::$user !== null) {
 						$html .= self::adminBar();
 					}
@@ -217,6 +226,18 @@
 			}
 			
 			return $html;
+		}
+		
+		public static function enqueueScript($key, $script) {
+			if(!isset(self::$enqueuedScripts[$key])) {
+				self::$enqueuedScripts[$key] = $script;
+			}
+		}
+		
+		public static function enqueueStyle($key, $style) {
+			if(!isset(self::$enqueuedStyles[$key])) {
+				self::$enqueuedStyles[$key] = $style;
+			}
 		}
 		
 		private static function sanitize($url) {
@@ -316,7 +337,19 @@
 											$values['parent_id'] = Form::value('properties', 'parent_id');
 											$values['slave'] = Form::value('properties', 'slave');
 										}
-										DB::update('pages', $values, sprintf("WHERE `id` = %s", $page->id));
+										DB::update('pages', $values, sprintf("WHERE `id` = %d", $page->id));
+										
+										DB::delete('page_options', sprintf("WHERE `page_id` = %d", $page->id));
+										$options = Form::value('properties', 'options');
+										if(is_array($options)) {
+											foreach($options as $key => $value) {
+												DB::insert('page_options', array(
+													'page_id' => $page->id,
+													'key' => $key,
+													'value' => $value
+												));
+											}
+										}
 										
 										Session::setMessage('Die Eigenschaften wurden gespeichert.', 'success');
 										$result = array(
@@ -367,6 +400,39 @@
 									'default' => $page->layout,
 									'options' => $layouts
 								));
+								
+								if(count(PageOptions::$PAGE_OPTIONS)) {
+									$html .= '<h2>Optionen</h2>';
+									
+									foreach(PageOptions::$PAGE_OPTIONS as $key => $option) {
+										$value = DB::selectValue(sprintf("SELECT `value` FROM `page_options`WHERE `page_id` = %d AND `key` = '%s'", $page->id, DB::escape($key)));
+										
+										switch($option['type']) {
+											case 'image':
+												$html .= Form::input('options.' . $key, array(
+													'label' => $option['title'],
+													'type' => 'text',
+													'class' => 'imageSelect',
+													'default' => $value
+												));
+												break;
+											case 'textarea':
+												$html .= Form::input('options.' . $key, array(
+													'label' => $option['title'],
+													'type' => 'textarea',
+													'default' => $value
+												));
+												break;
+											default:
+												$html .= Form::input('options.' . $key, array(
+													'label' => $option['title'],
+													'type' => 'text',
+													'default' => $value
+												));
+												break;
+										}
+									}
+								}
 								
 								$html .= Form::end();
 								
@@ -732,6 +798,17 @@
 		
 		private static function parseTags($content) {
 			$content = str_replace('{ROOT_URL}', ROOT_URL, $content);
+			$content = str_replace('{PAGE_TITLE}', self::$page->title, $content);
+			
+			foreach(PageOptions::$PAGE_OPTIONS as $key => $option) {
+				$value = DB::selectValue(sprintf("SELECT `value` FROM `page_options` WHERE `page_id` = %d AND `key` = '%s'", self::$page->id, DB::escape($key)));
+				
+				if($value === null) {
+					$value = '';
+				}
+				
+				$content = str_replace('{PAGE_OPTION.' . $key . '}', htmlspecialchars($value), $content);
+			}
 			
 			$content = preg_replace_callback('/<fcms:(?<tag>[a-z-]+)((?:\s+[a-z-]+(?:=(?:"[^"]*"|\'[^\']*\'))?)*)\s+\/>/Usi', get_class() . '::replaceTag', $content);
 			

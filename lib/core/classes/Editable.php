@@ -61,12 +61,12 @@
 				$html .= '<div class="fcmsEditable" data-id="' . htmlspecialchars($name) . '" data-type="plain">';
 				
 				if($element !== null) {
-					$html .= htmlspecialchars($element->content);
+					$html .= nl2br(htmlspecialchars($element->content));
 				}
 				
 				$html .= '</div>';
 			} elseif($element !== null) {
-				$html .= htmlspecialchars($element->content);
+				$html .= nl2br(htmlspecialchars($element->content));
 			}
 			
 			return $html;
@@ -169,6 +169,25 @@
 				}
 				
 				$html .= '<div class="img"><img ' . Html::attributes($imageAttributes) . ' /></div>';
+			}
+			
+			return $html;
+		}
+		
+		private static function type_plugin($element, $name, $attributes) {
+			$html = '';
+			
+			if(isset($attributes['plugin'])) {
+				$plugin = ucfirst($attributes['plugin']);
+				$class = 'Advitum\\Frontcms\\Plugins\\Plugin' . $plugin;
+				
+				if(is_file(PLUGINS_PATH . $plugin . DIRECTORY_SEPARATOR . 'Plugin' . $plugin . '.php')) {
+					require_once(PLUGINS_PATH . $plugin . DIRECTORY_SEPARATOR . 'Plugin' . $plugin . '.php');
+				}
+				
+				if(is_callable(array($class, 'render'))) {
+					$html .= call_user_func(array($class, 'render'), $element, $name, $attributes);
+				}
 			}
 			
 			return $html;

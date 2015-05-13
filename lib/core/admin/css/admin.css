@@ -2899,7 +2899,7 @@
   position: fixed;
   right: 0;
   top: 0px;
-  z-index: 999;
+  z-index: 9999999;
   background: rgba(0, 0, 0, 0.3);
 }
 /* line 12, ../scss/_jquery.lightbox.scss */
@@ -2927,13 +2927,14 @@
   color: #000000;
   margin: 0px auto;
   text-align: left;
+  overflow-y: scroll;
 }
-/* line 34, ../scss/_jquery.lightbox.scss */
+/* line 35, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxContent > img {
   display: block;
   line-height: 0px;
 }
-/* line 40, ../scss/_jquery.lightbox.scss */
+/* line 41, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxClose, #lightbox .lightboxNext .circle, #lightbox .lightboxPrev .circle {
   -moz-transition: color 0.1s linear;
   -o-transition: color 0.1s linear;
@@ -2956,11 +2957,11 @@
   font-size: 12px;
   border: 2px solid rgba(255, 255, 255, 0.9);
 }
-/* line 56, ../scss/_jquery.lightbox.scss */
+/* line 57, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxClose:hover, #lightbox .lightboxClose:active, #lightbox .lightboxClose:focus, #lightbox .lightboxNext .circle:hover, #lightbox .lightboxNext .circle:active, #lightbox .lightboxNext .circle:focus, #lightbox .lightboxPrev .circle:hover, #lightbox .lightboxPrev .circle:active, #lightbox .lightboxPrev .circle:focus {
   color: white;
 }
-/* line 61, ../scss/_jquery.lightbox.scss */
+/* line 62, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxClose {
   position: absolute;
   right: -15px;
@@ -2969,11 +2970,11 @@
   font-size: 20px;
   z-index: 1002;
 }
-/* line 69, ../scss/_jquery.lightbox.scss */
+/* line 70, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxClose::before {
   content: "×";
 }
-/* line 74, ../scss/_jquery.lightbox.scss */
+/* line 75, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxNext {
   position: absolute;
   left: 50%;
@@ -2982,20 +2983,20 @@
   bottom: 0px;
   z-index: 1001;
 }
-/* line 82, ../scss/_jquery.lightbox.scss */
+/* line 83, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxNext .circle {
   position: absolute;
   right: 15px;
   top: 50%;
   margin-top: -15px;
 }
-/* line 88, ../scss/_jquery.lightbox.scss */
+/* line 89, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxNext .circle::before {
   content: "▶";
   position: relative;
   left: 1px;
 }
-/* line 96, ../scss/_jquery.lightbox.scss */
+/* line 97, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxPrev {
   position: absolute;
   left: 0px;
@@ -3004,32 +3005,32 @@
   bottom: 0px;
   z-index: 1001;
 }
-/* line 104, ../scss/_jquery.lightbox.scss */
+/* line 105, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxPrev .circle {
   position: absolute;
   left: 15px;
   top: 50%;
   margin-top: -15px;
 }
-/* line 110, ../scss/_jquery.lightbox.scss */
+/* line 111, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxPrev .circle::before {
   content: "◀";
   position: relative;
   right: 1px;
 }
-/* line 118, ../scss/_jquery.lightbox.scss */
+/* line 119, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxNext, #lightbox .lightboxPrev {
   cursor: pointer;
 }
-/* line 121, ../scss/_jquery.lightbox.scss */
+/* line 122, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxNext .circle, #lightbox .lightboxPrev .circle {
   display: none;
 }
-/* line 126, ../scss/_jquery.lightbox.scss */
+/* line 127, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxNext:hover .circle, #lightbox .lightboxPrev:hover .circle {
   display: block;
 }
-/* line 132, ../scss/_jquery.lightbox.scss */
+/* line 133, ../scss/_jquery.lightbox.scss */
 #lightbox .lightboxLoading {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -3085,41 +3086,44 @@
   -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
   font-size: 14px;
-  z-index: 999;
+  z-index: 999999;
   font-family: Helvetica, Arial, sans-serif;
 }
-/* line 8, ../scss/_contextmenu.scss */
+/* line 9, ../scss/_contextmenu.scss */
 #contextMenu, #contextMenu li ul {
   position: absolute;
   background: #f8f8f8;
   border: 1px solid #aaaaaa;
   color: #333333;
 }
-/* line 15, ../scss/_contextmenu.scss */
+/* line 16, ../scss/_contextmenu.scss */
 #contextMenu, #contextMenu ul, #contextMenu li {
   list-style-type: none;
   margin: 0px;
   padding: 0px;
 }
-/* line 21, ../scss/_contextmenu.scss */
+/* line 22, ../scss/_contextmenu.scss */
 #contextMenu li {
   padding: 5px 20px 5px 30px;
   height: 20px;
   line-height: 20px;
   position: relative;
 }
-/* line 27, ../scss/_contextmenu.scss */
+/* line 28, ../scss/_contextmenu.scss */
 #contextMenu li.callback {
   cursor: pointer;
 }
-/* line 31, ../scss/_contextmenu.scss */
+/* line 32, ../scss/_contextmenu.scss */
 #contextMenu li.title {
   font-weight: bold;
   background: #ebebeb;
   color: #222222;
 }
-/* line 37, ../scss/_contextmenu.scss */
+/* line 38, ../scss/_contextmenu.scss */
 #contextMenu li.sub::after {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3134,7 +3138,7 @@
   line-height: 30px;
   position: absolute;
 }
-/* line 47, ../scss/_contextmenu.scss */
+/* line 48, ../scss/_contextmenu.scss */
 #contextMenu li .fa {
   position: absolute;
   left: 0px;
@@ -3143,17 +3147,17 @@
   top: 0px;
   line-height: 30px;
 }
-/* line 56, ../scss/_contextmenu.scss */
+/* line 57, ../scss/_contextmenu.scss */
 #contextMenu li ul {
   top: -1px;
   left: 100%;
   display: none;
 }
-/* line 62, ../scss/_contextmenu.scss */
+/* line 63, ../scss/_contextmenu.scss */
 #contextMenu li:not(.title):hover {
   background: #eeeeee;
 }
-/* line 65, ../scss/_contextmenu.scss */
+/* line 66, ../scss/_contextmenu.scss */
 #contextMenu li:not(.title):hover ul {
   display: block;
 }
@@ -3239,13 +3243,17 @@ body.fcmsEdit .fcmsEditableImage.placeholder {
 body.fcmsEdit .fcmsEditableImage:hover .fcmsButton {
   display: inline-block;
 }
+/* line 68, ../scss/_base.scss */
+body.fcmsEdit .fcmsEditablePlugin:hover .fcmsButton {
+  display: inline-block;
+}
 
-/* line 67, ../scss/_base.scss */
+/* line 75, ../scss/_base.scss */
 #fcmsSave, #fcmsAbort {
   display: none;
 }
 
-/* line 71, ../scss/_base.scss */
+/* line 79, ../scss/_base.scss */
 #fcmsAdminBar {
   -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
@@ -3263,16 +3271,16 @@ body.fcmsEdit .fcmsEditableImage:hover .fcmsButton {
   color: #333333;
   border-bottom: 1px solid #cccccc;
   padding: 10px;
-  z-index: 50;
+  z-index: 99999;
   font-family: Helvetica, Arial, sans-serif;
 }
-/* line 88, ../scss/_base.scss */
+/* line 96, ../scss/_base.scss */
 #fcmsAdminBar #message {
   float: left;
   line-height: 30px;
   margin: 0px 20px;
 }
-/* line 94, ../scss/_base.scss */
+/* line 102, ../scss/_base.scss */
 #fcmsAdminBar #message.error:before, #fcmsAdminBar #message.success:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3285,33 +3293,33 @@ body.fcmsEdit .fcmsEditableImage:hover .fcmsButton {
   width: 20px;
   text-align: center;
 }
-/* line 103, ../scss/_base.scss */
+/* line 111, ../scss/_base.scss */
 #fcmsAdminBar #message.error {
   color: #6c0607;
 }
-/* line 106, ../scss/_base.scss */
+/* line 114, ../scss/_base.scss */
 #fcmsAdminBar #message.error:before {
   content: "";
   color: #9c090b;
 }
-/* line 112, ../scss/_base.scss */
+/* line 120, ../scss/_base.scss */
 #fcmsAdminBar #message.success {
   color: #036910;
 }
-/* line 115, ../scss/_base.scss */
+/* line 123, ../scss/_base.scss */
 #fcmsAdminBar #message.success:before {
   content: "";
   color: #059a17;
 }
-/* line 123, ../scss/_base.scss */
+/* line 131, ../scss/_base.scss */
 #fcmsAdminBar > .fcmsButtons.left {
   float: left;
 }
-/* line 127, ../scss/_base.scss */
+/* line 135, ../scss/_base.scss */
 #fcmsAdminBar > .fcmsButtons.right {
   float: right;
 }
-/* line 132, ../scss/_base.scss */
+/* line 140, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree {
   -moz-user-select: -moz-none;
   -ms-user-select: none;
@@ -3336,24 +3344,24 @@ body.fcmsEdit .fcmsEditableImage:hover .fcmsButton {
   background: #fbfbfb;
   padding: 20px;
 }
-/* line 147, ../scss/_base.scss */
+/* line 155, ../scss/_base.scss */
 body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   right: 0px;
 }
-/* line 151, ../scss/_base.scss */
+/* line 159, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul {
   list-style: none;
 }
-/* line 154, ../scss/_base.scss */
+/* line 162, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul, #fcmsAdminBar #fcmsPageTree ul li {
   margin: 0px;
   padding: 0px;
 }
-/* line 159, ../scss/_base.scss */
+/* line 167, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul ul {
   padding-left: 20px;
 }
-/* line 164, ../scss/_base.scss */
+/* line 172, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -3366,11 +3374,11 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   margin: 0px -10px;
   padding: 2px 10px;
 }
-/* line 175, ../scss/_base.scss */
+/* line 183, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a:hover, #fcmsAdminBar #fcmsPageTree a:active, #fcmsAdminBar #fcmsPageTree a:focus {
   background: rgba(0, 0, 0, 0.1);
 }
-/* line 179, ../scss/_base.scss */
+/* line 187, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3385,29 +3393,29 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   font-size: .9em;
   line-height: inherit;
 }
-/* line 189, ../scss/_base.scss */
+/* line 197, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.active {
   font-weight: bold;
 }
-/* line 193, ../scss/_base.scss */
+/* line 201, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.notInMenu:before {
   content: "";
 }
-/* line 197, ../scss/_base.scss */
+/* line 205, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.hidden:before {
   content: "";
 }
-/* line 201, ../scss/_base.scss */
+/* line 209, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.deleted {
   display: none;
   opacity: .5;
 }
-/* line 207, ../scss/_base.scss */
+/* line 215, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree > .fcmsButtons {
   margin-bottom: 10px;
 }
 
-/* line 213, ../scss/_base.scss */
+/* line 221, ../scss/_base.scss */
 .fcmsButton {
   -moz-transition: all 0.1s linear;
   -o-transition: all 0.1s linear;
@@ -3421,76 +3429,116 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   border: 1px solid #bbbbbb;
   font-size: 14px;
   line-height: 20px;
-  color: inherit;
+  color: #333333;
   padding: 3px 8px;
   cursor: pointer;
 }
-/* line 226, ../scss/_base.scss */
+/* line 234, ../scss/_base.scss */
 .fcmsButton:hover, .fcmsButton:active, .fcmsButton:focus {
   background: #dddddd;
   border-color: #999999;
 }
 
-/* line 232, ../scss/_base.scss */
+/* line 240, ../scss/_base.scss */
 .fcmsButtons {
   margin-right: -10px;
 }
-/* line 235, ../scss/_base.scss */
+/* line 243, ../scss/_base.scss */
 .fcmsButtons .fcmsButton {
   margin: 0px 10px 0px 0px;
 }
 
-/* line 241, ../scss/_base.scss */
+/* line 249, ../scss/_base.scss */
 .box form label {
   font-size: .9em;
 }
-/* line 245, ../scss/_base.scss */
+/* line 253, ../scss/_base.scss */
 .box form .input {
   margin-bottom: 20px;
 }
-/* line 248, ../scss/_base.scss */
+/* line 256, ../scss/_base.scss */
 .box form .input:not(.checkbox):not(.radio) label {
   display: block;
 }
-/* line 252, ../scss/_base.scss */
+/* line 260, ../scss/_base.scss */
 .box form .input input, .box form .input textarea, .box form .input select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-family: inherit;
   font-size: 1em;
+  font-weight: normal;
   line-height: inherit;
   padding: 5px 10px;
 }
-/* line 262, ../scss/_base.scss */
+/* line 270, ../scss/_base.scss */
+.box form .input textarea {
+  resize: vertical;
+  height: 100px;
+}
+/* line 275, ../scss/_base.scss */
+.box form .input .imagePreview {
+  max-width: 100%;
+}
+/* line 279, ../scss/_base.scss */
+.box form .input .fa {
+  cursor: pointer;
+}
+/* line 284, ../scss/_base.scss */
 .box form .message.error {
   color: #6c0607;
 }
+/* line 288, ../scss/_base.scss */
+.box form ul.repeatable {
+  list-style: none;
+  border: 1px solid #dddddd;
+  margin: 0px 0px 20px;
+  padding: 0px;
+}
+/* line 294, ../scss/_base.scss */
+.box form ul.repeatable li {
+  margin: 10px;
+  padding: 5px;
+  background: #eeeeee;
+}
+/* line 300, ../scss/_base.scss */
+.box form ul.repeatable .fa {
+  cursor: pointer;
+}
 
-/* line 267, ../scss/_base.scss */
+/* line 306, ../scss/_base.scss */
 .fcmsEditable, .fcmsEditableImage {
   display: block;
 }
 
-/* line 271, ../scss/_base.scss */
+/* line 310, ../scss/_base.scss */
 .fcmsEditable[data-type="rich"] {
   display: block;
 }
 
-/* line 275, ../scss/_base.scss */
+/* line 314, ../scss/_base.scss */
 .fcmsEditableImage {
   position: relative;
 }
-/* line 278, ../scss/_base.scss */
+/* line 317, ../scss/_base.scss */
 .fcmsEditableImage.placeholder {
   display: none;
 }
-/* line 282, ../scss/_base.scss */
+/* line 321, ../scss/_base.scss */
 .fcmsEditableImage .fcmsButton {
   position: absolute;
   top: 10px;
   right: 10px;
   display: none;
+}
+
+/* line 331, ../scss/_base.scss */
+.fcmsEditablePlugin .fcmsButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+  z-index: 99;
 }
 
 /* line 1, ../scss/pages/_admin-login.scss */

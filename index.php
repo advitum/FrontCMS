@@ -14,13 +14,11 @@
 		define('LIB_PATH', ROOT_PATH . 'lib' . DS);
 			define('CORE_PATH', LIB_PATH . 'core' . DS);
 				define('CLASSES_PATH', CORE_PATH . 'classes' . DS);
+			define('PLUGINS_PATH', LIB_PATH . 'plugins' . DS);
 			define('VENDOR_PATH', LIB_PATH . 'vendor' . DS);
 		define('TMP_PATH', ROOT_PATH . 'tmp' . DS);
 		define('UPLOAD_PATH', ROOT_PATH . 'upload' . DS);
 			define('MEDIA_PATH', UPLOAD_PATH . 'media' . DS);
-	
-	define('ROOT_URL', '/');
-	define('ADMIN_URL', ROOT_URL . 'lib/core/admin/');
 	
 	spl_autoload_register(function($class) {
 		if(substr($class, 0, strlen(__NAMESPACE__)) === __NAMESPACE__) {
@@ -32,6 +30,20 @@
 	});
 	
 	require_once(ROOT_PATH . 'config.php');
+	
+	if(!defined('ROOT_URL')) {
+		define('ROOT_URL', '/');
+	}
+	define('ADMIN_URL', ROOT_URL . 'lib/core/admin/');
+	define('PLUGIN_URL', ROOT_URL . 'lib/plugins/');
+	
+	if(!class_exists('Advitum\Frontcms\PageOptions')) {
+		class PageOptions
+		{
+			public static $PAGE_OPTIONS = [];
+		}
+	}
+	
 	Router::init();
 	
 ?>

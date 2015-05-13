@@ -6,7 +6,7 @@
 	position: fixed;
 	right: 0;
 	top: 0px;
-	z-index: 999;
+	z-index: 9999999;
 	background: rgba(0, 0, 0, .3);
 	
 	.lightboxOuter {
@@ -30,6 +30,7 @@
 		color: #000000;
 		margin: 0px auto;
 		text-align: left;
+		overflow-y: scroll;
 		
 		& > img {
 			display: block;

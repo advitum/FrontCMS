@@ -62,6 +62,14 @@ body.fcmsEdit {
 			}
 		}
 	}
+	
+	.fcmsEditablePlugin {
+		&:hover {
+			.fcmsButton {
+				display: inline-block;
+			}
+		}
+	}
 }
 
 #fcmsSave, #fcmsAbort {
@@ -82,7 +90,7 @@ body.fcmsEdit {
 	color: #333333;
 	border-bottom: 1px solid #cccccc;
 	padding: 10px;
-	z-index: 50;
+	z-index: 99999;
 	font-family: Helvetica, Arial, sans-serif;
 	
 	#message {
@@ -219,7 +227,7 @@ body.fcmsEdit {
 	border: 1px solid #bbbbbb;
 	font-size: 14px;
 	line-height: 20px;
-	color: inherit;
+	color: #333333;
 	padding: 3px 8px;
 	cursor: pointer;
 	
@@ -254,13 +262,44 @@ body.fcmsEdit {
 			
 			font-family: inherit;
 			font-size: 1em;
+			font-weight: normal;
 			line-height: inherit;
 			padding: 5px 10px;
+		}
+		
+		textarea {
+			resize: vertical;
+			height: 100px;
+		}
+		
+		.imagePreview {
+			max-width: 100%;
+		}
+		
+		.fa {
+			cursor: pointer;
 		}
 	}
 	
 	.message.error {
 		color: darken($colorRed, 20%);
+	}
+	
+	ul.repeatable {
+		list-style: none;
+		border: 1px solid #dddddd;
+		margin: 0px 0px 20px;
+		padding: 0px;
+		
+		li {
+			margin: 10px;
+			padding: 5px;
+			background: #eeeeee;
+		}
+		
+		.fa {
+			cursor: pointer;
+		}
 	}
 }
 
@@ -284,5 +323,16 @@ body.fcmsEdit {
 		top: 10px;
 		right: 10px;
 		display: none;
+	}
+}
+
+
+.fcmsEditablePlugin {
+	.fcmsButton {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		display: none;
+		z-index: 99;
 	}
 }

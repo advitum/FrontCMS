@@ -4,7 +4,7 @@
 	
 	abstract class Plugin
 	{
-		abstract public static function render($attributes = array(), $content = '');
+		
 	}
 	
 ?>
