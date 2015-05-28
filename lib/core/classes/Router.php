@@ -42,13 +42,14 @@
 				'home' => true,
 				'hidden' => false,
 				'all' => false,
-				'deleted' => false
+				'deleted' => false,
+				'list' => true
 			);
 			
 			$params = array_merge($defaults, $params);
 			
 			$list = true;
-			if($params['start'] === $params['end']) {
+			if($params['start'] === $params['end'] && $params['list'] === false) {
 				$list = false;
 			}
 			
@@ -59,28 +60,28 @@
 			
 			$pages = Pages::getChildren($parent, $params['hidden'], $params['all'], $params['deleted']);
 			
-			if($list) {
-				$html .= '<ul>' . "\n";
-			}
-			
-			if($params['home'] && $depth == 1 && $depth >= $params['start'] && ($params['end'] === false || $depth <= $params['end'])) {
+			if($depth >= $params['start'] && ($params['end'] === false || $depth <= $params['end'])) {
 				if($list) {
-					$html .= '<li>';
+					$html .= '<ul>' . "\n";
 				}
 				
-				$html .= '<a href="' . htmlspecialchars($path)  . '" class="notInMenu' . (self::$url == substr($path, 0, -1) ? ' active' : '') . '">' . htmlspecialchars($home->navtitle_or_title) . '</a>';
-				
-				if($list) {
-					$html .= '</li>';
+				if($params['home'] && $depth == 1 && $depth >= $params['start'] && ($params['end'] === false || $depth <= $params['end'])) {
+					if($list) {
+						$html .= '<li>';
+					}
+					
+					$html .= '<a href="' . htmlspecialchars($path)  . '" class="notInMenu' . (self::$url == substr($path, 0, -1) ? ' active' : '') . '">' . htmlspecialchars($home->navtitle_or_title) . '</a>';
+					
+					if($list) {
+						$html .= '</li>';
+					}
+					$html .= "\n";
 				}
-				$html .= "\n";
-			}
-			
-			foreach($pages as $page) {
-				$newPath = htmlspecialchars($path . $page->slug) . '/';
-				$active = substr($newPath, 0, -1) == substr(self::$url, 0, strlen($newPath) - 1);
 				
-				if($depth >= $params['start'] && ($params['end'] === false || $depth <= $params['end'])) {
+				foreach($pages as $page) {
+					$newPath = htmlspecialchars($path . $page->slug) . '/';
+					$active = substr($newPath, 0, -1) == substr(self::$url, 0, strlen($newPath) - 1);
+					
 					if($list) {
 						$html .= '<li>';
 					}
@@ -104,23 +105,32 @@
 					}
 					
 					$html .= '<a href="' . $newPath . '"' . (count($classes) ? ' class="' . implode(' ', $classes) . '"' : '') . '>' . htmlspecialchars($page->navtitle_or_title) . '</a>';
+					
+					if(($active || $params['active'] === false) && isset($children) && count($children)) {
+						$html .= "\n" . self::navigation($params, $page->id, $newPath, $depth + 1);
+					}
+					
+					if($depth >= $params['start'] && ($params['end'] === false || $depth <= $params['end'])) {
+						if($list) {
+							$html .= '</li>';
+						}
+					}
+					
+					$html .= "\n";
 				}
 				
-				if(($active || $params['active'] === false) && count($children)) {
-					$html .= "\n" . self::navigation($params, $page->id, $newPath, $depth + 1);
+				if($list) {
+					$html .= '</ul>' . "\n";
 				}
-				
-				if($depth >= $params['start'] && ($params['end'] === false || $depth <= $params['end'])) {
-					if($list) {
-						$html .= '</li>';
+			} elseif($depth < $params['start']) {
+				foreach($pages as $page) {
+					$newPath = htmlspecialchars($path . $page->slug) . '/';
+					$active = substr($newPath, 0, -1) == substr(self::$url, 0, strlen($newPath) - 1);
+					$children = Pages::getChildren($page->id, $params['hidden'], $params['all'], $params['deleted']);
+					if(($active || $params['active'] === false) && count($children)) {
+						$html .= "\n" . self::navigation($params, $page->id, $newPath, $depth + 1);
 					}
 				}
-				
-				$html .= "\n";
-			}
-			
-			if($list) {
-				$html .= '</ul>' . "\n";
 			}
 			
 			return $html;
@@ -201,7 +211,7 @@
 					break;
 				case 'head':
 					foreach(self::$enqueuedStyles as $style) {
-						$html = '<link rel="stylesheet" type="text/css" href="' . $style . '" />';
+						$html .= '<link rel="stylesheet" type="text/css" href="' . $style . '" />';
 					}
 					if(self::$user !== null) {
 						$html = '<link rel="stylesheet" type="text/css" href="' . ADMIN_URL  . 'css/admin.css" />';
@@ -209,7 +219,7 @@
 					break;
 				case 'foot':
 					foreach(self::$enqueuedScripts as $script) {
-						$html = '<script type="text/javascript" src="' . $script . '"></script>';
+						$html .= '<script type="text/javascript" src="' . $script . '"></script>';
 					}
 					if(self::$user !== null) {
 						$html .= self::adminBar();
@@ -640,7 +650,7 @@
 									return $a[1] > $b[1] ? -1 : 1;
 								});
 								foreach($images as $image) {
-									$html .= '<li data-file="' . $image[0] . '"><img src="' . ROOT_URL . 'autoimg/w100-h100-c' . ROOT_URL . 'upload/media/' . $image[0] . '" alt="" /></li>';
+									$html .= '<li data-file="' . $image[0] . '"><img src="' . ROOT_URL . 'autoimg/w100-h100-c/upload/media/' . $image[0] . '" alt="" /></li>';
 								}
 								
 								$html .= '</ul>';

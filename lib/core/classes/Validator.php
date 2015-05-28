@@ -13,7 +13,7 @@
 			
 			$defaultOptions = array(
 				'rules' => 'notEmpty',
-				'message' => 'Please input something in field %s.'
+				'message' => 'Bitte fülle dieses Feld aus: %s.'
 			);
 			
 			foreach($fields as $field => $options) {

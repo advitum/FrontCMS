@@ -64,6 +64,8 @@ body.fcmsEdit {
 	}
 	
 	.fcmsEditablePlugin {
+		position: relative;
+		
 		&:hover {
 			.fcmsButton {
 				display: inline-block;

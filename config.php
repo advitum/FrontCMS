@@ -1,6 +1,6 @@
 <?php
 	
-	namespace Advitum\Frontcmd;
+	namespace Advitum\Frontcms;
 	
 	define('DATABASE_HOST', 'localhost');
 	define('DATABASE_USER', 'root');

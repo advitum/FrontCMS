@@ -3243,17 +3243,21 @@ body.fcmsEdit .fcmsEditableImage.placeholder {
 body.fcmsEdit .fcmsEditableImage:hover .fcmsButton {
   display: inline-block;
 }
-/* line 68, ../scss/_base.scss */
+/* line 66, ../scss/_base.scss */
+body.fcmsEdit .fcmsEditablePlugin {
+  position: relative;
+}
+/* line 70, ../scss/_base.scss */
 body.fcmsEdit .fcmsEditablePlugin:hover .fcmsButton {
   display: inline-block;
 }
 
-/* line 75, ../scss/_base.scss */
+/* line 77, ../scss/_base.scss */
 #fcmsSave, #fcmsAbort {
   display: none;
 }
 
-/* line 79, ../scss/_base.scss */
+/* line 81, ../scss/_base.scss */
 #fcmsAdminBar {
   -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
@@ -3274,13 +3278,13 @@ body.fcmsEdit .fcmsEditablePlugin:hover .fcmsButton {
   z-index: 99999;
   font-family: Helvetica, Arial, sans-serif;
 }
-/* line 96, ../scss/_base.scss */
+/* line 98, ../scss/_base.scss */
 #fcmsAdminBar #message {
   float: left;
   line-height: 30px;
   margin: 0px 20px;
 }
-/* line 102, ../scss/_base.scss */
+/* line 104, ../scss/_base.scss */
 #fcmsAdminBar #message.error:before, #fcmsAdminBar #message.success:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3293,33 +3297,33 @@ body.fcmsEdit .fcmsEditablePlugin:hover .fcmsButton {
   width: 20px;
   text-align: center;
 }
-/* line 111, ../scss/_base.scss */
+/* line 113, ../scss/_base.scss */
 #fcmsAdminBar #message.error {
   color: #6c0607;
 }
-/* line 114, ../scss/_base.scss */
+/* line 116, ../scss/_base.scss */
 #fcmsAdminBar #message.error:before {
   content: "";
   color: #9c090b;
 }
-/* line 120, ../scss/_base.scss */
+/* line 122, ../scss/_base.scss */
 #fcmsAdminBar #message.success {
   color: #036910;
 }
-/* line 123, ../scss/_base.scss */
+/* line 125, ../scss/_base.scss */
 #fcmsAdminBar #message.success:before {
   content: "";
   color: #059a17;
 }
-/* line 131, ../scss/_base.scss */
+/* line 133, ../scss/_base.scss */
 #fcmsAdminBar > .fcmsButtons.left {
   float: left;
 }
-/* line 135, ../scss/_base.scss */
+/* line 137, ../scss/_base.scss */
 #fcmsAdminBar > .fcmsButtons.right {
   float: right;
 }
-/* line 140, ../scss/_base.scss */
+/* line 142, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree {
   -moz-user-select: -moz-none;
   -ms-user-select: none;
@@ -3344,24 +3348,24 @@ body.fcmsEdit .fcmsEditablePlugin:hover .fcmsButton {
   background: #fbfbfb;
   padding: 20px;
 }
-/* line 155, ../scss/_base.scss */
+/* line 157, ../scss/_base.scss */
 body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   right: 0px;
 }
-/* line 159, ../scss/_base.scss */
+/* line 161, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul {
   list-style: none;
 }
-/* line 162, ../scss/_base.scss */
+/* line 164, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul, #fcmsAdminBar #fcmsPageTree ul li {
   margin: 0px;
   padding: 0px;
 }
-/* line 167, ../scss/_base.scss */
+/* line 169, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree ul ul {
   padding-left: 20px;
 }
-/* line 172, ../scss/_base.scss */
+/* line 174, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -3374,11 +3378,11 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   margin: 0px -10px;
   padding: 2px 10px;
 }
-/* line 183, ../scss/_base.scss */
+/* line 185, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a:hover, #fcmsAdminBar #fcmsPageTree a:active, #fcmsAdminBar #fcmsPageTree a:focus {
   background: rgba(0, 0, 0, 0.1);
 }
-/* line 187, ../scss/_base.scss */
+/* line 189, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3393,29 +3397,29 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   font-size: .9em;
   line-height: inherit;
 }
-/* line 197, ../scss/_base.scss */
+/* line 199, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.active {
   font-weight: bold;
 }
-/* line 201, ../scss/_base.scss */
+/* line 203, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.notInMenu:before {
   content: "";
 }
-/* line 205, ../scss/_base.scss */
+/* line 207, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.hidden:before {
   content: "";
 }
-/* line 209, ../scss/_base.scss */
+/* line 211, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree a.deleted {
   display: none;
   opacity: .5;
 }
-/* line 215, ../scss/_base.scss */
+/* line 217, ../scss/_base.scss */
 #fcmsAdminBar #fcmsPageTree > .fcmsButtons {
   margin-bottom: 10px;
 }
 
-/* line 221, ../scss/_base.scss */
+/* line 223, ../scss/_base.scss */
 .fcmsButton {
   -moz-transition: all 0.1s linear;
   -o-transition: all 0.1s linear;
@@ -3433,34 +3437,34 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   padding: 3px 8px;
   cursor: pointer;
 }
-/* line 234, ../scss/_base.scss */
+/* line 236, ../scss/_base.scss */
 .fcmsButton:hover, .fcmsButton:active, .fcmsButton:focus {
   background: #dddddd;
   border-color: #999999;
 }
 
-/* line 240, ../scss/_base.scss */
+/* line 242, ../scss/_base.scss */
 .fcmsButtons {
   margin-right: -10px;
 }
-/* line 243, ../scss/_base.scss */
+/* line 245, ../scss/_base.scss */
 .fcmsButtons .fcmsButton {
   margin: 0px 10px 0px 0px;
 }
 
-/* line 249, ../scss/_base.scss */
+/* line 251, ../scss/_base.scss */
 .box form label {
   font-size: .9em;
 }
-/* line 253, ../scss/_base.scss */
+/* line 255, ../scss/_base.scss */
 .box form .input {
   margin-bottom: 20px;
 }
-/* line 256, ../scss/_base.scss */
+/* line 258, ../scss/_base.scss */
 .box form .input:not(.checkbox):not(.radio) label {
   display: block;
 }
-/* line 260, ../scss/_base.scss */
+/* line 262, ../scss/_base.scss */
 .box form .input input, .box form .input textarea, .box form .input select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -3471,60 +3475,60 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   line-height: inherit;
   padding: 5px 10px;
 }
-/* line 270, ../scss/_base.scss */
+/* line 272, ../scss/_base.scss */
 .box form .input textarea {
   resize: vertical;
   height: 100px;
 }
-/* line 275, ../scss/_base.scss */
+/* line 277, ../scss/_base.scss */
 .box form .input .imagePreview {
   max-width: 100%;
 }
-/* line 279, ../scss/_base.scss */
+/* line 281, ../scss/_base.scss */
 .box form .input .fa {
   cursor: pointer;
 }
-/* line 284, ../scss/_base.scss */
+/* line 286, ../scss/_base.scss */
 .box form .message.error {
   color: #6c0607;
 }
-/* line 288, ../scss/_base.scss */
+/* line 290, ../scss/_base.scss */
 .box form ul.repeatable {
   list-style: none;
   border: 1px solid #dddddd;
   margin: 0px 0px 20px;
   padding: 0px;
 }
-/* line 294, ../scss/_base.scss */
+/* line 296, ../scss/_base.scss */
 .box form ul.repeatable li {
   margin: 10px;
   padding: 5px;
   background: #eeeeee;
 }
-/* line 300, ../scss/_base.scss */
+/* line 302, ../scss/_base.scss */
 .box form ul.repeatable .fa {
   cursor: pointer;
 }
 
-/* line 306, ../scss/_base.scss */
+/* line 308, ../scss/_base.scss */
 .fcmsEditable, .fcmsEditableImage {
   display: block;
 }
 
-/* line 310, ../scss/_base.scss */
+/* line 312, ../scss/_base.scss */
 .fcmsEditable[data-type="rich"] {
   display: block;
 }
 
-/* line 314, ../scss/_base.scss */
+/* line 316, ../scss/_base.scss */
 .fcmsEditableImage {
   position: relative;
 }
-/* line 317, ../scss/_base.scss */
+/* line 319, ../scss/_base.scss */
 .fcmsEditableImage.placeholder {
   display: none;
 }
-/* line 321, ../scss/_base.scss */
+/* line 323, ../scss/_base.scss */
 .fcmsEditableImage .fcmsButton {
   position: absolute;
   top: 10px;
@@ -3532,7 +3536,7 @@ body:not(.fcmsPageTreeClosed) #fcmsAdminBar #fcmsPageTree {
   display: none;
 }
 
-/* line 331, ../scss/_base.scss */
+/* line 333, ../scss/_base.scss */
 .fcmsEditablePlugin .fcmsButton {
   position: absolute;
   top: 10px;

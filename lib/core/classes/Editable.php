@@ -127,6 +127,8 @@
 				}
 				
 				if($element !== null) {
+					$imageAttributes['data-src'] = $image->src;
+					
 					if(isset($attributes['id'])) {
 						$imageAttributes['id'] = $attributes['id'];
 					}
@@ -135,10 +137,9 @@
 					}
 					
 					if(count($autoimg)) {
-						$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . $image->src;
-						$imageAttributes['data-src'] = $image->src;
+						$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . 'upload/media/' . $image->src;
 					} else {
-						$imageAttributes['src'] = $image->src;
+						$imageAttributes['src'] = ROOT_URL . 'upload/media/' . $image->src;
 					}
 					
 					$imageAttributes['alt'] = $image->alt;
@@ -156,9 +157,9 @@
 				);
 				
 				if(count($autoimg)) {
-					$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . $image->src;
+					$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . 'upload/media/' . $image->src;
 				} else {
-					$imageAttributes['src'] = $image->src;
+					$imageAttributes['src'] = ROOT_URL . 'upload/media/' . $image->src;
 				}
 				
 				if(isset($attributes['id'])) {
