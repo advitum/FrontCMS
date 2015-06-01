@@ -1,4 +1,4 @@
-#fcmsMedia {
+#mediaBrowser {
 	@include clearfix;
 	
 	aside {
@@ -9,7 +9,7 @@
 		float: right;
 	}
 	
-	#fcmsMediaList {
+	#mediaList {
 		margin: 0px 300px 0px 0px;
 		list-style: none;
 		padding: 0px;
@@ -43,7 +43,7 @@
 		}
 	}
 	
-	#fcmsErrorList {
+	#errorList {
 		color: darken($colorRed, 10%);
 	}
 }

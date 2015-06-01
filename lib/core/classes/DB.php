@@ -67,7 +67,7 @@
 			if($database == '' || self::$db->connect_error) {
 				if($verbose) {
 					?><?php if(self::$db->connect_error) { ?><p><?php echo self::$db->connect_error; ?></p><?php } ?>
-<p>Bitte prüfen Sie Ihre Datenbank-Verbindung.</p>
+<p><?php echo Language::string('Please check your database configuration.'); ?></p>
 <?php
 					exit();
 				} else {

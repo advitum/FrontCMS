@@ -13,13 +13,18 @@
 			
 			$defaultOptions = array(
 				'rules' => 'notEmpty',
-				'message' => 'Bitte fülle dieses Feld aus: %s.'
+				'message' => Language::string('Please fill in this field: %s.')
 			);
 			
 			foreach($fields as $field => $options) {
 				if(is_numeric($field)) {
 					$field = $options;
 					$options = array();
+				}
+				if(!is_array($options)) {
+					$options = [
+						'message' => $options
+					];
 				}
 				
 				$options = array_merge($defaultOptions, $options);

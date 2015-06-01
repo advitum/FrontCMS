@@ -13,7 +13,9 @@
 			define('PARTIALS_PATH', LAYOUTS_PATH . 'partials' . DS);
 		define('LIB_PATH', ROOT_PATH . 'lib' . DS);
 			define('CORE_PATH', LIB_PATH . 'core' . DS);
+				define('ADMIN_PATH', CORE_PATH . 'admin' . DS);
 				define('CLASSES_PATH', CORE_PATH . 'classes' . DS);
+				define('LANGUAGES_PATH', CORE_PATH . 'languages' . DS);
 			define('PLUGINS_PATH', LIB_PATH . 'plugins' . DS);
 			define('VENDOR_PATH', LIB_PATH . 'vendor' . DS);
 		define('TMP_PATH', ROOT_PATH . 'tmp' . DS);
@@ -42,6 +44,14 @@
 		{
 			public static $PAGE_OPTIONS = [];
 		}
+	}
+	
+	if(!defined('LANGUAGE')) {
+		define('LANGUAGE', 'en_us');
+	}
+	
+	if(is_file(LANGUAGES_PATH . LANGUAGE . '.php')) {
+		Language::add(require_once(LANGUAGES_PATH . LANGUAGE . '.php'));
 	}
 	
 	Router::init();

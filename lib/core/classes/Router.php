@@ -203,26 +203,16 @@
 						self::$layout
 					);
 					
-					if(self::$user !== null) {
-						$classes[] = 'fcmsHasAdminBar';
-					}
-					
 					$html .= "<body" . (count($classes) ? ' class="' . implode(' ', $classes) . '"' : '') . ">\n" . $content . "\n</body>";
 					break;
 				case 'head':
 					foreach(self::$enqueuedStyles as $style) {
 						$html .= '<link rel="stylesheet" type="text/css" href="' . $style . '" />';
 					}
-					if(self::$user !== null) {
-						$html = '<link rel="stylesheet" type="text/css" href="' . ADMIN_URL  . 'css/admin.css" />';
-					}
 					break;
 				case 'foot':
 					foreach(self::$enqueuedScripts as $script) {
 						$html .= '<script type="text/javascript" src="' . $script . '"></script>';
-					}
-					if(self::$user !== null) {
-						$html .= self::adminBar();
 					}
 					break;
 				case 'edit':
@@ -250,7 +240,7 @@
 			}
 		}
 		
-		private static function sanitize($url) {
+		public static function sanitize($url) {
 			$sanPath = self::urlPath($url);
 			
 			if(count($sanPath) > 0) {
@@ -267,467 +257,30 @@
 			
 			switch(self::$url) {
 				case ROOT_URL . 'ajax':
-					if(self::$user !== null) {
-						switch(@$_GET['action']) {
-							case 'properties':
-								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
-								
-								if($page === null) {
-									$result = array(
-										'success' => false,
-										'error' => 'page'
-									);
-									break;
-								}
-								
-								if($page->parent_id != 0) {
-									$possibleParents = Pages::possibleParents($page->id);
-								}
-								
-								$layoutFiles = scandir(LAYOUTS_PATH);
-								$layouts = array();
-								foreach($layoutFiles as $file) {
-									if(is_file(LAYOUTS_PATH . $file) && substr($file, -4) === '.tpl') {
-										$layout = substr($file, 0, -4);
-										$layouts[] = array($layout, $layout);
-									}
-								}
-								sort($layouts);
-								
-								if(Form::sent('properties')) {
-									$fields = array(
-										'title' => array(
-											'message' => 'Bitte geben Sie einen Seitentitel ein.'
-										),
-										'layout' => array(
-											'rule' => function($value) use($layouts) {
-												foreach($layouts as $layout) {
-													if($layout[0] === $value) {
-														return true;
-													}
-												}
-												return false;
-											},
-											'message' => 'Bitte wählen Sie ein Layout aus.'
-										)
-									);
-									
-									if($page->parent_id != 0) {
-										$fields['slug'] = array(
-											'message' => 'Bitte geben Sie ein URL-Segment ein.'
-										);
-										$field['parent_id'] = array(
-											'rule' => function($value) use($possibleParents) {
-												if($value == 0) {
-													return true;
-												}
-												foreach($possibleParents as $parent) {
-													if($parent[0] == $value) {
-														return true;
-													}
-												}
-												return false;
-											},
-											'message' => 'Bitte wählen Sie eine übergeordnete Seite aus.'
-										);
-									}
-									
-									if(Validator::validate('properties', $fields)) {
-										$values = array(
-											'title' => Form::value('properties', 'title'),
-											'layout' => Form::value('properties', 'layout')
-										);
-										if(Form::value('properties', 'navtitle') != '') {
-											$values['navtitle'] = Form::value('properties', 'navtitle');
-										} else {
-											$values[] = 'navtitle = NULL';
-										}
-										if($page->parent_id != 0) {
-											$values['slug'] = Form::value('properties', 'slug');
-											$values['parent_id'] = Form::value('properties', 'parent_id');
-											$values['slave'] = Form::value('properties', 'slave');
-										}
-										DB::update('pages', $values, sprintf("WHERE `id` = %d", $page->id));
-										
-										DB::delete('page_options', sprintf("WHERE `page_id` = %d", $page->id));
-										$options = Form::value('properties', 'options');
-										if(is_array($options)) {
-											foreach($options as $key => $value) {
-												DB::insert('page_options', array(
-													'page_id' => $page->id,
-													'key' => $key,
-													'value' => $value
-												));
-											}
-										}
-										
-										Session::setMessage('Die Eigenschaften wurden gespeichert.', 'success');
-										$result = array(
-											'success' => true
-										);
-										break;
-									}
-								}
-								
-								$html = '';
-								
-								$html .= Form::create('#', 'properties');
-								
-								$html .= Form::input('title', array(
-									'label' => 'Seitentitel',
-									'placeholder' => 'Seitentitel',
-									'default' => $page->title
-								));
-								$html .= Form::input('navtitle', array(
-									'label' => 'Navigationstitel',
-									'placeholder' => 'Navigationstitel',
-									'default' => $page->navtitle
-								));
-								if($page->parent_id != 0) {
-									$html .= Form::input('slug', array(
-										'label' => 'URL Segment',
-										'placeholder' => 'URL Segment',
-										'default' => $page->slug
-									));
-									
-									$html .= Form::input('parent_id', array(
-										'label' => 'Unterseite von',
-										'type' => 'select',
-										'default' => $page->parent_id,
-										'options' => $possibleParents
-									));
-									
-									$html .= Form::input('slave', array(
-										'label' => 'Weiterleitung auf Kinder',
-										'type' => 'checkbox',
-										'default' => $page->slave
-									));
-								}
-								
-								$html .= Form::input('layout', array(
-									'label' => 'Layout',
-									'type' => 'select',
-									'default' => $page->layout,
-									'options' => $layouts
-								));
-								
-								if(count(PageOptions::$PAGE_OPTIONS)) {
-									$html .= '<h2>Optionen</h2>';
-									
-									foreach(PageOptions::$PAGE_OPTIONS as $key => $option) {
-										$value = DB::selectValue(sprintf("SELECT `value` FROM `page_options`WHERE `page_id` = %d AND `key` = '%s'", $page->id, DB::escape($key)));
-										
-										switch($option['type']) {
-											case 'image':
-												$html .= Form::input('options.' . $key, array(
-													'label' => $option['title'],
-													'type' => 'text',
-													'class' => 'imageSelect',
-													'default' => $value
-												));
-												break;
-											case 'textarea':
-												$html .= Form::input('options.' . $key, array(
-													'label' => $option['title'],
-													'type' => 'textarea',
-													'default' => $value
-												));
-												break;
-											default:
-												$html .= Form::input('options.' . $key, array(
-													'label' => $option['title'],
-													'type' => 'text',
-													'default' => $value
-												));
-												break;
-										}
-									}
-								}
-								
-								$html .= Form::end();
-								
-								if(Form::sent('properties')) {
-									$result = array(
-										'success' => false,
-										'error' => 'validation',
-										'response' => $html
-									);
-								} else {
-									$result = array(
-										'success' => true,
-										'response' => $html
-									);
-								}
-								
-								break;
-							case 'restore':
-								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
-								
-								if($page === null || $page->parent_id == 0) {
-									$result = array(
-										'success' => false,
-										'error' => 'page'
-									);
-									break;
-								}
-								
-								DB::update('pages', array(
-									'deleted' => 0
-								), sprintf("WHERE `id` = %d", $page->id));
-								$result = array(
-									'success' => true
-								);
-								
-								break;
-							case 'delete':
-								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
-								
-								if($page === null || $page->parent_id == 0) {
-									$result = array(
-										'success' => false,
-										'error' => 'page'
-									);
-									break;
-								}
-								
-								DB::update('pages', array(
-									'deleted' => 1
-								), sprintf("WHERE `id` = %d", $page->id));
-								$result = array(
-									'success' => true
-								);
-								
-								break;
-							case 'deletefinal':
-								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
-								
-								if($page === null || $page->parent_id == 0) {
-									$result = array(
-										'success' => false,
-										'error' => 'page'
-									);
-									break;
-								}
-								
-								DB::delete('pages', sprintf("WHERE `id` = %d", $page->id));
-								$result = array(
-									'success' => true
-								);
-								
-								break;
-							case 'show':
-								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
-								
-								if($page === null || $page->parent_id == 0) {
-									$result = array(
-										'success' => false,
-										'error' => 'page'
-									);
-									break;
-								}
-								
-								DB::update('pages', array(
-									'hidden' => 0
-								), sprintf("WHERE `id` = %d", $page->id));
-								$result = array(
-									'success' => true
-								);
-								
-								break;
-							case 'hide':
-								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
-								
-								if($page === null || $page->parent_id == 0) {
-									$result = array(
-										'success' => false,
-										'error' => 'page'
-									);
-									break;
-								}
-								
-								DB::update('pages', array(
-									'hidden' => 1
-								), sprintf("WHERE `id` = %d", $page->id));
-								$result = array(
-									'success' => true
-								);
-								
-								break;
-							case 'showInMenu':
-								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
-								
-								if($page === null || $page->parent_id == 0) {
-									$result = array(
-										'success' => false,
-										'error' => 'page'
-									);
-									break;
-								}
-								
-								DB::update('pages', array(
-									'navpos' => 1
-								), sprintf("WHERE `id` = %d", $page->id));
-								$result = array(
-									'success' => true
-								);
-								
-								break;
-							case 'hideInMenu':
-								$page = Pages::getByUrl(self::sanitize(@$_GET['url']));
-								
-								if($page === null || $page->parent_id == 0) {
-									$result = array(
-										'success' => false,
-										'error' => 'page'
-									);
-									break;
-								}
-								
-								DB::update('pages', array(
-									'navpos' => 0
-								), sprintf("WHERE `id` = %d", $page->id));
-								$result = array(
-									'success' => true
-								);
-								
-								break;
-							case 'add':
-								$parent = Pages::getRoot();
-								DB::insert('pages', array(
-									'parent_id' => $parent->id,
-									'navpos' => 0,
-									'hidden' => 1,
-									'deleted' => 0,
-									'title' => 'Neue Seite',
-									'slug' => 'neue-seite',
-									'layout' => 'default',
-									'created = NOW()',
-									'modified = NOW()'
-								));
-								$result = array(
-									'success' => true
-								);
-								
-								break;
-							case 'sorting':
-								$sorting = json_decode(@$_GET['sorting']);
-								if(is_array($sorting)) {
-									foreach($sorting as $element) {
-										$page = Pages::getByUrl(self::sanitize($element->url));
-										if($page !== null) {
-											DB::update('pages', array(
-												'navpos' => $element->position
-											), sprintf("WHERE `id` = %d", $page->id));
-										}
-									}
-								}
-								
-								$result = array(
-									'success' => true
-								);
-								
-								break;
-							case 'media':
-								$html = '';
-								
-								$html .= '<div id="fcmsMedia">';
-								$html .= '<aside>';
-								$html .= 'Neue Bilder hochladen: <input type="file" id="fcmsMediaUpload" />';
-								$html .= '<ul id="fcmsErrorList"></ul>';
-								$html .= '</aside>';
-								$html .= '<ul id="fcmsMediaList">';
-								
-								$images = array();
-								$files = scandir(MEDIA_PATH);
-								foreach($files as $image) {
-									if(is_file(MEDIA_PATH . $image) && preg_match('/\.(gif|jpe?g|png)$/i', $image)) {
-										$images[] = array(
-											$image, filectime(MEDIA_PATH . $image)
-										);
-									}
-								}
-								usort($images, function($a, $b) {
-									return $a[1] > $b[1] ? -1 : 1;
-								});
-								foreach($images as $image) {
-									$html .= '<li data-file="' . $image[0] . '"><img src="' . ROOT_URL . 'autoimg/w100-h100-c/upload/media/' . $image[0] . '" alt="" /></li>';
-								}
-								
-								$html .= '</ul>';
-								$html .= '</div>';
-								
-								$result = array(
-									'success' => true,
-									'response' => $html
-								);
-								
-								break;
-							case 'media-upload':
-								$uploadHandler = new UploadHandler(array(
-									'upload_dir' => MEDIA_PATH,
-									'upload_url' => ROOT_URL . 'upload/media/',
-									'image_versions' => array()
-								));
-								exit();
-								
-								break;
-							case 'pagebrowser':
-								$html = '';
-								
-								$html .= '<div id="fcmsPageBrowser">';
-								$html .= self::navigation(array(
-									'active' => false,
-									'home' => true,
-									'hidden' => true,
-									'all' => true
-								));
-								$html .= '</div>';
-								
-								$result = array(
-									'success' => true,
-									'response' => $html
-								);
-								
-								break;
-							default:
-								$result = array(
-									'success' => false,
-									'error' => 'action'
-								);
-								break;
-						}
-					} else {
-						$result = array(
-							'success' => false,
-							'error' => 'authorisation'
-						);
-					}
-					
-					echo json_encode($result);
-					exit();
+					Ajax::request();
 				case ROOT_URL . 'login':
 					if(self::$user !== null) {
-						Session::setMessage('Sie sind bereits angemeldet!', 'success');
+						Session::setMessage(Language::string('You are already logged in!'), 'success');
 						self::redirect(ROOT_URL);
 					}
 					
 					if(isset($_GET['auto'])) {
-						Session::setMessage('Bitte melden Sie sich erneut an.', 'error');
+						Session::setMessage(Language::string('Please login again.'), 'error');
 						self::redirect(ROOT_URL . 'login');
 					}
 					
 					if(Form::sent('login')) {
 						User::create('admin', 'admin');
 						if(User::login(Form::value('login', 'username'), Form::value('login', 'password'))) {
-							Session::setMessage('Willkommen zurück!', 'success');
+							Session::setMessage(Language::string('Welcome back!'), 'success');
 							self::redirect(ROOT_URL);
 						} else {
-							Session::setMessage('Ihre Zugangsdaten konnten nicht verifiziert werden!', 'error');
+							Session::setMessage(Language::string('Your login details could not be verified!'), 'error');
 						}
 					}
 					
 					?><!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
 	<meta charset="UTF-8">
@@ -736,23 +289,23 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo ADMIN_URL; ?>css/admin.css" />
 </head>
 
-<body class="fcmsAdminLogin">
+<body class="login">
 	<div class="vCenter"><div>
 		<?php echo Session::getMessage(); ?>
 		<?php echo Form::create(ROOT_URL . 'login', 'login'); ?>
 			<?php echo Form::input('username', array(
 				'label' => false,
-				'placeholder' => 'Nutzername',
+				'placeholder' => Language::string('Username'),
 				'autofocus' => 'autofocus'
 			)); ?>
 			<?php echo Form::input('password', array(
 				'label' => false,
-				'placeholder' => 'Passwort'
+				'placeholder' => Language::string('Password')
 			)); ?>
 			<div class="back">
-				<a class="button" href="<?php echo ROOT_URL; ?>">Zurück</a>
+				<a class="button" href="<?php echo ROOT_URL; ?>"><?php echo Language::string('Back'); ?></a>
 			</div>
-		<?php echo Form::end('Anmelden'); ?>
+		<?php echo Form::end(Language::string('Login')); ?>
 	</div></div>
 </body>
 
@@ -760,64 +313,55 @@
 					break;
 				case ROOT_URL . 'logout':
 					User::logout();
-					Session::setMessage('Sie wurden abgemeldet!', 'success');
+					Session::setMessage(Language::string('You were logged out!'), 'success');
 					self::redirect(ROOT_URL . 'login');
 					break;
 				default:
 					self::$page = Pages::getByUrl(self::$url);
 					
-					if(self::$page !== null && self::$user !== null && isset($_POST['element']) && is_array($_POST['element'])) {
-						DB::delete('elements', sprintf("WHERE `page_id` = %d", self::$page->id));
-						foreach($_POST['element'] as $key => $value) {
-							if(!empty($value)) {
-								DB::insert('elements', array(
-									'page_id' => self::$page->id,
-									'name' => $key,
-									'content' => $value
-								));
-							}
-						}
-						DB::update('pages', array(
-							'modified = NOW()'
-						), sprintf("WHERE `id` = %d", self::$page->id));
-						Session::setMessage('Ihre Änderungen wurden gespeichert.', 'success');
-						self::redirect(self::here());
-					}
-					
-					if(self::$page === null) {
-						header("Status: 404 Not Found");
-						self::$layout = '404';
-					} elseif(self::$page->parent_id != 0 && self::$page->slave) {
-						$children = Pages::getChildren(self::$page->id, self::$user !== null, true, false);
-						if(count($children)) {
-							self::redirect(self::here() . '/' . $children[0]->slug);
-						} else {
+					if(self::$user !== null && !isset($_GET['fcms_content'])) {
+						Admin::request();
+					} else {
+						if(self::$page === null) {
 							header("Status: 404 Not Found");
 							self::$layout = '404';
+						} elseif(self::$page->parent_id != 0 && self::$page->slave) {
+							$children = Pages::getChildren(self::$page->id, self::$user !== null, true, false);
+							if(count($children)) {
+								self::redirect(self::here() . '/' . $children[0]->slug);
+							} else {
+								header("Status: 404 Not Found");
+								self::$layout = '404';
+							}
+						} elseif(!is_file(LAYOUTS_PATH . self::$page->layout . '.tpl')) {
+							self::$layout = 'default';
+						} else {
+							self::$layout = self::$page->layout;
 						}
-					} elseif(!is_file(LAYOUTS_PATH . self::$page->layout . '.tpl')) {
-						self::$layout = 'default';
-					} else {
-						self::$layout = self::$page->layout;
+						
+						echo self::parseTags(file_get_contents(LAYOUTS_PATH . self::$layout . '.tpl'));
 					}
-					
-					echo self::parseTags(file_get_contents(LAYOUTS_PATH . self::$layout . '.tpl'));
 					break;
 			}
 		}
 		
 		private static function parseTags($content) {
 			$content = str_replace('{ROOT_URL}', ROOT_URL, $content);
-			$content = str_replace('{PAGE_TITLE}', self::$page->title, $content);
 			
-			foreach(PageOptions::$PAGE_OPTIONS as $key => $option) {
-				$value = DB::selectValue(sprintf("SELECT `value` FROM `page_options` WHERE `page_id` = %d AND `key` = '%s'", self::$page->id, DB::escape($key)));
+			if(self::$page !== null) {
+				$content = str_replace('{PAGE_TITLE}', self::$page->title, $content);
 				
-				if($value === null) {
-					$value = '';
+				foreach(PageOptions::$PAGE_OPTIONS as $key => $option) {
+					$value = DB::selectValue(sprintf("SELECT `value` FROM `page_options` WHERE `page_id` = %d AND `key` = '%s'", self::$page->id, DB::escape($key)));
+					
+					if($value === null) {
+						$value = '';
+					}
+					
+					$content = str_replace('{PAGE_OPTION.' . $key . '}', htmlspecialchars($value), $content);
 				}
-				
-				$content = str_replace('{PAGE_OPTION.' . $key . '}', htmlspecialchars($value), $content);
+			} else {
+				$content = str_replace('{PAGE_TITLE}', Language::string('Page not found'), $content);
 			}
 			
 			$content = preg_replace_callback('/<fcms:(?<tag>[a-z-]+)((?:\s+[a-z-]+(?:=(?:"[^"]*"|\'[^\']*\'))?)*)\s+\/>/Usi', get_class() . '::replaceTag', $content);
@@ -828,56 +372,6 @@
 			} while($oldContent !== $content);
 			
 			return $content;
-		}
-		
-		private static function adminBar() {
-			$html = '<div id="fcmsAdminBar">';
-			
-			$html .= '<div class="fcmsButtons left">';
-			$html .= '<button id="fcmsEdit" class="fcmsButton" title="Bearbeiten"><i class="fa fa-pencil"></i></button>';
-			$html .= '<button id="fcmsSave" class="fcmsButton" title="Speichern"><i class="fa fa-floppy-o"></i></button>';
-			$html .= '<button id="fcmsAbort" class="fcmsButton" title="Abbrechen"><i class="fa fa-times"></i></button>';
-			$html .= '</div>';
-			
-			$html .= Session::getMessage();
-			
-			$html .= '<div class="fcmsButtons right">';
-			$html .= '<button id="fcmsOpenPageTree" class="fcmsButton" title="Seitenbaum einblenden"><i class="fa fa-sitemap"></i></button>';
-			$html .= '<a class="fcmsButton" href="' . ROOT_URL . 'logout" title="Abmelden"><i class="fa fa-sign-out"></i></a>';
-			$html .= '</div>';
-			
-			$html .= '<div id="fcmsPageTree">';
-			$html .= '<div class="fcmsButtons">';
-			$html .= '<button id="fcmsAdd" class="fcmsButton" title="Seite hinzufügen"><i class="fa fa-plus"></i></button>';
-			$html .= '<button id="fcmsShowDeleted" class="fcmsButton" title="Gelöschte Seiten einblenden"><i class="fa fa-trash-o"></i></button>';
-			$html .= '</div>';
-			
-			$html .= self::navigation(array(
-				'active' => false,
-				'home' => true,
-				'hidden' => true,
-				'all' => true,
-				'deleted' => true
-			));
-			$html .= '</div>';
-			
-			$html .= '</div>';
-			$html .= '<script type="text/javascript">window.jQuery || document.write(\'<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery-1.11.2.min.js"><\/script>\')</script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/tinymce/tinymce.min.js"></script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/tinymce/jquery.tinymce.min.js"></script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/tinymce.fcmslink.js"></script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/localstorage.js"></script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery.lightbox.js"></script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/box.js"></script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/contextmenu.js"></script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery.ui.widget.js"></script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery.iframe-transport.js"></script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/jquery.fileupload.js"></script>';
-			$html .= '<script type="text/javascript" src="' . ADMIN_URL  . 'js/admin.js"></script>';
-			$html .= '<script type="text/javascript">
-				var root = "' . ROOT_URL . '";
-			</script>';
-			return $html;
 		}
 	}
 	

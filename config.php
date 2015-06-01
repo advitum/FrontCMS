@@ -7,9 +7,17 @@
 	define('DATABASE_PASSWORD', 'root');
 	define('DATABASE_NAME', 'frontcms');
 	
+	//define('LANGUAGE', 'en_us');
+	
+	//define('ROOT_URL', '/subdirectory');
+	
 	class PageOptions
 	{
 		public static $PAGE_OPTIONS = [
+			'backgroundImage' => [
+				'title' => 'Background image',
+				'type' => 'image'
+			],
 			'keywords' => [
 				'title' => 'Keywords',
 				'type' => 'textarea'

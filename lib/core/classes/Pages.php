@@ -43,7 +43,7 @@
 			$possibleParents = array();
 			
 			if($depth === 0) {
-				$possibleParents[] = array(1, '-keine-');
+				$possibleParents[] = array(1, '-' . Language::string('none') . '-');
 				$parent = self::getRoot();
 			}
 			

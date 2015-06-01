@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+@import "compass";
+
+@import "font-awesome/font-awesome";
+
+@import "vars";
+@import "mixins";
+
+.fcmsButton {
+	@include button;
+}
+
+.fcmsEditable, .fcmsEditableImage {
+	display: block;
+}
+
+.fcmsEditable[data-type="rich"] {
+	display: block;
+}
+
+.fcmsEditableImage {
+	position: relative;
+	
+	&.placeholder {
+		display: none;
+	}
+	
+	.fcmsButton {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		display: none;
+	}
+}
+
+
+.fcmsEditablePlugin {
+	.fcmsButton {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		display: none;
+		z-index: 99;
+	}
+	
+	&.placeholder {
+		display: none;
+	}
+}
+
+.fcmsEdit {
+	.fcmsEditable {
+		background: rgba(255, 255, 0, .1);
+		outline: none;
+		
+		&:empty:before {
+			content: "Lorem ipsum dolor sit amet";
+			opacity: .3;
+		}
+		
+		&:hover {
+			background: rgba(255, 255, 0, .2);
+		}
+		
+		&:focus {
+			background: transparent;
+		}
+	}
+	
+	.fcmsEditableImage {
+		&.placeholder {
+			display: inline-block;
+		}
+		
+		&:hover {
+			.fcmsButton {
+				display: inline-block;
+			}
+		}
+	}
+	
+	.fcmsEditablePlugin {
+		&.placeholder {
+			display: block;
+		}
+		
+		background: rgba(255, 255, 0, .1);
+		position: relative;
+		
+		&:hover {
+			.fcmsButton {
+				display: inline-block;
+			}
+		}
+	}
+}

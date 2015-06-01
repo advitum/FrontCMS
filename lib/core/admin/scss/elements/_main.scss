@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+#main {
+	@include transition(right $durationPageTreeOpen ease-in-out);
+	
+	z-index: 1;
+	position: absolute;
+	top: $adminBarHeight;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	
+	.pageTreeOpen & {
+		right: $pageTreeWidth;
+	}
+	
+	iframe {
+		border: none;
+		
+		&#page {
+			width: 100%;
+			height: 100%;
+		}
+	}
+	
+	.frame {
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+		background: #ffffff;
+		
+		.content {
+			position: absolute;
+			top: 0;
+			right: 0;
+			left: 0;
+			bottom: 48px;
+			overflow-x: hidden;
+			overflow-y: scroll;
+			padding: 20px;
+		}
+		
+		.buttonbar {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: 10px;
+			z-index: 9;
+			background: #fbfbfb;
+			
+			button {
+				float: right;
+				margin-right: 0px;
+				margin-left: 4px;
+			}
+		}
+	}
+}

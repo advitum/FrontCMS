@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.button {
+	@include button;
+}
+
+.buttons {
+	@include clearfix;
+	
+	margin-right: -10px;
+	
+	.button {
+		margin: 0px 10px 0px 0px;
+		float: left;
+	}
+}

@@ -1,4 +1,4 @@
-#lightbox .box {
+.lightbox .box {
 	padding: 20px 20px 72px;
 	position: relative;
 	font-size: 16px;
@@ -25,7 +25,8 @@
 		margin: 0px 0px 20px;
 	}
 	
-	input:not([type="checkbox"]):not([type="radio"]), textarea {
-		width: 100%;
+	h2 {
+		font-size: 20px;
+		margin-top: 40px;
 	}
 }

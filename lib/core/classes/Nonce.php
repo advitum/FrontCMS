@@ -43,7 +43,7 @@
 			}
 			
 			if($result === false) {
-				Session::setMessage('Are you sure you want to do that?');
+				Session::setMessage(Language::string('Are you sure you want to do that?'));
 			}
 			
 			return $result; 

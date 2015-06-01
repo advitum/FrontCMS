@@ -2892,61 +2892,110 @@
   content: "";
 }
 
-/* line 6, ../scss/main.scss */
-body {
-  background: #fbfbfb;
-  color: #222222;
-  margin: 0px;
-  padding: 10px;
+/* line 10, ../scss/inject.scss */
+.fcmsButton {
+  -moz-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  -webkit-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  display: inline-block;
+  background: #eeeeee;
+  border: 1px solid #bbbbbb;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333333;
+  padding: 3px 8px;
+  cursor: pointer;
+  outline: none;
+}
+/* line 16, ../scss/_mixins.scss */
+.fcmsButton:hover, .fcmsButton:active, .fcmsButton:focus {
+  background: #dddddd;
+  border-color: #999999;
 }
 
-/* line 13, ../scss/main.scss */
-a {
-  color: inherit;
+/* line 14, ../scss/inject.scss */
+.fcmsEditable, .fcmsEditableImage {
+  display: block;
 }
 
-/* line 17, ../scss/main.scss */
-aside nav a {
-  -moz-transition: opacity 0.1s linear;
-  -o-transition: opacity 0.1s linear;
-  -webkit-transition: opacity 0.1s linear;
-  transition: opacity 0.1s linear;
-  opacity: 1;
-}
-/* line 22, ../scss/main.scss */
-aside nav a:hover, aside nav a:active, aside nav a:focus {
-  opacity: .75;
+/* line 18, ../scss/inject.scss */
+.fcmsEditable[data-type="rich"] {
+  display: block;
 }
 
-/* line 27, ../scss/main.scss */
-aside {
-  float: left;
-  width: 180px;
+/* line 22, ../scss/inject.scss */
+.fcmsEditableImage {
+  position: relative;
 }
-/* line 32, ../scss/main.scss */
-aside nav ul, aside nav li {
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
+/* line 25, ../scss/inject.scss */
+.fcmsEditableImage.placeholder {
+  display: none;
 }
-/* line 38, ../scss/main.scss */
-aside nav ul ul {
-  padding-left: 20px;
-}
-/* line 42, ../scss/main.scss */
-aside nav li {
-  padding-left: 20px;
-}
-/* line 50, ../scss/main.scss */
-aside nav a {
-  text-decoration: none;
-}
-/* line 55, ../scss/main.scss */
-aside nav a.active {
-  font-weight: bold;
+/* line 29, ../scss/inject.scss */
+.fcmsEditableImage .fcmsButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
 }
 
-/* line 62, ../scss/main.scss */
-#content {
-  margin-left: 200px;
+/* line 39, ../scss/inject.scss */
+.fcmsEditablePlugin .fcmsButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+  z-index: 99;
+}
+/* line 47, ../scss/inject.scss */
+.fcmsEditablePlugin.placeholder {
+  display: none;
+}
+
+/* line 53, ../scss/inject.scss */
+.fcmsEdit .fcmsEditable {
+  background: rgba(255, 255, 0, 0.1);
+  outline: none;
+}
+/* line 57, ../scss/inject.scss */
+.fcmsEdit .fcmsEditable:empty:before {
+  content: "Lorem ipsum dolor sit amet";
+  opacity: .3;
+}
+/* line 62, ../scss/inject.scss */
+.fcmsEdit .fcmsEditable:hover {
+  background: rgba(255, 255, 0, 0.2);
+}
+/* line 66, ../scss/inject.scss */
+.fcmsEdit .fcmsEditable:focus {
+  background: transparent;
+}
+/* line 72, ../scss/inject.scss */
+.fcmsEdit .fcmsEditableImage.placeholder {
+  display: inline-block;
+}
+/* line 77, ../scss/inject.scss */
+.fcmsEdit .fcmsEditableImage:hover .fcmsButton {
+  display: inline-block;
+}
+/* line 83, ../scss/inject.scss */
+.fcmsEdit .fcmsEditablePlugin {
+  background: rgba(255, 255, 0, 0.1);
+  position: relative;
+}
+/* line 84, ../scss/inject.scss */
+.fcmsEdit .fcmsEditablePlugin.placeholder {
+  display: block;
+}
+/* line 92, ../scss/inject.scss */
+.fcmsEdit .fcmsEditablePlugin:hover .fcmsButton {
+  display: inline-block;
 }

@@ -74,6 +74,7 @@
 			unset($attributes['label']);
 			unset($attributes['default']);
 			unset($attributes['div']);
+			unset($attributes['error']);
 			$attributes['name'] = self::$form . '[' . str_replace('.', '][', $name) . ']';
 			
 			switch($options['type']) {
@@ -186,15 +187,32 @@
 		public static function value($form, $name) {
 			$value = false;
 			
-			if(isset($_POST[$form][$name])) {
-				$value = $_POST[$form][$name];
-			} elseif(isset($_GET[$form][$name])) {
-				$value = $_GET[$form][$name];
-			} elseif(isset($_FILES[$name])) {
-				$value = $_FILES[$name];
+			$path = explode('.', $name);
+			
+			if($value === false) {
+				$value = self::valueRecursive($_POST[$form], $path);
+			}
+			if($value === false) {
+				$value = self::valueRecursive($_GET[$form], $path);
+			}
+			if($value === false) {
+				$value = self::valueRecursive($_FILES[$form], $path);
 			}
 			
 			return $value;
+		}
+		
+		private static function valueRecursive(&$array, $path) {
+			if(count($path) > 0) {
+				$segment = array_shift($path);
+				if(isset($array[$segment])) {
+					return self::valueRecursive($array[$segment], $path);
+				} else {
+					return false;
+				}
+			} else {
+				return $array;
+			}
 		}
 		
 		private static function attrs($attrs) {

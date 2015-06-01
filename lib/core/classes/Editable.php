@@ -26,58 +26,63 @@
 			}
 			
 			$element = DB::selectSingle(sprintf("SELECT * FROM `elements` WHERE `page_id` = %d AND `name` = '%s' LIMIT 1", Router::$page->id, DB::escape($name)));
+			$content = '';
+			if($element) {
+				$content = $element->content;
+				$content = str_replace('intern://', ROOT_URL, $content);
+			}
 			
 			$html = '';
 			
 			if(is_callable(array(get_class(), 'type_' . $type))) {
-				$html .= call_user_func(array(get_class(), 'type_' . $type), $element, $name, $attributes);
+				$html .= call_user_func(array(get_class(), 'type_' . $type), $content, $name, $attributes);
 			}
 			
 			return $html;
 		}
 		
-		private static function type_rich($element, $name, $attributes) {
+		private static function type_rich($content, $name, $attributes) {
 			$html = '';
 			
 			if(Router::$user !== null) {
-				$html .= '<div class="fcmsEditable" data-id="' . htmlspecialchars($name) . '" data-type="rich">';
+				$html .= '<div class="fcmsEditable" data-name="' . htmlspecialchars($name) . '" data-type="rich">';
 				
-				if($element !== null) {
-					$html .= $element->content;
+				if($content !== '') {
+					$html .= $content;
 				}
 				
 				$html .= '</div>';
-			} elseif($element !== null) {
-				$html .= $element->content;
+			} elseif($content !== '') {
+				$html .= $content;
 			}
 			
 			return $html;
 		}
 		
-		private static function type_plain($element, $name, $attributes) {
+		private static function type_plain($content, $name, $attributes) {
 			$html = '';
 			
 			if(Router::$user !== null) {
-				$html .= '<div class="fcmsEditable" data-id="' . htmlspecialchars($name) . '" data-type="plain">';
+				$html .= '<div class="fcmsEditable" data-name="' . htmlspecialchars($name) . '" data-type="plain">';
 				
-				if($element !== null) {
-					$html .= nl2br(htmlspecialchars($element->content));
+				if($content !== '') {
+					$html .= nl2br(htmlspecialchars($content));
 				}
 				
 				$html .= '</div>';
-			} elseif($element !== null) {
-				$html .= nl2br(htmlspecialchars($element->content));
+			} elseif($content !== '') {
+				$html .= nl2br(htmlspecialchars($content));
 			}
 			
 			return $html;
 		}
 		
-		private static function type_image($element, $name, $attributes) {
+		private static function type_image($content, $name, $attributes) {
 			$html = '';
 			
 			$image = null;
-			if($element !== null) {
-				$image = json_decode($element->content);
+			if($content !== '') {
+				$image = json_decode(content);
 			}
 			
 			$autoimg = array();
@@ -108,17 +113,17 @@
 				}
 				$placeholderUrl .= '&text=';
 				if(!isset($attributes['width']) && !isset($attributes['height'])) {
-					$placeholderUrl .= 'Beliebige+Größe';
+					$placeholderUrl .= Language::string('Arbitrary+dimensions');
 				} elseif(!isset($attributes['width'])) {
-					$placeholderUrl .= $attributes['height'] . ' Höhe';
+					$placeholderUrl .= $attributes['height'] . ' ' . Language::string('Height');
 				} elseif(!isset($attributes['height'])) {
-					$placeholderUrl .= $attributes['width'] . ' Breite';
+					$placeholderUrl .= $attributes['width'] . ' ' . Language::string('Width');
 				} else {
 					$placeholderUrl .= $attributes['width'] . 'x' . $attributes['height'];
 				}
 				
 				$divAttributes = array(
-					'data-id' => $name,
+					'data-name' => $name,
 					'data-placeholder-url' => $placeholderUrl
 				);
 				
@@ -126,7 +131,7 @@
 					$divAttributes['data-autoimg-params'] = implode('-', $autoimg);
 				}
 				
-				if($element !== null) {
+				if($content !== '') {
 					$imageAttributes['data-src'] = $image->src;
 					
 					if(isset($attributes['id'])) {
@@ -150,8 +155,8 @@
 				
 				$divAttributes['class'] = implode(' ', $classes);
 				
-				$html .= '<div ' . Html::attributes($divAttributes) . '><img ' . Html::attributes($imageAttributes) . ' /><button class="fcmsButton"><i class="fa fa-pencil"></i></button></div>';
-			} elseif($element !== null) {
+				$html .= '<div ' . Html::attributes($divAttributes) . '><img ' . Html::attributes($imageAttributes) . ' /><button type="button" class="fcmsButton"><i class="fa fa-pencil"></i></button></div>';
+			} elseif($content !== '') {
 				$imageAttributes = array(
 					'alt' => $image->alt
 				);
@@ -175,7 +180,7 @@
 			return $html;
 		}
 		
-		private static function type_plugin($element, $name, $attributes) {
+		private static function type_plugin($content, $name, $attributes) {
 			$html = '';
 			
 			if(isset($attributes['plugin'])) {
@@ -187,7 +192,7 @@
 				}
 				
 				if(is_callable(array($class, 'render'))) {
-					$html .= call_user_func(array($class, 'render'), $element, $name, $attributes);
+					$html .= call_user_func(array($class, 'render'), $content, $name, $attributes);
 				}
 			}
 			

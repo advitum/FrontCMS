@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+form {
+	label {
+		font-size: .9em;
+	}
+	
+	.input {
+		margin-bottom: 20px;
+		
+		&:not(.checkbox):not(.radio) {
+			label {
+				display: block;
+			}
+			
+			input, textarea, select {
+				width: 100%;
+			}
+		}
+		
+		input, textarea, select {
+			@include box-sizing(border-box);
+			
+			font-family: inherit;
+			font-size: 1em;
+			font-weight: normal;
+			line-height: inherit;
+			padding: 5px 10px;
+		}
+		
+		textarea {
+			resize: vertical;
+			height: 100px;
+		}
+		
+		.imagePreview {
+			max-width: 100%;
+		}
+		
+		.fa {
+			cursor: pointer;
+		}
+	}
+	
+	.message.error {
+		color: darken($colorRed, 20%);
+	}
+	
+	ul.repeatable {
+		list-style: none;
+		border: 1px solid #dddddd;
+		margin: 0px 0px 20px;
+		padding: 0px;
+		
+		li {
+			margin: 10px;
+			padding: 5px;
+			background: #eeeeee;
+		}
+		
+		.fa {
+			cursor: pointer;
+		}
+	}
+}

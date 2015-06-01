@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+#adminBar {
+	@include box-shadow(0 0 5px rgba(0, 0, 0, .1));
+	@include box-sizing(border-box);
+	
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: $adminBarHeight;
+	background: #eeeeee;
+	color: #333333;
+	border-bottom: 1px solid #cccccc;
+	padding: 10px;
+	z-index: 3;
+	
+	#message {
+		float: left;
+		line-height: 30px;
+		margin: 0px 20px;
+		
+		&.error, &.success {
+			&:before {
+				@include fa-icon;
+				
+				display: inline-block;
+				width: 20px;
+				text-align: center;
+			}
+		}
+		
+		&.error {
+			color: darken($colorRed, 20%);
+			
+			&:before {
+				content: $fa-var-exclamation-triangle;
+				color: darken($colorRed, 10%);
+			}
+		}
+		
+		&.success {
+			color: darken($colorGreen, 20%);
+			
+			&:before {
+				content: $fa-var-check-circle;
+				color: darken($colorGreen, 10%);
+			}
+		}
+	}
+	
+	.buttons {
+		&.left {
+			float: left;
+		}
+		
+		&.right {
+			float: right;
+		}
+	}
+	
+	body:not(.edit) & {
+		#save, #abort {
+			display: none;
+		}
+	}
+	
+	.pageTreeOpen & #togglePageTree {
+		@include buttonActive();
+	}
+	
+	.edit & #toggleEdit {
+		@include buttonActive;
+	}
+}
