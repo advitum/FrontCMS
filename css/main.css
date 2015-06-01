@@ -1,0 +1,84 @@
+/* line 6, ../scss/main.scss */
+body {
+  background: #fbfbfb;
+  color: #222222;
+  margin: 0px;
+  padding: 10px;
+}
+
+/* line 13, ../scss/main.scss */
+a {
+  color: inherit;
+}
+
+/* line 17, ../scss/main.scss */
+aside nav a {
+  -moz-transition: opacity 0.1s linear;
+  -o-transition: opacity 0.1s linear;
+  -webkit-transition: opacity 0.1s linear;
+  transition: opacity 0.1s linear;
+  opacity: 1;
+}
+/* line 22, ../scss/main.scss */
+aside nav a:hover, aside nav a:active, aside nav a:focus {
+  opacity: .75;
+}
+
+/* line 27, ../scss/main.scss */
+aside {
+  float: left;
+  width: 180px;
+}
+/* line 32, ../scss/main.scss */
+aside nav ul, aside nav li {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+/* line 38, ../scss/main.scss */
+aside nav ul ul {
+  padding-left: 20px;
+}
+/* line 42, ../scss/main.scss */
+aside nav li {
+  padding-left: 20px;
+}
+/* line 50, ../scss/main.scss */
+aside nav a {
+  text-decoration: none;
+}
+/* line 55, ../scss/main.scss */
+aside nav a.active {
+  font-weight: bold;
+}
+
+/* line 62, ../scss/main.scss */
+#content {
+  margin-left: 200px;
+}
+/* line 65, ../scss/main.scss */
+#content .img img {
+  max-width: 100%;
+  line-height: 0;
+  vertical-align: middle;
+}
+/* line 71, ../scss/main.scss */
+#content .boxes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* line 76, ../scss/main.scss */
+#content .boxes li {
+  background: #f0f0f0;
+  padding: 20px;
+  margin: 20px 0;
+}
+/* line 81, ../scss/main.scss */
+#content .boxes li > :first-child {
+  margin-top: 0;
+}
+/* line 85, ../scss/main.scss */
+#content .boxes li > :last-child {
+  margin-bottom: 0;
+}
