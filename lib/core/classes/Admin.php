@@ -90,6 +90,7 @@
 	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/mediabrowser.js"></script>
 	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/pagebrowser.js"></script>
 	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/repeatable.js"></script>
+	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/flexlist.js"></script>
 	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/admin.js"></script>
 </body>
 

@@ -2922,24 +2922,42 @@
 }
 
 /* line 14, ../scss/inject.scss */
+.fcmsButtons {
+  margin-right: -10px;
+}
+/* line 33, ../scss/_mixins.scss */
+.fcmsButtons:after {
+  content: "";
+  width: 100%;
+  height: 0px;
+  display: block;
+  clear: both;
+}
+/* line 19, ../scss/inject.scss */
+.fcmsButtons .fcmsButton {
+  margin: 0px 10px 0px 0px;
+  float: left;
+}
+
+/* line 25, ../scss/inject.scss */
 .fcmsEditable, .fcmsEditableImage {
   display: block;
 }
 
-/* line 18, ../scss/inject.scss */
+/* line 29, ../scss/inject.scss */
 .fcmsEditable[data-type="rich"] {
   display: block;
 }
 
-/* line 22, ../scss/inject.scss */
+/* line 33, ../scss/inject.scss */
 .fcmsEditableImage {
   position: relative;
 }
-/* line 25, ../scss/inject.scss */
+/* line 36, ../scss/inject.scss */
 .fcmsEditableImage.placeholder {
   display: none;
 }
-/* line 29, ../scss/inject.scss */
+/* line 40, ../scss/inject.scss */
 .fcmsEditableImage .fcmsButton {
   position: absolute;
   top: 10px;
@@ -2947,7 +2965,7 @@
   display: none;
 }
 
-/* line 39, ../scss/inject.scss */
+/* line 49, ../scss/inject.scss */
 .fcmsEditablePlugin .fcmsButton {
   position: absolute;
   top: 10px;
@@ -2955,47 +2973,73 @@
   display: none;
   z-index: 99;
 }
-/* line 47, ../scss/inject.scss */
+/* line 57, ../scss/inject.scss */
 .fcmsEditablePlugin.placeholder {
   display: none;
 }
 
-/* line 53, ../scss/inject.scss */
+/* line 64, ../scss/inject.scss */
+.fcmsFlexlist .fcmsFlexitem.empty {
+  display: none;
+}
+
+/* line 71, ../scss/inject.scss */
 .fcmsEdit .fcmsEditable {
   background: rgba(255, 255, 0, 0.1);
   outline: none;
 }
-/* line 57, ../scss/inject.scss */
+/* line 75, ../scss/inject.scss */
 .fcmsEdit .fcmsEditable:empty:before {
   content: "Lorem ipsum dolor sit amet";
   opacity: .3;
 }
-/* line 62, ../scss/inject.scss */
+/* line 80, ../scss/inject.scss */
 .fcmsEdit .fcmsEditable:hover {
   background: rgba(255, 255, 0, 0.2);
 }
-/* line 66, ../scss/inject.scss */
+/* line 84, ../scss/inject.scss */
 .fcmsEdit .fcmsEditable:focus {
   background: transparent;
 }
-/* line 72, ../scss/inject.scss */
+/* line 90, ../scss/inject.scss */
 .fcmsEdit .fcmsEditableImage.placeholder {
   display: inline-block;
 }
-/* line 77, ../scss/inject.scss */
+/* line 95, ../scss/inject.scss */
 .fcmsEdit .fcmsEditableImage:hover .fcmsButton {
   display: inline-block;
 }
-/* line 83, ../scss/inject.scss */
+/* line 101, ../scss/inject.scss */
 .fcmsEdit .fcmsEditablePlugin {
   background: rgba(255, 255, 0, 0.1);
   position: relative;
 }
-/* line 84, ../scss/inject.scss */
+/* line 102, ../scss/inject.scss */
 .fcmsEdit .fcmsEditablePlugin.placeholder {
   display: block;
 }
-/* line 92, ../scss/inject.scss */
+/* line 110, ../scss/inject.scss */
 .fcmsEdit .fcmsEditablePlugin:hover .fcmsButton {
   display: inline-block;
+}
+/* line 116, ../scss/inject.scss */
+.fcmsEdit .fcmsFlexlist {
+  background: #fbfbfb;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  margin-top: 20px;
+}
+/* line 122, ../scss/inject.scss */
+.fcmsEdit .fcmsFlexlist .fcmsFlexcontrol {
+  background: #f0f0f0;
+  padding: 10px;
+}
+/* line 127, ../scss/inject.scss */
+.fcmsEdit .fcmsFlexlist .fcmsFlexitem {
+  margin-bottom: 20px;
+  background: #f0f0f0;
+}
+/* line 131, ../scss/inject.scss */
+.fcmsEdit .fcmsFlexlist .fcmsFlexitem > .fcmsButtons {
+  padding: 10px;
 }

@@ -159,25 +159,12 @@
 			return $sanPath;
 		}
 		
-		public static function replaceTag($match) {
+		public static function replaceTag($match, $namePrefix = '') {
 			$tag = $match['tag'];
 			$content = isset($match['content']) && !empty($match['content']) ? $match['content'] : false;
 			$attributes = array();
 			if(isset($match[2]) && !empty($match[2])) {
-				$matches = array();
-				preg_match_all('/([a-z-]+)(?:=(?:"([^"]*)"|\'([^\']*)\'))?/si', $match[2], $matches, PREG_SET_ORDER);
-				foreach($matches as $attribute) {
-					if(isset($attribute[2])) {
-						$attributes[$attribute[1]] = $attribute[2];
-					} else {
-						$attributes[$attribute[1]] = $attribute[1];
-					}
-				}
-				foreach($attributes as $attribute => $value) {
-					if($value === 'true' || $value === 'false') {
-						$attributes[$attribute] = $value === 'true';
-					}
-				}
+				$attributes = Html::parseAttributes($match[2]);
 			}
 			
 			$html = '';
@@ -185,7 +172,7 @@
 			switch($tag) {
 				case 'partial':
 					if(isset($attributes['partial']) && is_file(PARTIALS_PATH . $attributes['partial'] . '.tpl')) {
-						$html .= self::parseTags(file_get_contents(PARTIALS_PATH . $attributes['partial'] . '.tpl'));
+						$html .= self::parseTags(file_get_contents(PARTIALS_PATH . $attributes['partial'] . '.tpl'), $namePrefix);
 					}
 					break;
 				case 'title':
@@ -220,9 +207,52 @@
 						break;
 					}
 					
-					$html .= Editable::render($attributes);
+					$html .= Editable::render($attributes, $namePrefix);
 					
 					break;
+			}
+			
+			return $html;
+		}
+		
+		public static function replaceFlexlist($match, $namePrefix = '') {
+			$html = '';
+			
+			$content = isset($match['content']) && !empty($match['content']) ? $match['content'] : '';
+			$attributes = array();
+			if(isset($match[1]) && !empty($match[1])) {
+				$attributes = Html::parseAttributes($match[1]);
+			}
+			
+			$attributes = array_merge([
+				'name' => 'element'
+			], $attributes);
+			$attributes['name'] = $namePrefix . $attributes['name'];
+			
+			$rawItems = [];
+			preg_match_all('/<fcms:flexitem((?:\s+[a-z-]+(?:=(?:"[^"]*"|\'[^\']*\'))?)*)\s*>(?<content>.*)<\/fcms:flexitem>/Usi', $content, $rawItems, PREG_SET_ORDER);
+			
+			$items = [];
+			if(count($rawItems)) {
+				foreach($rawItems as $index => $rawItem) {
+					$item = [
+						'attributes' => [],
+						'content' => isset($rawItem['content']) && !empty($rawItem['content']) ? $rawItem['content'] : ''
+					];
+					
+					if(isset($rawItem[1]) && !empty($rawItem[1])) {
+						$item['attributes'] = Html::parseAttributes($rawItem[1]);
+					}
+					
+					$item['attributes'] = array_merge([
+						'title' => '',
+						'name' => 'item' . $index
+					], $item['attributes']);
+					
+					$items[$item['attributes']['name']] = $item;
+				}
+				
+				$html .= Editable::renderFlexlist($attributes, $items);
 			}
 			
 			return $html;
@@ -345,7 +375,7 @@
 			}
 		}
 		
-		private static function parseTags($content) {
+		public static function parseTags($content, $namePrefix = '') {
 			$content = str_replace('{ROOT_URL}', ROOT_URL, $content);
 			
 			if(self::$page !== null) {
@@ -364,11 +394,19 @@
 				$content = str_replace('{PAGE_TITLE}', Language::string('Page not found'), $content);
 			}
 			
-			$content = preg_replace_callback('/<fcms:(?<tag>[a-z-]+)((?:\s+[a-z-]+(?:=(?:"[^"]*"|\'[^\']*\'))?)*)\s+\/>/Usi', get_class() . '::replaceTag', $content);
+			$content = preg_replace_callback('/<fcms:flexlist((?:\s+[a-z-]+(?:=(?:"[^"]*"|\'[^\']*\'))?)*)\s*>(?<content>.*)<\/fcms:flexlist>/Usi', function($match) use ($namePrefix) {
+				return self::replaceFlexlist($match, $namePrefix);
+			}, $content);
+			
+			$content = preg_replace_callback('/<fcms:(?<tag>[a-z-]+)((?:\s+[a-z-]+(?:=(?:"[^"]*"|\'[^\']*\'))?)*)\s+\/>/Usi', function($match) use ($namePrefix) {
+				return self::replaceTag($match, $namePrefix);
+			}, $content);
 			
 			do {
 				$oldContent = $content;
-				$content = preg_replace_callback('/<fcms:(?<tag>[a-z-]+)((?:\s+[a-z-]+(?:=(?:"[^"]*"|\'[^\']*\'))?)*)\s*>(?<content>.*)<\/fcms:\1>/Usi', get_class() . '::replaceTag', $content);
+				$content = preg_replace_callback('/<fcms:(?<tag>[a-z-]+)((?:\s+[a-z-]+(?:=(?:"[^"]*"|\'[^\']*\'))?)*)\s*>(?<content>.*)<\/fcms:\1>/Usi', function($match) use ($namePrefix) {
+					return self::replaceTag($match, $namePrefix);
+				}, $content);
 			} while($oldContent !== $content);
 			
 			return $content;

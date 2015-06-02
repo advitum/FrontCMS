@@ -5,8 +5,80 @@
 	class Editable
 	{
 		private static $elements = array();
+		private static $flexElements = array();
 		
-		public static function render($attributes) {
+		public static function renderFlexlist($attributes, $items) {
+			$html = '';
+			
+			$attributes['name'] = str_replace('_', '-', $attributes['name']);
+			
+			if(!isset(self::$elements[$attributes['name']])) {
+				self::$elements[$attributes['name']] = 1;
+			} else {
+				$attributes['name'] .= '_' . self::$elements[$attributes['name']]++;
+			}
+			
+			$element = DB::selectSingle(sprintf("SELECT * FROM `elements` WHERE `page_id` = %d AND `name` = '%s' LIMIT 1", Router::$page->id, DB::escape($attributes['name'])));
+			if($element) {
+				$content = json_decode($element->content);
+			}
+			
+			if(Router::$user !== null) {
+				$html .= '
+<div ' . Html::attributes([
+	'class' => 'fcmsFlexlist',
+	'data-name' => $attributes['name']
+]) . '>';
+				
+				foreach($items as $item) {
+					$html .= '
+	<div ' . Html::attributes([
+		'class' => 'fcmsFlexitem empty',
+		'data-title' => $item['attributes']['title'],
+		'data-name' => $item['attributes']['name']
+	]) . '>';
+					
+					self::$flexElements = [];
+					$html .= Router::parseTags($item['content'], 'flex_' . $attributes['name'] . '_x_');
+					
+					$html .= '
+	</div>';
+				}
+				
+				if($element && $content !== false) {
+					foreach($content->items as $index => $name) {
+						$item = $items[$name];
+						
+						$html .= '
+	<div ' . Html::attributes([
+		'class' => 'fcmsFlexitem',
+		'data-title' => $item['attributes']['title'],
+		'data-name' => $item['attributes']['name']
+	]) . '>';
+						
+						self::$flexElements = [];
+						$html .= Router::parseTags($item['content'], 'flex_' . $attributes['name'] . '_' . $index . '_');
+						
+						$html .= '
+	</div>';
+					}
+				}
+				
+				$html .= '
+</div>';
+			} elseif($element && $content !== false) {
+				foreach($content->items as $index => $name) {
+					$item = $items[$name];
+					
+					self::$flexElements = [];
+					$html .= Router::parseTags($item['content'], 'flex_' . $attributes['name'] . '_' . $index . '_');
+				}
+			}
+			
+			return $html;
+		}
+		
+		public static function render($attributes, $namePrefix = '') {
 			if(isset($attributes['type'])) {
 				$type = $attributes['type'];
 			} else {
@@ -19,10 +91,20 @@
 				$name = 'element';
 			}
 			
-			if(!isset(self::$elements[$name])) {
-				self::$elements[$name] = 1;
+			if($namePrefix !== '') {
+				if(!isset(self::$flexElements[$name])) {
+					self::$flexElements[$name] = 1;
+				} else {
+					$name .= '_' . self::$flexElements[$name]++;
+				}
+				
+				$name = $namePrefix . $name;
 			} else {
-				$name .= '_' . self::$elements[$name]++;
+				if(!isset(self::$elements[$name])) {
+					self::$elements[$name] = 1;
+				} else {
+					$name .= '_' . self::$elements[$name]++;
+				}
 			}
 			
 			$element = DB::selectSingle(sprintf("SELECT * FROM `elements` WHERE `page_id` = %d AND `name` = '%s' LIMIT 1", Router::$page->id, DB::escape($name)));
@@ -82,7 +164,7 @@
 			
 			$image = null;
 			if($content !== '') {
-				$image = json_decode(content);
+				$image = json_decode($content);
 			}
 			
 			$autoimg = array();

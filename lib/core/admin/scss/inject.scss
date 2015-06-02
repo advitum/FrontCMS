@@ -11,6 +11,17 @@
 	@include button;
 }
 
+.fcmsButtons {
+	@include clearfix;
+	
+	margin-right: -10px;
+	
+	.fcmsButton {
+		margin: 0px 10px 0px 0px;
+		float: left;
+	}
+}
+
 .fcmsEditable, .fcmsEditableImage {
 	display: block;
 }
@@ -34,7 +45,6 @@
 	}
 }
 
-
 .fcmsEditablePlugin {
 	.fcmsButton {
 		position: absolute;
@@ -46,6 +56,14 @@
 	
 	&.placeholder {
 		display: none;
+	}
+}
+
+.fcmsFlexlist {
+	.fcmsFlexitem {
+		&.empty {
+			display: none;
+		}
 	}
 }
 
@@ -91,6 +109,27 @@
 		&:hover {
 			.fcmsButton {
 				display: inline-block;
+			}
+		}
+	}
+	
+	.fcmsFlexlist {
+		background: #fbfbfb;
+		padding: 10px;
+		border: 1px solid #cccccc;
+		margin-top: 20px;
+		
+		.fcmsFlexcontrol {
+			background: #f0f0f0;
+			padding: 10px;
+		}
+		
+		.fcmsFlexitem {
+			margin-bottom: 20px;
+			background: #f0f0f0;
+			
+			& > .fcmsButtons {
+				padding: 10px;
 			}
 		}
 	}
