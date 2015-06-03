@@ -18,7 +18,12 @@
 				$attributes['name'] .= '_' . self::$elements[$attributes['name']]++;
 			}
 			
-			$element = DB::selectSingle(sprintf("SELECT * FROM `elements` WHERE `page_id` = %d AND `name` = '%s' LIMIT 1", Router::$page->id, DB::escape($attributes['name'])));
+			if(isset($attributes['global']) && $attributes['global']) {
+				$elementPageId = 0;
+			} else {
+				$elementPageId = Router::$page->id;
+			}
+			$element = DB::selectSingle(sprintf("SELECT * FROM `elements` WHERE `page_id` = %d AND `name` = '%s' LIMIT 1", $elementPageId, DB::escape($attributes['name'])));
 			if($element) {
 				$content = json_decode($element->content);
 			}
@@ -27,7 +32,8 @@
 				$html .= '
 <div ' . Html::attributes([
 	'class' => 'fcmsFlexlist',
-	'data-name' => $attributes['name']
+	'data-name' => $attributes['name'],
+	'data-global' => (int) (isset($attributes['global']) && $attributes['global'])
 ]) . '>';
 				
 				foreach($items as $item) {
@@ -47,20 +53,22 @@
 				
 				if($element && $content !== false) {
 					foreach($content->items as $index => $name) {
-						$item = $items[$name];
-						
-						$html .= '
+						if(isset($items[$name])) {
+							$item = $items[$name];
+							
+							$html .= '
 	<div ' . Html::attributes([
 		'class' => 'fcmsFlexitem',
 		'data-title' => $item['attributes']['title'],
 		'data-name' => $item['attributes']['name']
 	]) . '>';
-						
-						self::$flexElements = [];
-						$html .= Router::parseTags($item['content'], 'flex_' . $attributes['name'] . '_' . $index . '_');
-						
-						$html .= '
+							
+							self::$flexElements = [];
+							$html .= Router::parseTags($item['content'], 'flex_' . $attributes['name'] . '_' . $index . '_');
+							
+							$html .= '
 	</div>';
+						}
 					}
 				}
 				
@@ -68,10 +76,12 @@
 </div>';
 			} elseif($element && $content !== false) {
 				foreach($content->items as $index => $name) {
-					$item = $items[$name];
-					
-					self::$flexElements = [];
-					$html .= Router::parseTags($item['content'], 'flex_' . $attributes['name'] . '_' . $index . '_');
+					if(isset($items[$name])) {
+						$item = $items[$name];
+						
+						self::$flexElements = [];
+						$html .= Router::parseTags($item['content'], 'flex_' . $attributes['name'] . '_' . $index . '_');
+					}
 				}
 			}
 			
@@ -107,7 +117,12 @@
 				}
 			}
 			
-			$element = DB::selectSingle(sprintf("SELECT * FROM `elements` WHERE `page_id` = %d AND `name` = '%s' LIMIT 1", Router::$page->id, DB::escape($name)));
+			if(isset($attributes['global']) && $attributes['global']) {
+				$elementPageId = 0;
+			} else {
+				$elementPageId = Router::$page->id;
+			}
+			$element = DB::selectSingle(sprintf("SELECT * FROM `elements` WHERE `page_id` = %d AND `name` = '%s' LIMIT 1", $elementPageId, DB::escape($name)));
 			$content = '';
 			if($element) {
 				$content = $element->content;
@@ -127,7 +142,12 @@
 			$html = '';
 			
 			if(Router::$user !== null) {
-				$html .= '<div class="fcmsEditable" data-name="' . htmlspecialchars($name) . '" data-type="rich">';
+				$html .= '<div ' . Html::attributes([
+					'class' => 'fcmsEditable',
+					'data-name' => $name,
+					'data-type' => 'rich',
+					'data-global' => (int) (isset($attributes['global']) && $attributes['global'])
+				]) . '>';
 				
 				if($content !== '') {
 					$html .= $content;
@@ -145,7 +165,12 @@
 			$html = '';
 			
 			if(Router::$user !== null) {
-				$html .= '<div class="fcmsEditable" data-name="' . htmlspecialchars($name) . '" data-type="plain">';
+				$html .= '<div ' . Html::attributes([
+					'class' => 'fcmsEditable',
+					'data-name' => $name,
+					'data-type' => 'plain',
+					'data-global' => (int) (isset($attributes['global']) && $attributes['global'])
+				]) . '>';
 				
 				if($content !== '') {
 					$html .= nl2br(htmlspecialchars($content));
@@ -206,7 +231,8 @@
 				
 				$divAttributes = array(
 					'data-name' => $name,
-					'data-placeholder-url' => $placeholderUrl
+					'data-placeholder-url' => $placeholderUrl,
+					'data-global' => (int) (isset($attributes['global']) && $attributes['global'])
 				);
 				
 				if(count($autoimg)) {

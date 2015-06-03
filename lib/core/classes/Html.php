@@ -29,6 +29,28 @@
 			}
 			return $attributes;
 		}
+		
+		public static function bulkJs($scripts, $fileName) {
+			$html = '';
+			
+			if(defined('DEBUG') && DEBUG) {
+				foreach($scripts as $script) {
+					$html .= '
+<script type="text/javascript" src="' . ADMIN_URL . 'js/' . htmlspecialchars($script) . '"></script>';
+				}
+			} else {
+				if(!is_file(ADMIN_PATH . 'js' . DS . $fileName) || filemtime(ADMIN_PATH . 'js' . DS . $fileName) < time() - 604800) {
+					file_put_contents(ADMIN_PATH . 'js' . DS . $fileName, implode("\n", array_map(function($scriptName) {
+						return file_get_contents(ADMIN_PATH . 'js' . DS . $scriptName);
+					}, $scripts)));
+				}
+				
+				$html .= '
+<script type="text/javascript" src="' . ADMIN_URL . 'js/' . htmlspecialchars($fileName) . '"></script>';
+			}
+			
+			return $html;
+		}
 	}
 	
 ?>

@@ -8,9 +8,16 @@
 			if(Router::$page !== null && Router::$user !== null && isset($_POST['element']) && is_array($_POST['element'])) {
 				DB::delete('elements', sprintf("WHERE `page_id` = %d", Router::$page->id));
 				foreach($_POST['element'] as $key => $value) {
+					$elementPageId = Router::$page->id;
+					
+					if(isset($_POST['globals']) && in_array($key, $_POST['globals'])) {
+						DB::delete('elements', sprintf("WHERE `page_id` = 0 AND `name` = '%s'", DB::escape($key)));
+						$elementPageId = 0;
+					}
+					
 					if(!empty($value)) {
 						DB::insert('elements', array(
-							'page_id' => Router::$page->id,
+							'page_id' => $elementPageId,
 							'name' => $key,
 							'content' => $value
 						));
@@ -78,20 +85,22 @@
 	<?php if(is_file(ADMIN_PATH . 'js/languages/' . LANGUAGE . '.js')) { ?>
 	<script id="language" type="text/javascript" src="<?php echo ADMIN_URL; ?>js/languages/<?php echo LANGUAGE; ?>.js"></script>
 	<?php } ?>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/languagestring.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/jquery-1.11.2.min.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/localstorage.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/jquery.lightbox.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/box.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/contextmenu.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/jquery.ui.widget.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/jquery.iframe-transport.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/jquery.fileupload.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/mediabrowser.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/pagebrowser.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/repeatable.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/flexlist.js"></script>
-	<script type="text/javascript" src="<?php echo ADMIN_URL; ?>js/admin.js"></script>
+	<?php echo Html::bulkJs([
+		'languagestring.js',
+		'jquery-1.11.2.min.js',
+		'localstorage.js',
+		'jquery.lightbox.js',
+		'box.js',
+		'contextmenu.js',
+		'jquery.ui.widget.js',
+		'jquery.iframe-transport.js',
+		'jquery.fileupload.js',
+		'mediabrowser.js',
+		'pagebrowser.js',
+		'repeatable.js',
+		'flexlist.js',
+		'admin.js'
+	], 'admin.min.js'); ?>
 </body>
 
 </html><?php

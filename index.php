@@ -4,8 +4,6 @@
 	
 	session_start();
 	
-	define('DEBUG', true);
-	
 	define('DS', DIRECTORY_SEPARATOR);
 	
 	define('ROOT_PATH', __DIR__ . DS);
@@ -32,6 +30,10 @@
 	});
 	
 	require_once(ROOT_PATH . 'config.php');
+	
+	if(!defined('DEBUG')) {
+		define('DEBUG', false);
+	}
 	
 	if(!defined('ROOT_URL')) {
 		define('ROOT_URL', '/');

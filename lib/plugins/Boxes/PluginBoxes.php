@@ -24,7 +24,8 @@
 					'data-content' => $content,
 					'data-attributes' => json_encode($attributes),
 					'data-plugin' => 'boxes',
-					'data-name' => $name
+					'data-name' => $name,
+					'data-global' => (int) (isset($attributes['global']) && $attributes['global'])
 				];
 				
 				if($content !== '' && ($content = json_decode($content)) !== false && isset($content->boxes) && count($content->boxes)) {
