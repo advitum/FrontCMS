@@ -1,84 +1,211 @@
-/* line 6, ../scss/main.scss */
+/* line 10, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/layout/_sticky-footer.scss */
+html, body {
+  height: 100%;
+}
+
+/* line 12, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/layout/_sticky-footer.scss */
+#root {
+  clear: both;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin-bottom: -60px;
+}
+/* line 18, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/layout/_sticky-footer.scss */
+#root #rootFooter {
+  height: 60px;
+}
+
+/* line 20, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/layout/_sticky-footer.scss */
+footer {
+  clear: both;
+  position: relative;
+  height: 60px;
+}
+
+/* line 8, ../scss/main.scss */
 body {
-  background: #fbfbfb;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
   color: #222222;
-  margin: 0px;
-  padding: 10px;
+  font-size: 16px;
+  line-height: 20px;
 }
 
-/* line 13, ../scss/main.scss */
-a {
-  color: inherit;
+/* line 19, ../scss/main.scss */
+*, *:before, *:after {
+  -moz-box-sizing: inherit;
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
 }
 
-/* line 17, ../scss/main.scss */
-aside nav a {
-  -moz-transition: opacity 0.1s linear;
-  -o-transition: opacity 0.1s linear;
-  -webkit-transition: opacity 0.1s linear;
-  transition: opacity 0.1s linear;
-  opacity: 1;
+/* line 23, ../scss/main.scss */
+#root {
+  position: relative;
 }
-/* line 22, ../scss/main.scss */
-aside nav a:hover, aside nav a:active, aside nav a:focus {
-  opacity: .75;
+/* line 26, ../scss/main.scss */
+#root:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 340px;
+  bottom: 0;
+  content: "";
+  background: #f0f0f0;
+  z-index: -1;
 }
 
-/* line 27, ../scss/main.scss */
-aside {
-  float: left;
-  width: 180px;
-}
-/* line 32, ../scss/main.scss */
-aside nav ul, aside nav li {
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
-}
 /* line 38, ../scss/main.scss */
+aside {
+  width: 340px;
+  padding: 20px;
+  float: left;
+}
+/* line 43, ../scss/main.scss */
+aside nav {
+  margin: 40px 0;
+}
+/* line 46, ../scss/main.scss */
+aside nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* line 51, ../scss/main.scss */
 aside nav ul ul {
   padding-left: 20px;
 }
-/* line 42, ../scss/main.scss */
+/* line 56, ../scss/main.scss */
 aside nav li {
-  padding-left: 20px;
-}
-/* line 50, ../scss/main.scss */
-aside nav a {
-  text-decoration: none;
-}
-/* line 55, ../scss/main.scss */
-aside nav a.active {
-  font-weight: bold;
-}
-
-/* line 62, ../scss/main.scss */
-#content {
-  margin-left: 200px;
-}
-/* line 65, ../scss/main.scss */
-#content .img img {
-  max-width: 100%;
-  line-height: 0;
-  vertical-align: middle;
-}
-/* line 71, ../scss/main.scss */
-#content .boxes {
-  list-style: none;
   margin: 0;
   padding: 0;
 }
-/* line 76, ../scss/main.scss */
-#content .boxes li {
-  background: #f0f0f0;
-  padding: 20px;
-  margin: 20px 0;
+/* line 61, ../scss/main.scss */
+aside nav a {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-transition: background 0.2s linear;
+  -o-transition: background 0.2s linear;
+  -webkit-transition: background 0.2s linear;
+  transition: background 0.2s linear;
+  background: #e5e5e5;
+  display: block;
+  margin: 0 0 10px;
+  padding: 10px 20px;
+  text-decoration: none;
 }
-/* line 81, ../scss/main.scss */
-#content .boxes li > :first-child {
-  margin-top: 0;
+/* line 71, ../scss/main.scss */
+aside nav a.active {
+  font-weight: bold;
 }
-/* line 85, ../scss/main.scss */
-#content .boxes li > :last-child {
-  margin-bottom: 0;
+/* line 75, ../scss/main.scss */
+aside nav a:hover, aside nav a:active, aside nav a:focus {
+  background: #d5d5d5;
+}
+
+/* line 82, ../scss/main.scss */
+#content {
+  padding: 40px;
+  overflow: hidden;
+}
+/* line 86, ../scss/main.scss */
+#content ul, #content ol {
+  margin: 0 0 20px;
+  padding: 0 0 0 20px;
+}
+
+/* line 92, ../scss/main.scss */
+footer {
+  background: #222222;
+  color: #ffffff;
+  padding: 20px 40px 0 20px;
+  height: 60px;
+  font-size: 14px;
+}
+/* line 99, ../scss/main.scss */
+footer .left {
+  float: left;
+}
+/* line 103, ../scss/main.scss */
+footer .right {
+  text-align: right;
+}
+
+/* line 108, ../scss/main.scss */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em;
+  line-height: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 117, ../scss/main.scss */
+h1 {
+  font-weight: bold;
+  margin: 0 0 40px;
+  font-size: 50px;
+  line-height: 60px;
+}
+
+/* line 124, ../scss/main.scss */
+p {
+  margin: 0 0 20px;
+  padding: 0;
+}
+
+/* line 129, ../scss/main.scss */
+a {
+  text-decoration: underline;
+  color: inherit;
+}
+/* line 133, ../scss/main.scss */
+a:hover, a:active, a:focus {
+  text-decoration: none;
+}
+/* line 137, ../scss/main.scss */
+a img {
+  border: none;
+}
+
+/* line 142, ../scss/main.scss */
+figure {
+  margin: 0 0 20px;
+  padding: 0;
+}
+/* line 146, ../scss/main.scss */
+figure img {
+  line-height: 0;
+  vertical-align: middle;
+}
+
+/* line 153, ../scss/main.scss */
+.leftFigure:after, .rightFigure:after {
+  content: "";
+  display: block;
+  height: 0;
+  width: 100%;
+  clear: both;
+}
+/* line 161, ../scss/main.scss */
+.leftFigure > div, .rightFigure > div {
+  overflow: hidden;
+}
+
+/* line 166, ../scss/main.scss */
+.leftFigure > figure {
+  float: left;
+  margin-right: 20px;
+}
+
+/* line 171, ../scss/main.scss */
+.rightFigure > figure {
+  float: right;
+  margin-left: 20px;
 }

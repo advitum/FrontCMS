@@ -1,4 +1,4 @@
-FrontCMS v0.1
+![FrontCMS](https://raw.githubusercontent.com/advitum/FrontCMS/master/img/logo-frontcms.png) v0.2
 =============
 
 You code, your clients manage
@@ -40,16 +40,16 @@ Coding
 
 Now you are all set to build your layouts. You basically build one layout for each different page layout you will need.
 
-	<- Header ----------->		<- Header ----------->
-	<- Big image -------->		<- Image -> <- Text ->
-	<- Text -> <- Text -->		<- Footer ----------->
-	<- Footer ----------->
+	<- Header ------------>			<- Header ------------->
+	<- Big image --------->			<- Sidebar -> <- Text ->
+	<- Text -------------->			<- Footer ------------->
+	<- Footer ------------>
 
-For example, this pages are build differently, so you will need two layouts. The editor can later select one of the layouts for each site.
+For example, this pages are build differently, so you will need two layouts, one with the sidebar and one without. The editor can later select one of the layouts for each site.
 
 Each editable element will be represented by an editable "slot", which can be of the type *plain*, *rich*, *image* or *plugin*.
 
-Just take a look at the demo layout in the file *layouts/default.tpl*.
+Just take a look at this example layout.
 
 	<fcms:partial partial="header" />
 		
@@ -60,7 +60,7 @@ Just take a look at the demo layout in the file *layouts/default.tpl*.
 		
 	<fcms:partial partial="footer" />
 
-Here you have every possible element to use in your layouts. The first and last line import *partials*, which are useful for reocurring content (like the header and footer). They are stored in the folder *layouts/partials* and use the same syntax as layouts.
+Here you have every possible slot type to use in your layouts. The first and last line import *partials*, which are useful for reocurring content (like the header and footer). They are stored in the folder *layouts/partials* and use the same syntax as layouts.
 
 The next four lines define four editable slots. Each slot has a name, by which it is saved in the database. If you use the same name more than once in a layout, the slots are automagically numbered.
 
@@ -77,6 +77,54 @@ The fourth line defines an image slot. Here the editor will be able to upload an
 ###Type *pluguin*
 
 The sixth line includes a plugin slot. Plugins are used for everything else. Plugins are stored inside the folder *lib/plugins*. There is a demo plugin which shows the basic functions of a plugin.
+
+###Global slots
+
+If you give one of your slots the attribute "global", its content will not be saved *per page*, but displayed on every page. For example, if you want the footer content to be editable, but the same on every page, you can use a slot like this:
+
+	<footer>
+		<fcms:edit type="rich" name="footer" global />
+	</footer
+
+###Flexlists
+
+Flexlists make working with slots much more flexible. Imagine you want the content to consist of multiple images and multipe rich text. Without flexlists, the editor could only add as many images as there are image slots in your layout. The solution is a flexlist.
+
+With flexlists, you simply define as many slot combinations as you want, which the editor can then use as often as he needs, in whatever order he needs them.
+
+Look at the demo layout in *layouts/default.tpl*:
+
+	<fcms:flexlist name="content">
+		<fcms:flexitem title="Text" name="text">
+			<fcms:edit type="rich" name="text" />
+		</fcms:flexitem>
+		<fcms:flexitem title="Text + Image (left)" name="text-image-left">
+			<div class="leftFigure">
+					<figure>
+						<fcms:edit type="image" name="image" width="500" />
+					</figure>
+					<div>
+						<fcms:edit type="rich" name="text" />
+					</div>
+				</div>
+		</fcms:flexitem>
+		<fcms:flexitem title="Text + Image (right)" name="text-image-right">
+			<div class="rightFigure">
+					<figure>
+						<fcms:edit type="image" name="image" width="500" />
+					</figure>
+					<div>
+						<fcms:edit type="rich" name="text" />
+					</div>
+				</div>
+		</fcms:flexitem>
+	</fcms:flexlist>
+
+This is a flexlist. We define three different flexitems, each having a title (for the editor) and a name (for the database). The first item is simply a rich text slot. The second item is an image slot left to a rich text slot. The third item is the same, except the text slot is now on the left side.
+
+When editing, the editor can repeatedly add one of the items to the content area and fill the items slots with content.
+
+Flexlists are as complicated as FrontCMS will get, but they are very flexible. Just play around with them in the layout and in the editor.
 
 ###Other tags
 

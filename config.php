@@ -16,10 +16,10 @@
 	class PageOptions
 	{
 		public static $PAGE_OPTIONS = [
-			'backgroundImage' => [
+			/*'backgroundImage' => [
 				'title' => 'Background image',
 				'type' => 'image'
-			],
+			],*/
 			'keywords' => [
 				'title' => 'Keywords',
 				'type' => 'textarea'

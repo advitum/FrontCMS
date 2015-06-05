@@ -250,7 +250,7 @@
 					}
 					
 					if(count($autoimg)) {
-						$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . 'upload/media/' . $image->src;
+						$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . '/upload/media/' . $image->src;
 					} else {
 						$imageAttributes['src'] = ROOT_URL . 'upload/media/' . $image->src;
 					}
@@ -270,7 +270,7 @@
 				);
 				
 				if(count($autoimg)) {
-					$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . 'upload/media/' . $image->src;
+					$imageAttributes['src'] = ROOT_URL . 'autoimg/' . implode('-', $autoimg) . '/upload/media/' . $image->src;
 				} else {
 					$imageAttributes['src'] = ROOT_URL . 'upload/media/' . $image->src;
 				}
