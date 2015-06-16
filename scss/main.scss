@@ -172,3 +172,88 @@ figure {
 	float: right;
 	margin-left: 20px;
 }
+
+#contact-form {
+	#message {
+		@include border-radius(4px);
+		
+		padding: 10px 20px;
+		background: #e5e5e5;
+		margin: 0 0 20px;
+		
+		&.error {
+			background: mix(#fbfbfb, #991111, 90);
+		}
+		
+		&.success {
+			background: mix(#fbfbfb, #119911, 90);
+		}
+	}
+	
+	label {
+		display: block;
+		font-size: .8em;
+	}
+	
+	.input, .submit {
+		input, textarea, button {
+			padding: 10px 20px;
+			font-size: 1em;
+			line-height: 1.2em;
+			font-family: inherit;
+			color: #000000;
+		}
+	}
+	
+	.input {
+		margin-bottom: 20px;
+		
+		input, textarea {
+			width: 100%;
+			max-width: 1000px;
+			background: #ffffff;
+			border: 1px solid #cccccc;
+			
+			&:hover, &:active, &:focus {
+				background: #fbfbfb;
+			}
+		}
+		
+		textarea {
+			height: 200px;
+			resize: vertical;
+		}
+		
+		&.error {
+			color: #991111;
+			
+			.message {
+				font-weight: bold;
+				margin-bottom: 10px;
+			}
+			
+			input, textarea {
+				background: mix(#ffffff, #991111, 95);
+				
+				&:hover, &:active, &:focus {
+					background: mix(#fbfbfb, #991111, 95);
+				}
+			}
+		}
+	}
+	
+	.submit {
+		button {
+			@include border-radius(4px);
+			@include transition(background .2s linear);
+			
+			cursor: pointer;
+			background: #e5e5e5;
+			border: none;
+			
+			&:hover {
+				background: #d5d5d5;
+			}
+		}
+	}
+}

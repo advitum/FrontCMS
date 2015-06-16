@@ -546,10 +546,10 @@
 		}
 		
 		private static function action_plugin_edit() {
-			$meta = @json_decode(@$_POST['_meta']);
+			$meta = @$_POST['_meta'];
 			
-			if(isset($meta->plugin)) {
-				$plugin = ucfirst($meta->plugin);
+			if(isset($meta['plugin'])) {
+				$plugin = ucfirst($meta['plugin']);
 				$class = 'Advitum\\Frontcms\\Plugins\\Plugin' . $plugin;
 				
 				if(is_file(PLUGINS_PATH . $plugin . DIRECTORY_SEPARATOR . 'Plugin' . $plugin . '.php')) {
@@ -557,13 +557,75 @@
 				}
 				
 				if(is_callable(array($class, 'edit'))) {
-					return call_user_func(array($class, 'edit'), @$meta->content, @$meta->name, @$meta->attributes);
+					return call_user_func(array($class, 'edit'), @$meta['content'], @$meta['name'], @$meta['attributes']);
 				}
 			}
 			
 			return [
 				'success' => false,
 				'error' => 'plugin'
+			];
+		}
+		
+		private static function action_user_add() {
+			if(Form::sent('user-add')) {
+				if(Validator::validate('user-add', [
+					'username' => [
+						'rules' => [
+							'notEmpty',
+							function($value) {
+								return DB::selectValue(sprintf("SELECT count(*) FROM `users` WHERE `username` = '%s'", DB::escape($value))) == 0;
+							}
+						],
+						'message' => Language::string('Please enter a unique username.')
+					],
+					'password' => Language::string('Please enter a password.'),
+					'password_repeat' => [
+						'rules' => function($value) {
+							return $value === Form::value('user-add', 'password');
+						},
+						'message' => Language::string('You entered two different passwords. Try again!')
+					]
+				])) {
+					User::create(Form::value('user-add', 'username'), Form::value('user-add', 'password'));
+					
+					Session::setMessage(sprintf(Language::string('The new user "%s" was created.'), htmlspecialchars(Form::value('user-add', 'username'))), 'success');
+					
+					return [
+						'success' => true
+					];
+				}
+			}
+			
+			$html = '';
+			
+			$html .= Form::create('#', 'user-add');
+			
+			$html .= Form::input('username', [
+				'label' => Language::string('Username')
+			]);
+			$html .= Form::input('password', [
+				'type' => 'password',
+				'label' => Language::string('Password')
+			]);
+			$html .= Form::input('password_repeat', [
+				'type' => 'password',
+				'label' => Language::string('Password (repeat)')
+			]);
+			
+			$html .= Form::end();
+			
+			if(Form::sent('user-add')) {
+				return [
+					'success' => false,
+					'error' => 'validation',
+					'content' => $html
+				];
+			}
+			
+			return [
+				'success' => true,
+				'content' => $html
 			];
 		}
 	}

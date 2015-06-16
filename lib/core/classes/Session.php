@@ -15,7 +15,7 @@
 			$html = '';
 			
 			if(isset($_SESSION['message']) && $_SESSION['message'] !== false) {
-				$html .= '<div id="message"' . ($_SESSION['message']['class'] !== false ? ' class="' . htmlspecialchars($_SESSION['message']['class']) : '') . '">
+				$html .= '<div id="message"' . ($_SESSION['message']['class'] !== false ? ' class="' . htmlspecialchars($_SESSION['message']['class']) . '"' : '') . '>
 					' . $_SESSION['message']['text'] . '
 				</div>';
 				

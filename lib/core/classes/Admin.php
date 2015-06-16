@@ -54,6 +54,9 @@
 		<?php echo Session::getMessage(); ?>
 		<div class="buttons right">
 			<button type="button" id="changePassword" class="button" title="<?php echo Language::string('Change password'); ?>"><i class="fa fa-key"></i></button>
+			<?php if(Router::$user->username === 'admin') { ?>
+			<button type="button" id="addUser" class="button" title="<?php echo Language::string('Add user'); ?>"><i class="fa fa-user-plus"></i></button>
+			<?php } ?>
 			<button type="button" id="togglePageTree" class="button" title="<?php echo Language::string('Show page tree'); ?>"><i class="fa fa-sitemap"></i></button>
 			<a class="button" href="<?php echo ROOT_URL; ?>logout" title="<?php echo Language::string('Logout'); ?>"><i class="fa fa-sign-out"></i></a>
 		</div>

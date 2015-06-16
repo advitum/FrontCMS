@@ -209,3 +209,88 @@ figure img {
   float: right;
   margin-left: 20px;
 }
+
+/* line 177, ../scss/main.scss */
+#contact-form #message {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  padding: 10px 20px;
+  background: #e5e5e5;
+  margin: 0 0 20px;
+}
+/* line 184, ../scss/main.scss */
+#contact-form #message.error {
+  background: #f1e3e3;
+}
+/* line 188, ../scss/main.scss */
+#contact-form #message.success {
+  background: #e3f1e3;
+}
+/* line 193, ../scss/main.scss */
+#contact-form label {
+  display: block;
+  font-size: .8em;
+}
+/* line 199, ../scss/main.scss */
+#contact-form .input input, #contact-form .input textarea, #contact-form .input button, #contact-form .submit input, #contact-form .submit textarea, #contact-form .submit button {
+  padding: 10px 20px;
+  font-size: 1em;
+  line-height: 1.2em;
+  font-family: inherit;
+  color: #000000;
+}
+/* line 208, ../scss/main.scss */
+#contact-form .input {
+  margin-bottom: 20px;
+}
+/* line 211, ../scss/main.scss */
+#contact-form .input input, #contact-form .input textarea {
+  width: 100%;
+  max-width: 1000px;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+}
+/* line 217, ../scss/main.scss */
+#contact-form .input input:hover, #contact-form .input input:active, #contact-form .input input:focus, #contact-form .input textarea:hover, #contact-form .input textarea:active, #contact-form .input textarea:focus {
+  background: #fbfbfb;
+}
+/* line 222, ../scss/main.scss */
+#contact-form .input textarea {
+  height: 200px;
+  resize: vertical;
+}
+/* line 227, ../scss/main.scss */
+#contact-form .input.error {
+  color: #991111;
+}
+/* line 230, ../scss/main.scss */
+#contact-form .input.error .message {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+/* line 235, ../scss/main.scss */
+#contact-form .input.error input, #contact-form .input.error textarea {
+  background: #f9f3f3;
+}
+/* line 238, ../scss/main.scss */
+#contact-form .input.error input:hover, #contact-form .input.error input:active, #contact-form .input.error input:focus, #contact-form .input.error textarea:hover, #contact-form .input.error textarea:active, #contact-form .input.error textarea:focus {
+  background: #f6efef;
+}
+/* line 246, ../scss/main.scss */
+#contact-form .submit button {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-transition: background 0.2s linear;
+  -o-transition: background 0.2s linear;
+  -webkit-transition: background 0.2s linear;
+  transition: background 0.2s linear;
+  cursor: pointer;
+  background: #e5e5e5;
+  border: none;
+}
+/* line 254, ../scss/main.scss */
+#contact-form .submit button:hover {
+  background: #d5d5d5;
+}

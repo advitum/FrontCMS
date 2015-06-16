@@ -162,17 +162,22 @@
 			
 			$defaultOptions = array(
 				'escape' => true,
-				'div' => true
+				'div' => true,
+				'type' => 'submit'
 			);
 			
 			$options = array_merge($defaultOptions, $options);
+			
+			$attributes = $options;
+			unset($attributes['escape']);
+			unset($attributes['div']);
 			
 			$html = '';
 			
 			if($options['div']) {
 				$html .= '<div class="submit">';
 			}
-			$html .= '<button type="submit">' . ($options['escape'] ? htmlspecialchars($label) : $label) . '</button>';
+			$html .= '<button ' . HTML::attributes($attributes) . '>' . ($options['escape'] ? htmlspecialchars($label) : $label) . '</button>';
 			if($options['div']) {
 				$html .= '</div>';
 			}
