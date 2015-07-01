@@ -3525,6 +3525,56 @@ body:not(.edit) #adminBar #save, body:not(.edit) #adminBar #abort {
   float: left;
 }
 
+/* line 33, ../scss/_mixins.scss */
+#fileBrowser:after {
+  content: "";
+  width: 100%;
+  height: 0px;
+  display: block;
+  clear: both;
+}
+/* line 4, ../scss/elements/_file-browser.scss */
+#fileBrowser aside {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 280px;
+  float: right;
+}
+/* line 12, ../scss/elements/_file-browser.scss */
+#fileBrowser #fileList {
+  margin: 0px 300px 0px 0px;
+  list-style: none;
+  padding: 0px;
+}
+/* line 17, ../scss/elements/_file-browser.scss */
+#fileBrowser #fileList li {
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  list-style: none;
+  margin: 2px 0;
+  padding: 5px 10px;
+  cursor: pointer;
+  float: left;
+  clear: left;
+  border: 1px solid transparent;
+}
+/* line 29, ../scss/elements/_file-browser.scss */
+#fileBrowser #fileList li:hover {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+/* line 36, ../scss/elements/_file-browser.scss */
+#fileBrowser #errorList {
+  color: #9c090b;
+}
+
 /* line 4, ../scss/elements/_form.scss */
 form label {
   font-size: .9em;

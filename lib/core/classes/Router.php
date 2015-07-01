@@ -36,17 +36,25 @@
 			$html = '';
 			
 			$defaults = array(
-				'start' => 1,
-				'end' => false,
 				'active' => true,
-				'home' => true,
-				'hidden' => false,
 				'all' => false,
 				'deleted' => false,
-				'list' => true
+				'end' => false,
+				'exclude' => [],
+				'hidden' => false,
+				'home' => true,
+				'list' => true,
+				'start' => 1
 			);
 			
 			$params = array_merge($defaults, $params);
+			
+			if(is_string($params['exclude'])) {
+				$params['exclude'] = json_decode($params['exclude']);
+			}
+			if(!is_array($params['exclude'])) {
+				$params['exclude'] = [];
+			}
 			
 			$list = true;
 			if($params['start'] === $params['end'] && $params['list'] === false) {
@@ -80,6 +88,11 @@
 				
 				foreach($pages as $page) {
 					$newPath = htmlspecialchars($path . $page->slug) . '/';
+					
+					if(in_array($newPath, $params['exclude']) || in_array(substr($newPath, 0, -1), $params['exclude'])) {
+						continue;
+					}
+					
 					$active = substr($newPath, 0, -1) == substr(self::$url, 0, strlen($newPath) - 1);
 					
 					if($list) {
@@ -358,7 +371,13 @@
 						} elseif(self::$page->parent_id != 0 && self::$page->slave) {
 							$children = Pages::getChildren(self::$page->id, self::$user !== null, true, false);
 							if(count($children)) {
-								self::redirect(self::here() . '/' . $children[0]->slug);
+								$newUrl = self::here() . '/' . $children[0]->slug;
+								
+								if(isset($_GET['fcms_content'])) {
+									$newUrl .= '?fcms_content';
+								}
+								
+								self::redirect($newUrl);
 							} else {
 								header("Status: 404 Not Found");
 								self::$layout = '404';

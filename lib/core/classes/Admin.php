@@ -100,6 +100,7 @@
 		'jquery.fileupload.js',
 		'mediabrowser.js',
 		'pagebrowser.js',
+		'filebrowser.js',
 		'repeatable.js',
 		'flexlist.js',
 		'admin.js'

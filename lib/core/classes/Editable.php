@@ -51,7 +51,7 @@
 	</div>';
 				}
 				
-				if($element && $content !== false) {
+				if($element && $content !== false && isset($content->items)) {
 					foreach($content->items as $index => $name) {
 						if(isset($items[$name])) {
 							$item = $items[$name];
@@ -74,7 +74,7 @@
 				
 				$html .= '
 </div>';
-			} elseif($element && $content !== false) {
+			} elseif($element && $content !== false && isset($content->items)) {
 				foreach($content->items as $index => $name) {
 					if(isset($items[$name])) {
 						$item = $items[$name];
@@ -126,7 +126,6 @@
 			$content = '';
 			if($element) {
 				$content = $element->content;
-				$content = str_replace('intern://', ROOT_URL, $content);
 			}
 			
 			$html = '';
@@ -155,6 +154,7 @@
 				
 				$html .= '</div>';
 			} elseif($content !== '') {
+				$content = str_replace('intern://', ROOT_URL, $content);
 				$html .= $content;
 			}
 			

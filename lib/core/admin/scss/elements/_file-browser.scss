@@ -1,0 +1,39 @@
+#fileBrowser {
+	@include clearfix;
+	
+	aside {
+		@include box-sizing(border-box);
+		
+		padding: 10px;
+		width: 280px;
+		float: right;
+	}
+	
+	#fileList {
+		margin: 0px 300px 0px 0px;
+		list-style: none;
+		padding: 0px;
+		
+		li {
+			@include user-select(none);
+			@include border-radius(3px);
+			
+			list-style: none;
+			margin: 2px 0;
+			padding: 5px 10px;
+			cursor: pointer;
+			float: left;
+			clear: left;
+			border: 1px solid transparent;
+			
+			&:hover {
+				background: rgba(#000000, .1);
+				border-color: rgba(#000000, .2);
+			}
+		}
+	}
+	
+	#errorList {
+		color: darken($colorRed, 10%);
+	}
+}

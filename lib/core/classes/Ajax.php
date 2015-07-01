@@ -86,6 +86,56 @@
 			];
 		}
 		
+		private static function action_file_browser() {
+			$html = '';
+			
+			$html .= '
+<div id="fileBrowser">
+	<aside>
+		' . Language::string('Upload new files') . ': <input type="file" id="fileUpload" />
+		<ul id="errorList"></ul>
+	</aside>
+	<ul id="fileList">';
+			
+			$files = [];
+			$rawFiles = scandir(FILES_PATH);
+			foreach($rawFiles as $filename) {
+				if(substr($filename, 0, 1) !== '.' && is_file(FILES_PATH . $filename)) {
+					$files[] = [
+						$filename, filectime(FILES_PATH . $filename)
+					];
+				}
+			}
+			usort($files, function($a, $b) {
+				return $a[1] > $b[1] ? -1 : 1;
+			});
+			foreach($files as $file) {
+				$html .= '
+		<li data-file="' . $file[0] . '">
+			<strong>' . htmlspecialchars($file[0]) . '</strong><br />
+			' . Format::fileSize(filesize(FILES_PATH . $file[0])) . '
+		</li>';
+			}
+			
+			$html .= '
+	</ul>
+</div>';
+			
+			return [
+				'success' => true,
+				'response' => $html
+			];
+		}
+		
+		private static function action_file_upload() {
+			$uploadHandler = new UploadHandler(array(
+				'upload_dir' => FILES_PATH,
+				'upload_url' => ROOT_URL . 'upload/files/',
+				'image_versions' => array()
+			));
+			exit();
+		}
+		
 		private static function action_media_browser() {
 			$html = '';
 			
@@ -100,7 +150,7 @@
 			$images = array();
 			$files = scandir(MEDIA_PATH);
 			foreach($files as $image) {
-				if(is_file(MEDIA_PATH . $image) && preg_match('/\.(gif|jpe?g|png)$/i', $image)) {
+				if(substr($image, 0, 1) !== '.' && is_file(MEDIA_PATH . $image) && preg_match('/\.(gif|jpe?g|png)$/i', $image)) {
 					$images[] = array(
 						$image, filectime(MEDIA_PATH . $image)
 					);
@@ -111,7 +161,7 @@
 			});
 			foreach($images as $image) {
 				$html .= '
-		<li data-file="' . $image[0] . '"><img src="' . ROOT_URL . 'autoimg/w100-h100-c/upload/media/' . $image[0] . '" alt="" /></li>';
+		<li data-file="' . htmlspecialchars($image[0]) . '"><img src="' . ROOT_URL . 'autoimg/w100-h100-c/upload/media/' . htmlspecialchars($image[0]) . '" alt="" /></li>';
 			}
 			
 			$html .= '

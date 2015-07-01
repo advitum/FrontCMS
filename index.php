@@ -19,6 +19,7 @@
 		define('TMP_PATH', ROOT_PATH . 'tmp' . DS);
 		define('UPLOAD_PATH', ROOT_PATH . 'upload' . DS);
 			define('MEDIA_PATH', UPLOAD_PATH . 'media' . DS);
+			define('FILES_PATH', UPLOAD_PATH . 'files' . DS);
 	
 	spl_autoload_register(function($class) {
 		if(substr($class, 0, strlen(__NAMESPACE__)) === __NAMESPACE__) {
