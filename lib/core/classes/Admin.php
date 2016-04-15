@@ -41,7 +41,7 @@
 	<meta charset="UTF-8">
 	<title><?php echo Language::string('Administration'); ?></title>
 	
-	<link rel="stylesheet" type="text/css" href="<?php echo ADMIN_URL; ?>css/admin.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo ADMIN_URL; ?>css/admin.css?v=<?php echo VERSION; ?>" />
 </head>
 
 <body class="admin">
@@ -84,9 +84,10 @@
 		var rootUrl = "<?php echo ROOT_URL; ?>";
 		var adminUrl = "<?php echo ADMIN_URL; ?>";
 		var language = "<?php echo LANGUAGE; ?>";
+		var version = "<?php echo VERSION; ?>";
 	</script>
 	<?php if(is_file(ADMIN_PATH . 'js/languages/' . LANGUAGE . '.js')) { ?>
-	<script id="language" type="text/javascript" src="<?php echo ADMIN_URL; ?>js/languages/<?php echo LANGUAGE; ?>.js"></script>
+	<script id="language" type="text/javascript" src="<?php echo ADMIN_URL; ?>js/languages/<?php echo LANGUAGE; ?>.js?v=<?php echo VERSION; ?>"></script>
 	<?php } ?>
 	<?php echo Html::bulkJs([
 		'languagestring.js',

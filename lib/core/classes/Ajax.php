@@ -607,7 +607,7 @@
 				}
 				
 				if(is_callable(array($class, 'edit'))) {
-					return call_user_func(array($class, 'edit'), @$meta['content'], @$meta['name'], @$meta['attributes']);
+					return call_user_func(array($class, 'edit'), @$meta['content'], @$meta['name'], @json_decode(@$meta['attributes'], true));
 				}
 			}
 			

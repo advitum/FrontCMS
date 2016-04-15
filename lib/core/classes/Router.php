@@ -16,7 +16,7 @@
 			if(isset($_GET["fcmsquery"])) {
 				$url = ROOT_URL . $_GET["fcmsquery"];
 			} else {
-				$url = '';
+				$url = ROOT_URL;
 			}
 			
 			$dirty = $url;
@@ -284,15 +284,16 @@
 		}
 		
 		public static function sanitize($url) {
+			$url = mb_substr($url, mb_strlen(ROOT_URL));
 			$sanPath = self::urlPath($url);
 			
 			if(count($sanPath) > 0) {
-				$sanUrl = '/' . implode('/', $sanPath);
+				$sanUrl = implode('/', $sanPath);
 			} else {
 				$sanUrl = '';
 			}
 			
-			return $sanUrl;
+			return ROOT_URL . $sanUrl;
 		}
 		
 		private static function render() {

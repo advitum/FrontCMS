@@ -36,21 +36,6 @@
 	'data-global' => (int) (isset($attributes['global']) && $attributes['global'])
 ]) . '>';
 				
-				foreach($items as $item) {
-					$html .= '
-	<div ' . Html::attributes([
-		'class' => 'fcmsFlexitem empty',
-		'data-title' => $item['attributes']['title'],
-		'data-name' => $item['attributes']['name']
-	]) . '>';
-					
-					self::$flexElements = [];
-					$html .= Router::parseTags($item['content'], 'flex_' . $attributes['name'] . '_x_');
-					
-					$html .= '
-	</div>';
-				}
-				
 				if($element && $content !== false && isset($content->items)) {
 					foreach($content->items as $index => $name) {
 						if(isset($items[$name])) {
@@ -70,6 +55,21 @@
 	</div>';
 						}
 					}
+				}
+				
+				foreach($items as $item) {
+					$html .= '
+	<div ' . Html::attributes([
+		'class' => 'fcmsFlexitem empty',
+		'data-title' => $item['attributes']['title'],
+		'data-name' => $item['attributes']['name']
+	]) . '>';
+					
+					self::$flexElements = [];
+					$html .= Router::parseTags($item['content'], 'flex_' . $attributes['name'] . '_x_');
+					
+					$html .= '
+	</div>';
 				}
 				
 				$html .= '

@@ -6,7 +6,9 @@
 	
 	define('DS', DIRECTORY_SEPARATOR);
 	
-	define('ROOT_PATH', __DIR__ . DS);
+	define('VERSION', '0.3.2');
+	
+	define('ROOT_PATH', dirname(dirname(__DIR__)) . DS);
 		define('LAYOUTS_PATH', ROOT_PATH . 'layouts' . DS);
 			define('PARTIALS_PATH', LAYOUTS_PATH . 'partials' . DS);
 		define('LIB_PATH', ROOT_PATH . 'lib' . DS);

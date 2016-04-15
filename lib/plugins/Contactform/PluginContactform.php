@@ -74,7 +74,8 @@
 						Session::setMessage(Language::string('Thank you for your message.'), 'success');
 						
 						$headers = [
-							'From: noreply@' . $_SERVER['HTTP_HOST']
+							'From: noreply@' . $_SERVER['HTTP_HOST'],
+							'Content-Type: text/plain; charset=UTF-8'
 						];
 						
 						$message = sprintf(Language::string('This message was sent trough your contact form on %s.'), $_SERVER['HTTP_HOST']) . "\n";

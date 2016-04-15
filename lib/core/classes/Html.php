@@ -38,7 +38,7 @@
 			if(defined('DEBUG') && DEBUG) {
 				foreach($scripts as $script) {
 					$html .= '
-<script type="text/javascript" src="' . ADMIN_URL . 'js/' . htmlspecialchars($script) . '"></script>';
+<script type="text/javascript" src="' . ADMIN_URL . 'js/' . htmlspecialchars($script) . '?v=' . VERSION . '"></script>';
 				}
 			} else {
 				if(!is_file(ADMIN_PATH . 'js' . DS . $fileName) || filemtime(ADMIN_PATH . 'js' . DS . $fileName) < time() - 604800) {
@@ -48,7 +48,7 @@
 				}
 				
 				$html .= '
-<script type="text/javascript" src="' . ADMIN_URL . 'js/' . htmlspecialchars($fileName) . '"></script>';
+<script type="text/javascript" src="' . ADMIN_URL . 'js/' . htmlspecialchars($fileName) . '?v=' . VERSION . '"></script>';
 			}
 			
 			return $html;
