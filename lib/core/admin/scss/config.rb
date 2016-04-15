@@ -1,4 +1,4 @@
-http_path = "/"  
+http_path = "/"
 sass_dir = ''
 css_dir = '../css'
 images_dir = '../img'
@@ -8,3 +8,4 @@ http_javascripts_path = 'js'
 http_images_path = 'img'
 environment = :development
 output_style = :expanded
+Encoding.default_external = 'utf-8'

@@ -189,6 +189,20 @@
 			return isset($_POST['_form']) && $_POST['_form'] == $name;
 		}
 		
+		public static function values($form) {
+			if(isset($_POST[$form])) {
+				return $_POST[$form];
+			}
+			if(isset($_GET[$form])) {
+				return $_GET[$form];
+			}
+			if(isset($_FILES[$form])) {
+				return $_FILES[$form];
+			}
+			
+			return false;
+		}
+		
 		public static function value($form, $name) {
 			$value = false;
 			

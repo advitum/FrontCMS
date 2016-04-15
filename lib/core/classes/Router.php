@@ -337,6 +337,7 @@
 	<div class="vCenter"><div>
 		<?php echo Session::getMessage(); ?>
 		<?php echo Form::create(ROOT_URL . 'login', 'login'); ?>
+			<h1>FrontCMS v<?php echo VERSION; ?></h1>
 			<?php echo Form::input('username', array(
 				'label' => false,
 				'placeholder' => Language::string('Username'),
@@ -397,6 +398,7 @@
 		
 		public static function parseTags($content, $namePrefix = '') {
 			$content = str_replace('{ROOT_URL}', ROOT_URL, $content);
+			$content = str_replace('{VERSION}', VERSION, $content);
 			
 			if(self::$page !== null) {
 				$content = str_replace('{PAGE_TITLE}', self::$page->title, $content);

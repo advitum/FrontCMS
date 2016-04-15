@@ -1,32 +1,41 @@
-.lightbox .box {
-	padding: 20px 20px 72px;
-	position: relative;
-	font-size: 16px;
-	color: #333333;
-	font-family: Helvetica, Arial, sans-serif;
+.lightbox {
+	.lightboxContent {
+		position: relative;
+		padding-top: 52px;
+		overflow-y: visible;
+	}
 	
-	.buttonbar {
-		position: absolute;
-		bottom: 0px;
-		left: 0px;
-		right: 0px;
-		padding: 10px;
+	.box {
+		overflow-y: scroll;
+		padding: 20px 20px 20px;
+		font-size: 16px;
+		color: #333333;
+		font-family: Helvetica, Arial, sans-serif;
 		
-		button {
-			float: right;
-			margin-right: 0px;
-			margin-left: 4px;
+		.buttonbar {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			right: 0px;
+			padding: 10px;
+			border-bottom: 1px solid #dddddd;
+			
+			button {
+				float: right;
+				margin-right: 0px;
+				margin-left: 4px;
+			}
 		}
-	}
-	
-	header {
-		display: block;
-		font-size: 1.4em;
-		margin: 0px 0px 20px;
-	}
-	
-	h2 {
-		font-size: 20px;
-		margin-top: 40px;
+		
+		header {
+			display: block;
+			font-size: 1.4em;
+			margin: 0px 0px 20px;
+		}
+		
+		h2 {
+			font-size: 20px;
+			margin-top: 40px;
+		}
 	}
 }

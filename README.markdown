@@ -21,7 +21,8 @@ Who uses FrontCMS?
 This are some websites that I know of that use FrontCMS. I will try to keep this list updated.
 
 - [taupadel.de](http://taupadel.de/) (german)
-- [unikat-siegen.de](http://unikat-siegen.de/) (german)
+- [www.unikat-siegen.de](http://www.unikat-siegen.de/) (german)
+- [www.siegen-allianz.de](http://www.siegen-allianz.de/) (german)
 
 
 Installation
@@ -162,6 +163,30 @@ After your layouts are done, you can start editing. The editing interface should
 Plugins
 -------
 
-If you want to use more complex functionality, like a contact form, you need to create a small plugin. Take a look at the demo plugin at *lib/plugins/Contactform* and it's usage in *layouts/contact.tpl*.
+If you want to use more complex functionality, like a contact form, you need to create a small plugin. Take a look at the demo plugins at *lib/plugins/* and it's usage in the default layouts.
 
-There is currently no more detailed reference for the plugin interface. Just take a look at the source code or contact me at info@advitum.de!
+###Basic plugin architecture
+
+A plugin for your website is basically an own class extending the *Plugin* class. The methods `render` and `edit` will be used as callbacks to render or edit the plugin.
+
+The `render` method just has to return the content the plugin is to produce:
+
+	public static function render($content, $name, $attributes = array()) {
+		//return $html;
+	}
+
+`$content` will contain whatever data was put into the database (usually by the `edit` method). `$name` contains the name of the slot that was given to the plugin on placing it in the layout. `$attributes` may contain additional attributes that were set in the layout.
+
+If you want to make the plugin editable, you have to include a button to edit the plugin **only if a user is logged in**.
+
+The `edit` method takes the same arguments as the `render` method. It supplies the content for the popup in which the plugin can be edited. You can render whatever inputs your plugin needs and then handle the sent form. For example, the contactform plugin encodes all the input into one json object and stores that in the database.
+
+Take a look at the contactform plugin for further reference.
+
+###ul.repeatable
+
+One common use case for plugins is to let the editor enter an arbitrary number of items. The slideshow plugin is a nice example of that use case. Each slideshow can have a variable number of slides, so the available inputs have to be repeated.
+
+The Plugin class already comes with a method called `repeatable`, which handles that use case for you nicely. It renders a single empty set of inputs by default, which can be repeated using the buttons right below the inputs. When the form is sent or previously stored items are available, the method automatically renders as many sets of inputs (filled with the sent or saved content) as needed. The entered items can be sorted and deleted, and new items can be added.
+
+Take a look at the slideshow plugin to learn more about ul.repeatables and to see this working nicely together with validation and storing the items in the database.

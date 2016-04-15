@@ -7,7 +7,7 @@
 	define('DATABASE_PASSWORD', 'root');
 	define('DATABASE_NAME', 'frontcms');
 	
-	define('DEBUG', true);
+	//define('DEBUG', true);
 	
 	//define('LANGUAGE', 'en_us');
 	

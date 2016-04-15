@@ -1,0 +1,49 @@
+/* line 3, ../scss/slideshow.scss */
+.slideshow {
+  margin-bottom: 20px;
+}
+/* line 6, ../scss/slideshow.scss */
+.slideshow figure {
+  max-width: 100%;
+  margin: 0 !important;
+}
+/* line 10, ../scss/slideshow.scss */
+.slideshow figure img {
+  max-width: 100%;
+  vertical-align: middle;
+  line-height: 0;
+}
+/* line 16, ../scss/slideshow.scss */
+.slideshow figure figcaption {
+  margin-top: 10px;
+  font-style: italic;
+}
+/* line 23, ../scss/slideshow.scss */
+.slideshow.js .slide:not(.active) {
+  display: none;
+}
+/* line 28, ../scss/slideshow.scss */
+.slideshow .navigation {
+  list-style: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center;
+}
+/* line 34, ../scss/slideshow.scss */
+.slideshow .navigation li {
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  margin: 0 10px;
+  padding: 0;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: transparent;
+  border: 2px solid #aaaaaa;
+  cursor: pointer;
+}
+/* line 46, ../scss/slideshow.scss */
+.slideshow .navigation li.active {
+  background: #aaaaaa;
+}

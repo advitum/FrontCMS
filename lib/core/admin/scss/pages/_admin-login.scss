@@ -29,10 +29,16 @@ body.login {
 		background: #ffffff;
 	}
 	
-	.input, .back, .submit {
+	.input, .back, .submit, h1 {
 		@include box-sizing(border-box);
 		
 		padding: 0px 10px;
+	}
+	
+	h1 {
+		font-size: 18px;
+		line-height: 1.2em;
+		margin: 0 0 15px;
 	}
 	
 	.input {

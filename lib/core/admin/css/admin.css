@@ -3048,35 +3048,42 @@
   background-color: #222222;
 }
 
-/* line 1, ../scss/_box.scss */
-.lightbox .box {
-  padding: 20px 20px 72px;
+/* line 2, ../scss/_box.scss */
+.lightbox .lightboxContent {
   position: relative;
+  padding-top: 52px;
+  overflow-y: visible;
+}
+/* line 8, ../scss/_box.scss */
+.lightbox .box {
+  overflow-y: scroll;
+  padding: 20px 20px 20px;
   font-size: 16px;
   color: #333333;
   font-family: Helvetica, Arial, sans-serif;
 }
-/* line 8, ../scss/_box.scss */
+/* line 15, ../scss/_box.scss */
 .lightbox .box .buttonbar {
   position: absolute;
-  bottom: 0px;
+  top: 0px;
   left: 0px;
   right: 0px;
   padding: 10px;
+  border-bottom: 1px solid #dddddd;
 }
-/* line 15, ../scss/_box.scss */
+/* line 23, ../scss/_box.scss */
 .lightbox .box .buttonbar button {
   float: right;
   margin-right: 0px;
   margin-left: 4px;
 }
-/* line 22, ../scss/_box.scss */
+/* line 30, ../scss/_box.scss */
 .lightbox .box header {
   display: block;
   font-size: 1.4em;
   margin: 0px 0px 20px;
 }
-/* line 28, ../scss/_box.scss */
+/* line 36, ../scss/_box.scss */
 .lightbox .box h2 {
   font-size: 20px;
   margin-top: 40px;
@@ -3259,23 +3266,29 @@ body.login form:after, body.login #message:after {
   clear: both;
 }
 /* line 32, ../scss/pages/_admin-login.scss */
-body.login .input, body.login .back, body.login .submit {
+body.login .input, body.login .back, body.login .submit, body.login h1 {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0px 10px;
 }
 /* line 38, ../scss/pages/_admin-login.scss */
+body.login h1 {
+  font-size: 18px;
+  line-height: 1.2em;
+  margin: 0 0 15px;
+}
+/* line 44, ../scss/pages/_admin-login.scss */
 body.login .input {
   width: 100%;
   margin-bottom: 10px;
 }
-/* line 43, ../scss/pages/_admin-login.scss */
+/* line 49, ../scss/pages/_admin-login.scss */
 body.login .back, body.login .submit {
   width: 50%;
   float: left;
 }
-/* line 48, ../scss/pages/_admin-login.scss */
+/* line 54, ../scss/pages/_admin-login.scss */
 body.login input, body.login .button, body.login button {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -3301,44 +3314,44 @@ body.login input, body.login .button, body.login button {
   font-size: 14px;
   outline: none;
 }
-/* line 67, ../scss/pages/_admin-login.scss */
+/* line 73, ../scss/pages/_admin-login.scss */
 body.login input:hover, body.login .button:hover, body.login button:hover {
   border-color: #999999;
 }
-/* line 71, ../scss/pages/_admin-login.scss */
+/* line 77, ../scss/pages/_admin-login.scss */
 body.login input:active, body.login input:focus, body.login .button:active, body.login .button:focus, body.login button:active, body.login button:focus {
   border-color: #666666;
 }
-/* line 80, ../scss/pages/_admin-login.scss */
+/* line 86, ../scss/pages/_admin-login.scss */
 body.login .button, body.login button {
   text-align: center;
   cursor: pointer;
   background: #fbfbfb;
 }
-/* line 85, ../scss/pages/_admin-login.scss */
+/* line 91, ../scss/pages/_admin-login.scss */
 body.login .button:hover, body.login button:hover {
   background: #eeeeee;
 }
-/* line 89, ../scss/pages/_admin-login.scss */
+/* line 95, ../scss/pages/_admin-login.scss */
 body.login .button:active, body.login .button:focus, body.login button:active, body.login button:focus {
   background: #d5d5d5;
 }
-/* line 94, ../scss/pages/_admin-login.scss */
+/* line 100, ../scss/pages/_admin-login.scss */
 body.login .submit button {
   background: #06CC1F;
   border-color: #999999;
 }
-/* line 98, ../scss/pages/_admin-login.scss */
+/* line 104, ../scss/pages/_admin-login.scss */
 body.login .submit button:hover {
   background: #07e523;
   border-color: #666666;
 }
-/* line 103, ../scss/pages/_admin-login.scss */
+/* line 109, ../scss/pages/_admin-login.scss */
 body.login .submit button:active, body.login .submit button:focus {
   background: #0df82b;
   border-color: #333333;
 }
-/* line 109, ../scss/pages/_admin-login.scss */
+/* line 115, ../scss/pages/_admin-login.scss */
 body.login #message {
   border: 1px solid #bbbbbb;
   background: #d0d0d0;
@@ -3348,12 +3361,12 @@ body.login #message {
   color: #444444;
   line-height: 18px;
 }
-/* line 118, ../scss/pages/_admin-login.scss */
+/* line 124, ../scss/pages/_admin-login.scss */
 body.login #message.success {
   background: rgba(6, 204, 31, 0.2);
   color: #036910;
 }
-/* line 122, ../scss/pages/_admin-login.scss */
+/* line 128, ../scss/pages/_admin-login.scss */
 body.login #message.success:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3368,12 +3381,12 @@ body.login #message.success:before {
   width: 20px;
   text-align: center;
 }
-/* line 133, ../scss/pages/_admin-login.scss */
+/* line 139, ../scss/pages/_admin-login.scss */
 body.login #message.error {
   background: rgba(204, 12, 14, 0.2);
   color: #6c0607;
 }
-/* line 137, ../scss/pages/_admin-login.scss */
+/* line 143, ../scss/pages/_admin-login.scss */
 body.login #message.error:before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -3735,8 +3748,10 @@ form ul.repeatable .fa {
   cursor: pointer;
   float: left;
   position: relative;
+  width: 100px;
+  height: 100px;
 }
-/* line 27, ../scss/elements/_media-browser.scss */
+/* line 29, ../scss/elements/_media-browser.scss */
 #mediaBrowser #mediaList li.active:before {
   -moz-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.2);
@@ -3749,12 +3764,20 @@ form ul.repeatable .fa {
   right: 0px;
   bottom: 0px;
 }
-/* line 39, ../scss/elements/_media-browser.scss */
+/* line 41, ../scss/elements/_media-browser.scss */
 #mediaBrowser #mediaList li img {
   display: block;
   line-height: 0px;
 }
-/* line 46, ../scss/elements/_media-browser.scss */
+/* line 48, ../scss/elements/_media-browser.scss */
+#mediaBrowser #mediaPreview {
+  margin-bottom: 20px;
+}
+/* line 51, ../scss/elements/_media-browser.scss */
+#mediaBrowser #mediaPreview img {
+  width: 100%;
+}
+/* line 56, ../scss/elements/_media-browser.scss */
 #mediaBrowser #errorList {
   color: #9c090b;
 }

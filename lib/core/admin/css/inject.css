@@ -2970,7 +2970,11 @@
   display: none;
 }
 
-/* line 53, ../scss/inject.scss */
+/* line 52, ../scss/inject.scss */
+.fcmsEditablePlugin {
+  min-height: 50px;
+}
+/* line 55, ../scss/inject.scss */
 .fcmsEditablePlugin .fcmsButton {
   position: absolute;
   top: 10px;
@@ -2978,73 +2982,73 @@
   display: none;
   z-index: 99;
 }
-/* line 61, ../scss/inject.scss */
+/* line 63, ../scss/inject.scss */
 .fcmsEditablePlugin.placeholder {
   display: none;
 }
 
-/* line 68, ../scss/inject.scss */
+/* line 70, ../scss/inject.scss */
 .fcmsFlexlist .fcmsFlexitem.empty {
   display: none;
 }
 
-/* line 75, ../scss/inject.scss */
+/* line 77, ../scss/inject.scss */
 .fcmsEdit .fcmsEditable {
   background: rgba(255, 255, 0, 0.1);
   outline: none;
 }
-/* line 79, ../scss/inject.scss */
+/* line 81, ../scss/inject.scss */
 .fcmsEdit .fcmsEditable:empty:before {
   content: "Lorem ipsum dolor sit amet";
   opacity: .3;
 }
-/* line 84, ../scss/inject.scss */
+/* line 86, ../scss/inject.scss */
 .fcmsEdit .fcmsEditable:hover {
   background: rgba(255, 255, 0, 0.2);
 }
-/* line 88, ../scss/inject.scss */
+/* line 90, ../scss/inject.scss */
 .fcmsEdit .fcmsEditable:focus {
   background: transparent;
 }
-/* line 94, ../scss/inject.scss */
+/* line 96, ../scss/inject.scss */
 .fcmsEdit .fcmsEditableImage.placeholder {
   display: inline-block;
 }
-/* line 99, ../scss/inject.scss */
+/* line 101, ../scss/inject.scss */
 .fcmsEdit .fcmsEditableImage:hover .fcmsButton {
   display: inline-block;
 }
-/* line 105, ../scss/inject.scss */
+/* line 107, ../scss/inject.scss */
 .fcmsEdit .fcmsEditablePlugin {
   background: rgba(255, 255, 0, 0.1);
   position: relative;
 }
-/* line 106, ../scss/inject.scss */
+/* line 108, ../scss/inject.scss */
 .fcmsEdit .fcmsEditablePlugin.placeholder {
   display: block;
 }
-/* line 114, ../scss/inject.scss */
+/* line 116, ../scss/inject.scss */
 .fcmsEdit .fcmsEditablePlugin:hover .fcmsButton {
   display: inline-block;
 }
-/* line 120, ../scss/inject.scss */
+/* line 122, ../scss/inject.scss */
 .fcmsEdit .fcmsFlexlist {
   background: #fbfbfb;
   padding: 10px;
   border: 1px solid #cccccc;
   margin-top: 20px;
 }
-/* line 126, ../scss/inject.scss */
+/* line 128, ../scss/inject.scss */
 .fcmsEdit .fcmsFlexlist .fcmsFlexcontrol {
   background: #f0f0f0;
   padding: 10px;
 }
-/* line 131, ../scss/inject.scss */
+/* line 133, ../scss/inject.scss */
 .fcmsEdit .fcmsFlexlist .fcmsFlexitem {
   margin-bottom: 20px;
   background: #f0f0f0;
 }
-/* line 135, ../scss/inject.scss */
+/* line 137, ../scss/inject.scss */
 .fcmsEdit .fcmsFlexlist .fcmsFlexitem > .fcmsButtons {
   padding: 10px;
 }

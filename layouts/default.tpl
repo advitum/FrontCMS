@@ -26,6 +26,9 @@
 				</div>
 			</div>
 		</fcms:flexitem>
+		<fcms:flexitem title="Slideshow" name="slideshow">
+			<fcms:edit type="plugin" plugin="slideshow" name="slideshow" />
+		</fcms:flexitem>
 	</fcms:flexlist>
 	
 <fcms:partial partial="footer" />

@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
 <head>
 	<meta charset="UTF-8" />
 	<title><fcms:title />FrontCMS</title>
@@ -11,6 +16,10 @@
 	<meta name="description" content="{PAGE_OPTION.description}" />
 	
 	<fcms:head />
+	
+	<!--[if IE]>
+		<script type="text/javascript" src="{ROOT_URL}js/html5shiv.js"></script>
+	<![endif]-->
 </head>
 <fcms:body>
 	<div id="root">
