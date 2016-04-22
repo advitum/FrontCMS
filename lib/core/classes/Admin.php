@@ -19,7 +19,7 @@
 						DB::insert('elements', array(
 							'page_id' => $elementPageId,
 							'name' => $key,
-							'content' => $value
+							'content' => trim($value)
 						));
 					}
 				}

@@ -44,7 +44,7 @@
 					$html .= '<div ' . Html::attributes($divAttributes) . '>';
 				}
 				
-				$html .= '<button type="button" class="fcmsButton" style="display: block;"><i class="fa fa-pencil"></i></button>';
+				$html .= '<button type="button" class="fcmsButton"><i class="fa fa-pencil"></i></button>';
 				$html .= '</div>';
 			} elseif($content !== '' && ($content = json_decode($content)) !== false && isset($content->slides) && count($content->slides)) {
 				$html .= '<div class="slideshow">';

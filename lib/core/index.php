@@ -6,7 +6,7 @@
 	
 	define('DS', DIRECTORY_SEPARATOR);
 	
-	define('VERSION', '0.4.0');
+	define('VERSION', '0.4.1');
 	
 	define('ROOT_PATH', dirname(dirname(__DIR__)) . DS);
 		define('LAYOUTS_PATH', ROOT_PATH . 'layouts' . DS);

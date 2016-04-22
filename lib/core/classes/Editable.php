@@ -148,14 +148,14 @@
 					'data-global' => (int) (isset($attributes['global']) && $attributes['global'])
 				]) . '>';
 				
-				if($content !== '') {
-					$html .= $content;
+				if(trim($content) !== '') {
+					$html .= trim($content);
 				}
 				
 				$html .= '</div>';
-			} elseif($content !== '') {
+			} elseif(trim($content) !== '') {
 				$content = str_replace('intern://', ROOT_URL, $content);
-				$html .= $content;
+				$html .= trim($content);
 			}
 			
 			return $html;
@@ -172,13 +172,13 @@
 					'data-global' => (int) (isset($attributes['global']) && $attributes['global'])
 				]) . '>';
 				
-				if($content !== '') {
-					$html .= nl2br(htmlspecialchars($content));
+				if(trim($content) !== '') {
+					$html .= nl2br(htmlspecialchars(trim($content)));
 				}
 				
 				$html .= '</div>';
-			} elseif($content !== '') {
-				$html .= nl2br(htmlspecialchars($content));
+			} elseif(trim($content) !== '') {
+				$html .= nl2br(htmlspecialchars(trim($content)));
 			}
 			
 			return $html;
