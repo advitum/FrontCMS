@@ -25,6 +25,12 @@ This are some websites that I know of that use FrontCMS. I will try to keep this
 - [www.siegen-allianz.de](http://www.siegen-allianz.de/) (german)
 
 
+Demo
+----
+
+Want to try out the editing capabilities of FrontCMS without actually installing FrontCMS? [Check out this online demo](https://advitum.de/frontcms-demo/).
+
+
 Installation
 ------------
 

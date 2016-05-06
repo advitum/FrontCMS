@@ -53,7 +53,9 @@
 		</div>
 		<?php echo Session::getMessage(); ?>
 		<div class="buttons right">
+			<?php if(DEMO === false || Router::$user->username !== 'admin') { ?>
 			<button type="button" id="changePassword" class="button" title="<?php echo Language::string('Change password'); ?>"><i class="fa fa-key"></i></button>
+			<?php } ?>
 			<?php if(Router::$user->username === 'admin') { ?>
 			<button type="button" id="addUser" class="button" title="<?php echo Language::string('Add user'); ?>"><i class="fa fa-user-plus"></i></button>
 			<?php } ?>

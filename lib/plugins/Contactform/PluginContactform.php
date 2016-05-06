@@ -84,7 +84,9 @@
 							$message .= sprintf("\n%s: %s", $field['label'], Form::value($name, 'field' . $key));
 						}
 						
-						@mail($content->to, sprintf(Language::string('New message - %s'), $_SERVER['HTTP_HOST']), $message, implode("\r\n", $headers));
+						if(DEMO === false) {
+							@mail($content->to, sprintf(Language::string('New message - %s'), $_SERVER['HTTP_HOST']), $message, implode("\r\n", $headers));
+						}
 						
 						Router::redirect(Router::here());
 					} else {

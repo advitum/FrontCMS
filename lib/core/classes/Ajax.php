@@ -27,6 +27,13 @@
 		}
 		
 		private static function action_change_password() {
+			if(DEMO !== false && Router::$user->username === 'admin') {
+				return [
+					'success' => false,
+					'error' => null
+				];
+			}
+			
 			if(Form::sent('password')) {
 				if(Validator::validate('password', [
 					'old_password' => [
