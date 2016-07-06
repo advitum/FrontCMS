@@ -23,6 +23,7 @@ This are some websites that I know of that use FrontCMS. I will try to keep this
 - [taupadel.de](http://taupadel.de/) (german)
 - [www.unikat-siegen.de](http://www.unikat-siegen.de/) (german)
 - [www.siegen-allianz.de](http://www.siegen-allianz.de/) (german)
+- [www.city-music-siegen.de](http://www.city-music-siegen.de/) (german)
 
 
 Demo

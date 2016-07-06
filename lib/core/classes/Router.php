@@ -32,7 +32,7 @@
 			self::render();
 		}
 		
-		public static function navigation($params = array(), $parent = 0, $path = ROOT_URL, $depth = 1) {
+		public static function navigation($params = array(), $parent = 0, $path = null, $depth = 1) {
 			$html = '';
 			
 			$defaults = array(
@@ -44,10 +44,19 @@
 				'hidden' => false,
 				'home' => true,
 				'list' => true,
-				'start' => 1
+				'start' => 1,
+				'internal' => false
 			);
 			
 			$params = array_merge($defaults, $params);
+			
+			if($path === null) {
+				if($params['internal']) {
+					$path = 'intern://';
+				} else {
+					$path = ROOT_URL;
+				}
+			}
 			
 			if(is_string($params['exclude'])) {
 				$params['exclude'] = json_decode($params['exclude']);

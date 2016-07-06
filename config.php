@@ -8,10 +8,8 @@
 	define('DATABASE_NAME', 'frontcms');
 	
 	//define('DEBUG', true);
-	define('DEMO', true);
-	
+	//define('DEMO', true);
 	//define('LANGUAGE', 'en_us');
-	
 	//define('ROOT_URL', '/subdirectory/');
 	
 	class PageOptions

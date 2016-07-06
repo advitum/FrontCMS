@@ -240,7 +240,8 @@
 				'active' => false,
 				'home' => true,
 				'hidden' => true,
-				'all' => true
+				'all' => true,
+				'internal' => true
 			));
 			$html .= '</div>';
 			

@@ -173,7 +173,7 @@
 				if(is_numeric($field)) {
 					$array[] = $value;
 				} else {
-					if(!is_numeric($value)) {
+					if(!is_int($value)) {
 						$value = "'" . self::escape($value) . "'";
 					}
 					$array[] = '`' . $field . '` = ' . $value;

@@ -2,6 +2,7 @@
 	
 	namespace Advitum\Frontcms\Plugins;
 	
+	use Advitum\Frontcms\Email;
 	use Advitum\Frontcms\Form;
 	use Advitum\Frontcms\Html;
 	use Advitum\Frontcms\Language;
@@ -73,19 +74,21 @@
 					if(Validator::validate($name, $validate)) {
 						Session::setMessage(Language::string('Thank you for your message.'), 'success');
 						
-						$headers = [
-							'From: noreply@' . $_SERVER['HTTP_HOST'],
-							'Content-Type: text/plain; charset=UTF-8'
-						];
-						
 						$message = sprintf(Language::string('This message was sent trough your contact form on %s.'), $_SERVER['HTTP_HOST']) . "\n";
 						
 						foreach($fields as $key => $field) {
 							$message .= sprintf("\n%s: %s", $field['label'], Form::value($name, 'field' . $key));
 						}
 						
+						$email = new Email();
+						$email
+							->from('noreply@' . $_SERVER['HTTP_HOST'])
+							->to($content->to)
+							->subject(sprintf(Language::string('New message - %s'), $_SERVER['HTTP_HOST']))
+							->message($message);
+						
 						if(DEMO === false) {
-							@mail($content->to, sprintf(Language::string('New message - %s'), $_SERVER['HTTP_HOST']), $message, implode("\r\n", $headers));
+							$email->send();
 						}
 						
 						Router::redirect(Router::here());
